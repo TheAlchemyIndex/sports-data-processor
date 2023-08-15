@@ -1,0 +1,381 @@
+code,provisional_start_time,minutes,kickoff_time,finished,started,team_a_difficulty,finished_provisional,pulse_id,team_a_score,away_team,stats,team_h_difficulty,id,event,home_team,team_h_score
+2367552,false,0,null,false,null,2,false,93335,null,Burnley,[],2,15,null,Luton,null
+2367713,false,0,null,false,null,5,false,93496,null,Brentford,[],3,176,null,Man City,null
+2367538,false,90,2023-08-11T19:00:00Z,true,true,2,true,93321,3,Man City,"[{identifier:goals_scored,a:[{value:2,element:355},{value:1,element:365}],h:[]},{identifier:assists,a:[{value:1,element:343},{value:1,element:365}],h:[]},{identifier:own_goals,a:[],h:[]},{identifier:penalties_saved,a:[],h:[]},{identifier:penalties_missed,a:[],h:[]},{identifier:yellow_cards,a:[],h:[]},{identifier:red_cards,a:[],h:[{value:1,element:184}]},{identifier:saves,a:[{value:1,element:352}],h:[{value:5,element:596}]},{identifier:bonus,a:[{value:3,element:355},{value:2,element:365},{value:1,element:342}],h:[]},{identifier:bps,a:[{value:56,element:355},{value:42,element:365},{value:32,element:342},{value:27,element:352},{value:26,element:369},{value:25,element:343},{value:25,element:358},{value:23,element:341},{value:18,element:356},{value:11,element:344},{value:7,element:616},{value:6,element:353},{value:4,element:349},{value:4,element:357},{value:3,element:360},{value:1,element:362}],h:[{value:22,element:596},{value:18,element:160},{value:12,element:157},{value:12,element:165},{value:12,element:173},{value:10,element:176},{value:8,element:594},{value:6,element:182},{value:5,element:168},{value:5,element:475},{value:4,element:605},{value:3,element:161},{value:3,element:600},{value:-1,element:159},{value:-6,element:184}]}]",5,1,1,Burnley,0
+2367540,false,90,2023-08-12T12:00:00Z,true,true,4,true,93322,1,Nott'm Forest,"[{identifier:goals_scored,a:[{value:1,element:437}],h:[{value:1,element:13},{value:1,element:19}]},{identifier:assists,a:[{value:1,element:378}],h:[{value:1,element:12},{value:1,element:20}]},{identifier:own_goals,a:[],h:[]},{identifier:penalties_saved,a:[],h:[]},{identifier:penalties_missed,a:[],h:[]},{identifier:yellow_cards,a:[{value:1,element:453},{value:1,element:604}],h:[{value:1,element:29},{value:1,element:585}]},{identifier:red_cards,a:[],h:[]},{identifier:saves,a:[{value:5,element:28}],h:[{value:1,element:17}]},{identifier:bonus,a:[{value:2,element:437}],h:[{value:3,element:19},{value:2,element:13}]},{identifier:bps,a:[{value:26,element:437},{value:20,element:28},{value:17,element:378},{value:14,element:439},{value:10,element:436},{value:10,element:469},{value:9,element:604},{value:8,element:442},{value:8,element:447},{value:8,element:455},{value:4,element:467},{value:3,element:468},{value:2,element:451},{value:2,element:470},{value:-2,element:453}],h:[{value:37,element:19},{value:26,element:13},{value:23,element:12},{value:22,element:20},{value:18,element:15},{value:18,element:540},{value:11,element:6},{value:11,element:14},{value:10,element:17},{value:9,element:25},{value:8,element:26},{value:8,element:29},{value:3,element:585},{value:2,element:5}]}]",2,2,1,Arsenal,2
+2367539,false,90,2023-08-12T14:00:00Z,true,true,2,true,93323,1,West Ham,"[{identifier:goals_scored,a:[{value:1,element:526}],h:[{value:1,element:85}]},{identifier:assists,a:[{value:1,element:542}],h:[{value:1,element:82}]},{identifier:own_goals,a:[],h:[]},{identifier:penalties_saved,a:[],h:[]},{identifier:penalties_missed,a:[],h:[]},{identifier:yellow_cards,a:[{value:1,element:523},{value:1,element:526},{value:1,element:532},{value:1,element:539}],h:[{value:1,element:75}]},{identifier:red_cards,a:[],h:[]},{identifier:saves,a:[{value:4,element:524}],h:[{value:1,element:77}]},{identifier:bonus,a:[{value:3,element:526},{value:2,element:542}],h:[{value:1,element:85}]},{identifier:bps,a:[{value:29,element:526},{value:24,element:542},{value:16,element:524},{value:12,element:528},{value:11,element:539},{value:10,element:544},{value:8,element:522},{value:8,element:532},{value:8,element:534},{value:7,element:525},{value:5,element:523},{value:3,element:537},{value:2,element:527},{value:1,element:535}],h:[{value:22,element:85},{value:17,element:643},{value:13,element:63},{value:13,element:81},{value:11,element:77},{value:11,element:82},{value:11,element:89},{value:11,element:595},{value:9,element:83},{value:8,element:65},{value:4,element:64},{value:2,element:72},{value:2,element:75},{value:2,element:76},{value:1,element:62},{value:1,element:69}]}]",2,3,1,Bournemouth,1
+2367541,false,90,2023-08-12T14:00:00Z,true,true,3,true,93324,1,Luton,"[{identifier:goals_scored,a:[{value:1,element:326}],h:[{value:1,element:122},{value:1,element:132},{value:1,element:135},{value:1,element:140}]},{identifier:assists,a:[{value:1,element:631}],h:[{value:1,element:131},{value:1,element:143}]},{identifier:own_goals,a:[],h:[]},{identifier:penalties_saved,a:[],h:[]},{identifier:penalties_missed,a:[],h:[]},{identifier:yellow_cards,a:[{value:1,element:315},{value:1,element:602}],h:[{value:1,element:131},{value:1,element:143}]},{identifier:red_cards,a:[],h:[]},{identifier:saves,a:[{value:8,element:614}],h:[{value:2,element:148}]},{identifier:bonus,a:[{value:2,element:326},{value:1,element:614}],h:[{value:3,element:131},{value:1,element:135},{value:1,element:140},{value:1,element:143}]},{identifier:bps,a:[{value:28,element:326},{value:26,element:614},{value:16,element:553},{value:10,element:316},{value:10,element:575},{value:10,element:631},{value:9,element:52},{value:9,element:602},{value:7,element:340},{value:6,element:315},{value:5,element:314},{value:4,element:586},{value:3,element:317},{value:3,element:328},{value:2,element:321},{value:-2,element:582}],h:[{value:34,element:131},{value:26,element:135},{value:26,element:140},{value:26,element:143},{value:25,element:132},{value:20,element:122},{value:19,element:150},{value:18,element:134},{value:18,element:148},{value:16,element:142},{value:12,element:128},{value:10,element:129},{value:5,element:154},{value:4,element:133},{value:2,element:130},{value:2,element:151}]}]",2,4,1,Brighton,4
+2367542,false,90,2023-08-12T14:00:00Z,true,true,2,true,93325,1,Fulham,"[{identifier:goals_scored,a:[{value:1,element:270}],h:[]},{identifier:assists,a:[{value:1,element:267}],h:[]},{identifier:own_goals,a:[],h:[]},{identifier:penalties_saved,a:[],h:[]},{identifier:penalties_missed,a:[],h:[]},{identifier:yellow_cards,a:[{value:1,element:285},{value:1,element:591}],h:[]},{identifier:red_cards,a:[],h:[]},{identifier:saves,a:[{value:9,element:275}],h:[{value:1,element:263}]},{identifier:bonus,a:[{value:3,element:275},{value:2,element:271},{value:1,element:281}],h:[]},{identifier:bps,a:[{value:46,element:275},{value:30,element:271},{value:28,element:281},{value:25,element:283},{value:24,element:285},{value:21,element:270},{value:15,element:276},{value:13,element:282},{value:13,element:288},{value:10,element:267},{value:6,element:278},{value:4,element:268},{value:-3,element:558}],h:[{value:18,element:261},{value:16,element:257},{value:15,element:254},{value:12,element:250},{value:10,element:263},{value:10,element:588},{value:9,element:256},{value:8,element:265},{value:7,element:249},{value:3,element:624},{value:2,element:601},{value:1,element:262},{value:-4,element:258}]}]",2,5,1,Everton,0
+2367544,false,90,2023-08-12T14:00:00Z,true,true,2,true,93327,1,Crystal Palace,"[{identifier:goals_scored,a:[{value:1,element:225}],h:[]},{identifier:assists,a:[{value:1,element:221}],h:[]},{identifier:own_goals,a:[],h:[]},{identifier:penalties_saved,a:[],h:[]},{identifier:penalties_missed,a:[],h:[]},{identifier:yellow_cards,a:[],h:[{value:1,element:471},{value:1,element:490},{value:1,element:587}]},{identifier:red_cards,a:[],h:[]},{identifier:saves,a:[{value:1,element:230}],h:[{value:7,element:482}]},{identifier:bonus,a:[{value:3,element:220},{value:2,element:234},{value:1,element:225}],h:[]},{identifier:bps,a:[{value:31,element:220},{value:29,element:234},{value:27,element:225},{value:26,element:228},{value:22,element:230},{value:21,element:226},{value:21,element:242},{value:14,element:221},{value:12,element:223},{value:12,element:231},{value:9,element:240},{value:3,element:241}],h:[{value:22,element:482},{value:13,element:480},{value:11,element:488},{value:10,element:484},{value:10,element:576},{value:6,element:473},{value:6,element:474},{value:6,element:489},{value:4,element:471},{value:4,element:592},{value:3,element:655},{value:3,element:656},{value:2,element:638},{value:1,element:593},{value:-2,element:587},{value:-5,element:490}]}]",2,7,1,Sheffield Utd,0
+2367543,false,90,2023-08-12T16:30:00Z,true,true,4,true,93326,1,Aston Villa,"[{identifier:goals_scored,a:[{value:1,element:599}],h:[{value:2,element:415},{value:1,element:429},{value:1,element:433},{value:1,element:603}]},{identifier:assists,a:[{value:1,element:60}],h:[{value:1,element:405},{value:1,element:412},{value:1,element:423},{value:1,element:603}]},{identifier:own_goals,a:[],h:[]},{identifier:penalties_saved,a:[],h:[]},{identifier:penalties_missed,a:[],h:[]},{identifier:yellow_cards,a:[{value:1,element:36},{value:1,element:42},{value:1,element:43},{value:1,element:49}],h:[{value:1,element:405},{value:1,element:406},{value:1,element:412},{value:1,element:429}]},{identifier:red_cards,a:[],h:[]},{identifier:saves,a:[{value:7,element:49}],h:[{value:5,element:424}]},{identifier:bonus,a:[],h:[{value:3,element:415},{value:2,element:603},{value:1,element:405}]},{identifier:bps,a:[{value:26,element:599},{value:18,element:49},{value:18,element:60},{value:16,element:48},{value:13,element:42},{value:12,element:584},{value:10,element:43},{value:10,element:47},{value:6,element:41},{value:6,element:50},{value:5,element:51},{value:3,element:38},{value:3,element:54},{value:3,element:58},{value:1,element:36},{value:-1,element:34}],h:[{value:51,element:415},{value:36,element:603},{value:27,element:405},{value:25,element:429},{value:22,element:430},{value:21,element:433},{value:20,element:402},{value:19,element:423},{value:18,element:412},{value:18,element:424},{value:14,element:427},{value:13,element:416},{value:9,element:407},{value:6,element:406},{value:3,element:403},{value:3,element:421}]}]",3,6,1,Newcastle,5
+2367545,false,90,2023-08-13T13:00:00Z,true,true,3,true,93328,2,Spurs,"[{identifier:goals_scored,a:[{value:1,element:497},{value:1,element:511}],h:[{value:1,element:108},{value:1,element:119}]},{identifier:assists,a:[{value:2,element:504}],h:[{value:1,element:103},{value:1,element:106}]},{identifier:own_goals,a:[],h:[]},{identifier:penalties_saved,a:[],h:[]},{identifier:penalties_missed,a:[],h:[]},{identifier:yellow_cards,a:[{value:1,element:504},{value:1,element:512},{value:1,element:515},{value:1,element:520}],h:[{value:1,element:104}]},{identifier:red_cards,a:[],h:[]},{identifier:saves,a:[{value:4,element:520}],h:[{value:4,element:101}]},{identifier:bonus,a:[{value:2,element:504},{value:1,element:497}],h:[{value:3,element:119}]},{identifier:bps,a:[{value:31,element:504},{value:27,element:497},{value:20,element:493},{value:20,element:639},{value:16,element:519},{value:15,element:511},{value:15,element:520},{value:12,element:501},{value:9,element:512},{value:8,element:507},{value:8,element:515},{value:5,element:516},{value:4,element:513},{value:3,element:509}],h:[{value:33,element:119},{value:20,element:103},{value:17,element:101},{value:16,element:96},{value:14,element:108},{value:14,element:112},{value:9,element:106},{value:9,element:110},{value:8,element:121},{value:7,element:90},{value:7,element:104},{value:6,element:105},{value:5,element:114},{value:4,element:98},{value:3,element:92},{value:-1,element:115}]}]",3,8,1,Brentford,2
+2367546,false,90,2023-08-13T15:30:00Z,true,true,3,true,93329,1,Liverpool,"[{identifier:goals_scored,a:[{value:1,element:303}],h:[{value:1,element:611}]},{identifier:assists,a:[{value:1,element:308}],h:[{value:1,element:195}]},{identifier:own_goals,a:[],h:[]},{identifier:penalties_saved,a:[],h:[]},{identifier:penalties_missed,a:[],h:[]},{identifier:yellow_cards,a:[{value:1,element:290},{value:1,element:294},{value:1,element:304}],h:[{value:1,element:196},{value:1,element:199},{value:1,element:211}]},{identifier:red_cards,a:[],h:[]},{identifier:saves,a:[{value:4,element:291}],h:[]},{identifier:bonus,a:[{value:1,element:303}],h:[{value:3,element:611},{value:2,element:195}]},{identifier:bps,a:[{value:20,element:303},{value:17,element:309},{value:16,element:291},{value:16,element:307},{value:15,element:308},{value:14,element:302},{value:13,element:304},{value:13,element:313},{value:7,element:290},{value:6,element:295},{value:5,element:297},{value:3,element:293},{value:3,element:294},{value:3,element:628},{value:1,element:300}],h:[{value:27,element:611},{value:24,element:195},{value:19,element:197},{value:19,element:217},{value:18,element:199},{value:15,element:206},{value:14,element:202},{value:9,element:145},{value:8,element:216},{value:5,element:210},{value:4,element:196},{value:4,element:609},{value:4,element:613},{value:3,element:203},{value:-6,element:211}]}]",4,9,1,Chelsea,1
+2367547,false,0,2023-08-14T19:00:00Z,false,true,4,false,93330,0,Wolves,"[{identifier:goals_scored,a:[],h:[]},{identifier:assists,a:[],h:[]},{identifier:own_goals,a:[],h:[]},{identifier:penalties_saved,a:[],h:[]},{identifier:penalties_missed,a:[],h:[]},{identifier:yellow_cards,a:[{value:1,element:545},{value:1,element:565},{value:1,element:567}],h:[{value:1,element:391},{value:1,element:398}]},{identifier:red_cards,a:[],h:[]},{identifier:saves,a:[{value:2,element:569}],h:[{value:2,element:597}]},{identifier:bonus,a:[],h:[]},{identifier:bps,a:[{value:26,element:551},{value:24,element:569},{value:24,element:572},{value:23,element:563},{value:21,element:545},{value:14,element:567},{value:13,element:559},{value:10,element:565},{value:6,element:566},{value:6,element:570},{value:3,element:557},{value:1,element:590}],h:[{value:25,element:597},{value:23,element:395},{value:23,element:401},{value:21,element:398},{value:16,element:376},{value:11,element:373},{value:8,element:372},{value:7,element:209},{value:7,element:391},{value:5,element:386},{value:5,element:396},{value:4,element:382},{value:3,element:379},{value:3,element:397}]}]",2,10,1,Man Utd,0
+2367554,false,0,2023-08-18T18:45:00Z,false,false,2,false,93337,null,Sheffield Utd,[],2,17,2,Nott'm Forest,null
+2367550,false,0,2023-08-19T14:00:00Z,false,false,2,false,93333,null,Brentford,[],3,13,2,Fulham,null
+2367551,false,0,2023-08-19T14:00:00Z,false,false,4,false,93334,null,Bournemouth,[],2,14,2,Liverpool,null
+2367557,false,0,2023-08-19T14:00:00Z,false,false,2,false,93340,null,Brighton,[],3,20,2,Wolves,null
+2367555,false,0,2023-08-19T16:30:00Z,false,false,3,false,93338,null,Man Utd,[],3,18,2,Spurs,null
+2367553,false,0,2023-08-19T19:00:00Z,false,false,5,false,93336,null,Newcastle,[],4,16,2,Man City,null
+2367548,false,0,2023-08-20T13:00:00Z,false,false,3,false,93331,null,Everton,[],2,11,2,Aston Villa,null
+2367556,false,0,2023-08-20T15:30:00Z,false,false,3,false,93339,null,Chelsea,[],3,19,2,West Ham,null
+2367549,false,0,2023-08-21T19:00:00Z,false,false,2,false,93332,null,Arsenal,[],4,12,2,Crystal Palace,null
+2367563,false,0,2023-08-25T19:00:00Z,false,false,3,false,93346,null,Luton,[],2,26,3,Chelsea,null
+2367558,false,0,2023-08-26T11:30:00Z,false,false,2,false,93342,null,Spurs,[],3,22,3,Bournemouth,null
+2367559,false,0,2023-08-26T14:00:00Z,false,false,4,false,93341,null,Fulham,[],2,21,3,Arsenal,null
+2367560,false,0,2023-08-26T14:00:00Z,false,false,3,false,93343,null,Crystal Palace,[],2,23,3,Brentford,null
+2367564,false,0,2023-08-26T14:00:00Z,false,false,2,false,93347,null,Wolves,[],2,27,3,Everton,null
+2367565,false,0,2023-08-26T14:00:00Z,false,false,4,false,93348,null,Nott'm Forest,[],2,28,3,Man Utd,null
+2367561,false,0,2023-08-26T16:30:00Z,false,false,3,false,93344,null,West Ham,[],2,24,3,Brighton,null
+2367562,false,0,2023-08-27T13:00:00Z,false,false,2,false,93345,null,Aston Villa,[],3,25,3,Burnley,null
+2367567,false,0,2023-08-27T13:00:00Z,false,false,2,false,93350,null,Man City,[],5,30,3,Sheffield Utd,null
+2367566,false,0,2023-08-27T15:30:00Z,false,false,4,false,93349,null,Liverpool,[],4,29,3,Newcastle,null
+2367575,false,0,2023-09-01T19:00:00Z,false,false,2,false,93358,null,West Ham,[],2,38,4,Luton,null
+2367577,false,0,2023-09-02T11:30:00Z,false,false,2,false,93360,null,Everton,[],2,40,4,Sheffield Utd,null
+2367569,false,0,2023-09-02T14:00:00Z,false,false,3,false,93352,null,Bournemouth,[],2,32,4,Brentford,null
+2367571,false,0,2023-09-02T14:00:00Z,false,false,2,false,93354,null,Spurs,[],3,34,4,Burnley,null
+2367572,false,0,2023-09-02T14:00:00Z,false,false,3,false,93355,null,Nott'm Forest,[],2,35,4,Chelsea,null
+2367576,false,0,2023-09-02T14:00:00Z,false,false,5,false,93359,null,Fulham,[],2,39,4,Man City,null
+2367570,false,0,2023-09-02T16:30:00Z,false,false,3,false,93353,null,Newcastle,[],4,33,4,Brighton,null
+2367573,false,0,2023-09-03T13:00:00Z,false,false,2,false,93356,null,Wolves,[],2,36,4,Crystal Palace,null
+2367574,false,0,2023-09-03T13:00:00Z,false,false,4,false,93357,null,Aston Villa,[],3,37,4,Liverpool,null
+2367568,false,0,2023-09-03T15:30:00Z,false,false,4,false,93351,null,Man Utd,[],3,31,4,Arsenal,null
+2367587,false,0,2023-09-16T11:30:00Z,false,false,2,false,93370,null,Liverpool,[],4,50,5,Wolves,null
+2367579,false,0,2023-09-16T14:00:00Z,false,false,3,false,93361,null,Crystal Palace,[],2,41,5,Aston Villa,null
+2367581,false,0,2023-09-16T14:00:00Z,false,false,2,false,93364,null,Luton,[],2,44,5,Fulham,null
+2367582,false,0,2023-09-16T14:00:00Z,false,false,4,false,93365,null,Brighton,[],3,45,5,Man Utd,null
+2367585,false,0,2023-09-16T14:00:00Z,false,false,3,false,93368,null,Sheffield Utd,[],2,48,5,Spurs,null
+2367586,false,0,2023-09-16T14:00:00Z,false,false,3,false,93369,null,Man City,[],5,49,5,West Ham,null
+2367580,false,0,2023-09-16T16:30:00Z,false,false,2,false,93363,null,Arsenal,[],4,43,5,Everton,null
+2367578,false,0,2023-09-17T13:00:00Z,false,false,2,false,93362,null,Chelsea,[],3,42,5,Bournemouth,null
+2367583,false,0,2023-09-17T15:30:00Z,false,false,4,false,93366,null,Brentford,[],3,46,5,Newcastle,null
+2367584,false,0,2023-09-18T18:45:00Z,false,false,2,false,93367,null,Burnley,[],2,47,5,Nott'm Forest,null
+2367592,false,0,2023-09-23T14:00:00Z,false,false,3,false,93375,null,Aston Villa,[],3,55,6,Chelsea,null
+2367593,false,0,2023-09-23T14:00:00Z,false,false,2,false,93376,null,Fulham,[],2,56,6,Crystal Palace,null
+2367595,false,0,2023-09-23T14:00:00Z,false,false,2,false,93378,null,Wolves,[],2,58,6,Luton,null
+2367596,false,0,2023-09-23T14:00:00Z,false,false,5,false,93379,null,Nott'm Forest,[],2,59,6,Man City,null
+2367589,false,0,2023-09-23T16:30:00Z,false,false,3,false,93372,null,Everton,[],2,52,6,Brentford,null
+2367591,false,0,2023-09-23T19:00:00Z,false,false,2,false,93374,null,Man Utd,[],3,54,6,Burnley,null
+2367588,false,0,2023-09-24T13:00:00Z,false,false,4,false,93371,null,Spurs,[],3,51,6,Arsenal,null
+2367590,false,0,2023-09-24T13:00:00Z,false,false,3,false,93373,null,Bournemouth,[],2,53,6,Brighton,null
+2367594,false,0,2023-09-24T13:00:00Z,false,false,4,false,93377,null,West Ham,[],2,57,6,Liverpool,null
+2367597,false,0,2023-09-24T15:30:00Z,false,false,2,false,93380,null,Newcastle,[],4,60,6,Sheffield Utd,null
+2367599,false,0,2023-09-30T11:30:00Z,false,false,3,false,93381,null,Brighton,[],3,61,7,Aston Villa,null
+2367598,false,0,2023-09-30T14:00:00Z,false,false,2,false,93382,null,Arsenal,[],4,62,7,Bournemouth,null
+2367600,false,0,2023-09-30T14:00:00Z,false,false,2,false,93383,null,Luton,[],2,63,7,Everton,null
+2367602,false,0,2023-09-30T14:00:00Z,false,false,4,false,93385,null,Crystal Palace,[],2,65,7,Man Utd,null
+2367603,false,0,2023-09-30T14:00:00Z,false,false,4,false,93386,null,Burnley,[],2,66,7,Newcastle,null
+2367606,false,0,2023-09-30T14:00:00Z,false,false,3,false,93389,null,Sheffield Utd,[],2,69,7,West Ham,null
+2367607,false,0,2023-09-30T14:00:00Z,false,false,2,false,93390,null,Man City,[],5,70,7,Wolves,null
+2367605,false,0,2023-09-30T16:30:00Z,false,false,3,false,93388,null,Liverpool,[],4,68,7,Spurs,null
+2367604,false,0,2023-10-01T13:00:00Z,false,false,2,false,93387,null,Brentford,[],3,67,7,Nott'm Forest,null
+2367601,false,0,2023-10-02T19:00:00Z,false,false,2,false,93384,null,Chelsea,[],3,64,7,Fulham,null
+2367608,false,0,2023-10-07T14:00:00Z,false,false,4,false,93391,null,Man City,[],5,71,8,Arsenal,null
+2367609,false,0,2023-10-07T14:00:00Z,false,false,3,false,93392,null,Liverpool,[],4,72,8,Brighton,null
+2367610,false,0,2023-10-07T14:00:00Z,false,false,2,false,93393,null,Chelsea,[],3,73,8,Burnley,null
+2367611,false,0,2023-10-07T14:00:00Z,false,false,2,false,93394,null,Nott'm Forest,[],2,74,8,Crystal Palace,null
+2367612,false,0,2023-10-07T14:00:00Z,false,false,2,false,93395,null,Bournemouth,[],2,75,8,Everton,null
+2367613,false,0,2023-10-07T14:00:00Z,false,false,2,false,93396,null,Sheffield Utd,[],2,76,8,Fulham,null
+2367614,false,0,2023-10-07T14:00:00Z,false,false,2,false,93397,null,Spurs,[],3,77,8,Luton,null
+2367615,false,0,2023-10-07T14:00:00Z,false,false,4,false,93398,null,Brentford,[],3,78,8,Man Utd,null
+2367616,false,0,2023-10-07T14:00:00Z,false,false,3,false,93399,null,Newcastle,[],4,79,8,West Ham,null
+2367617,false,0,2023-10-07T14:00:00Z,false,false,2,false,93400,null,Aston Villa,[],3,80,8,Wolves,null
+2367619,false,0,2023-10-21T14:00:00Z,false,false,3,false,93401,null,West Ham,[],2,81,9,Aston Villa,null
+2367618,false,0,2023-10-21T14:00:00Z,false,false,2,false,93402,null,Wolves,[],2,82,9,Bournemouth,null
+2367620,false,0,2023-10-21T14:00:00Z,false,false,3,false,93403,null,Burnley,[],2,83,9,Brentford,null
+2367621,false,0,2023-10-21T14:00:00Z,false,false,3,false,93404,null,Arsenal,[],4,84,9,Chelsea,null
+2367622,false,0,2023-10-21T14:00:00Z,false,false,4,false,93405,null,Everton,[],2,85,9,Liverpool,null
+2367623,false,0,2023-10-21T14:00:00Z,false,false,5,false,93406,null,Brighton,[],3,86,9,Man City,null
+2367624,false,0,2023-10-21T14:00:00Z,false,false,4,false,93407,null,Crystal Palace,[],2,87,9,Newcastle,null
+2367625,false,0,2023-10-21T14:00:00Z,false,false,2,false,93408,null,Luton,[],2,88,9,Nott'm Forest,null
+2367626,false,0,2023-10-21T14:00:00Z,false,false,2,false,93409,null,Man Utd,[],3,89,9,Sheffield Utd,null
+2367627,false,0,2023-10-21T14:00:00Z,false,false,3,false,93410,null,Fulham,[],2,90,9,Spurs,null
+2367629,false,0,2023-10-28T14:00:00Z,false,false,4,false,93411,null,Sheffield Utd,[],2,91,10,Arsenal,null
+2367630,false,0,2023-10-28T14:00:00Z,false,false,3,false,93412,null,Luton,[],2,92,10,Aston Villa,null
+2367628,false,0,2023-10-28T14:00:00Z,false,false,2,false,93413,null,Burnley,[],2,93,10,Bournemouth,null
+2367631,false,0,2023-10-28T14:00:00Z,false,false,3,false,93414,null,Fulham,[],2,94,10,Brighton,null
+2367632,false,0,2023-10-28T14:00:00Z,false,false,3,false,93415,null,Brentford,[],3,95,10,Chelsea,null
+2367633,false,0,2023-10-28T14:00:00Z,false,false,2,false,93416,null,Spurs,[],3,96,10,Crystal Palace,null
+2367634,false,0,2023-10-28T14:00:00Z,false,false,4,false,93417,null,Nott'm Forest,[],2,97,10,Liverpool,null
+2367635,false,0,2023-10-28T14:00:00Z,false,false,4,false,93418,null,Man City,[],5,98,10,Man Utd,null
+2367636,false,0,2023-10-28T14:00:00Z,false,false,3,false,93419,null,Everton,[],2,99,10,West Ham,null
+2367637,false,0,2023-10-28T14:00:00Z,false,false,2,false,93420,null,Newcastle,[],4,100,10,Wolves,null
+2367638,false,0,2023-11-04T15:00:00Z,false,false,3,false,93421,null,West Ham,[],2,101,11,Brentford,null
+2367639,false,0,2023-11-04T15:00:00Z,false,false,2,false,93422,null,Crystal Palace,[],2,102,11,Burnley,null
+2367640,false,0,2023-11-04T15:00:00Z,false,false,2,false,93423,null,Brighton,[],3,103,11,Everton,null
+2367641,false,0,2023-11-04T15:00:00Z,false,false,2,false,93424,null,Man Utd,[],3,104,11,Fulham,null
+2367642,false,0,2023-11-04T15:00:00Z,false,false,2,false,93425,null,Liverpool,[],4,105,11,Luton,null
+2367643,false,0,2023-11-04T15:00:00Z,false,false,5,false,93426,null,Bournemouth,[],2,106,11,Man City,null
+2367644,false,0,2023-11-04T15:00:00Z,false,false,4,false,93427,null,Arsenal,[],4,107,11,Newcastle,null
+2367645,false,0,2023-11-04T15:00:00Z,false,false,2,false,93428,null,Aston Villa,[],3,108,11,Nott'm Forest,null
+2367646,false,0,2023-11-04T15:00:00Z,false,false,2,false,93429,null,Wolves,[],2,109,11,Sheffield Utd,null
+2367647,false,0,2023-11-04T15:00:00Z,false,false,3,false,93430,null,Chelsea,[],3,110,11,Spurs,null
+2367649,false,0,2023-11-11T15:00:00Z,false,false,4,false,93431,null,Burnley,[],2,111,12,Arsenal,null
+2367650,false,0,2023-11-11T15:00:00Z,false,false,3,false,93432,null,Fulham,[],2,112,12,Aston Villa,null
+2367648,false,0,2023-11-11T15:00:00Z,false,false,2,false,93433,null,Newcastle,[],4,113,12,Bournemouth,null
+2367651,false,0,2023-11-11T15:00:00Z,false,false,3,false,93434,null,Sheffield Utd,[],2,114,12,Brighton,null
+2367652,false,0,2023-11-11T15:00:00Z,false,false,3,false,93435,null,Man City,[],5,115,12,Chelsea,null
+2367653,false,0,2023-11-11T15:00:00Z,false,false,2,false,93436,null,Everton,[],2,116,12,Crystal Palace,null
+2367654,false,0,2023-11-11T15:00:00Z,false,false,4,false,93437,null,Brentford,[],3,117,12,Liverpool,null
+2367655,false,0,2023-11-11T15:00:00Z,false,false,4,false,93438,null,Luton,[],2,118,12,Man Utd,null
+2367656,false,0,2023-11-11T15:00:00Z,false,false,3,false,93439,null,Nott'm Forest,[],2,119,12,West Ham,null
+2367657,false,0,2023-11-11T15:00:00Z,false,false,2,false,93440,null,Spurs,[],3,120,12,Wolves,null
+2367658,false,0,2023-11-25T15:00:00Z,false,false,3,false,93441,null,Arsenal,[],4,121,13,Brentford,null
+2367659,false,0,2023-11-25T15:00:00Z,false,false,2,false,93442,null,West Ham,[],2,122,13,Burnley,null
+2367660,false,0,2023-11-25T15:00:00Z,false,false,2,false,93443,null,Man Utd,[],3,123,13,Everton,null
+2367661,false,0,2023-11-25T15:00:00Z,false,false,2,false,93444,null,Wolves,[],2,124,13,Fulham,null
+2367662,false,0,2023-11-25T15:00:00Z,false,false,2,false,93445,null,Crystal Palace,[],2,125,13,Luton,null
+2367663,false,0,2023-11-25T15:00:00Z,false,false,5,false,93446,null,Liverpool,[],4,126,13,Man City,null
+2367664,false,0,2023-11-25T15:00:00Z,false,false,4,false,93447,null,Chelsea,[],3,127,13,Newcastle,null
+2367665,false,0,2023-11-25T15:00:00Z,false,false,2,false,93448,null,Brighton,[],3,128,13,Nott'm Forest,null
+2367666,false,0,2023-11-25T15:00:00Z,false,false,2,false,93449,null,Bournemouth,[],2,129,13,Sheffield Utd,null
+2367667,false,0,2023-11-25T15:00:00Z,false,false,3,false,93450,null,Aston Villa,[],3,130,13,Spurs,null
+2367669,false,0,2023-12-02T15:00:00Z,false,false,4,false,93451,null,Wolves,[],2,131,14,Arsenal,null
+2367668,false,0,2023-12-02T15:00:00Z,false,false,2,false,93452,null,Aston Villa,[],3,132,14,Bournemouth,null
+2367670,false,0,2023-12-02T15:00:00Z,false,false,3,false,93453,null,Luton,[],2,133,14,Brentford,null
+2367671,false,0,2023-12-02T15:00:00Z,false,false,2,false,93454,null,Sheffield Utd,[],2,134,14,Burnley,null
+2367672,false,0,2023-12-02T15:00:00Z,false,false,3,false,93455,null,Brighton,[],3,135,14,Chelsea,null
+2367673,false,0,2023-12-02T15:00:00Z,false,false,4,false,93456,null,Fulham,[],2,136,14,Liverpool,null
+2367674,false,0,2023-12-02T15:00:00Z,false,false,5,false,93457,null,Spurs,[],3,137,14,Man City,null
+2367675,false,0,2023-12-02T15:00:00Z,false,false,4,false,93458,null,Man Utd,[],3,138,14,Newcastle,null
+2367676,false,0,2023-12-02T15:00:00Z,false,false,2,false,93459,null,Everton,[],2,139,14,Nott'm Forest,null
+2367677,false,0,2023-12-02T15:00:00Z,false,false,3,false,93460,null,Crystal Palace,[],2,140,14,West Ham,null
+2367678,false,0,2023-12-05T19:45:00Z,false,false,3,false,93461,null,Man City,[],5,141,15,Aston Villa,null
+2367679,false,0,2023-12-05T19:45:00Z,false,false,3,false,93462,null,Brentford,[],3,142,15,Brighton,null
+2367681,false,0,2023-12-05T19:45:00Z,false,false,2,false,93464,null,Newcastle,[],4,144,15,Everton,null
+2367682,false,0,2023-12-05T19:45:00Z,false,false,2,false,93465,null,Nott'm Forest,[],2,145,15,Fulham,null
+2367683,false,0,2023-12-05T19:45:00Z,false,false,2,false,93466,null,Arsenal,[],4,146,15,Luton,null
+2367684,false,0,2023-12-05T19:45:00Z,false,false,2,false,93467,null,Liverpool,[],4,147,15,Sheffield Utd,null
+2367685,false,0,2023-12-05T19:45:00Z,false,false,3,false,93468,null,West Ham,[],2,148,15,Spurs,null
+2367686,false,0,2023-12-05T19:45:00Z,false,false,2,false,93469,null,Burnley,[],2,149,15,Wolves,null
+2367680,false,0,2023-12-05T20:00:00Z,false,false,2,false,93463,null,Bournemouth,[],2,143,15,Crystal Palace,null
+2367687,false,0,2023-12-06T20:00:00Z,false,false,4,false,93470,null,Chelsea,[],3,150,15,Man Utd,null
+2367688,false,0,2023-12-09T15:00:00Z,false,false,3,false,93471,null,Arsenal,[],4,151,16,Aston Villa,null
+2367689,false,0,2023-12-09T15:00:00Z,false,false,3,false,93472,null,Burnley,[],2,152,16,Brighton,null
+2367690,false,0,2023-12-09T15:00:00Z,false,false,2,false,93473,null,Liverpool,[],4,153,16,Crystal Palace,null
+2367691,false,0,2023-12-09T15:00:00Z,false,false,2,false,93474,null,Chelsea,[],3,154,16,Everton,null
+2367692,false,0,2023-12-09T15:00:00Z,false,false,2,false,93475,null,West Ham,[],2,155,16,Fulham,null
+2367693,false,0,2023-12-09T15:00:00Z,false,false,2,false,93476,null,Man City,[],5,156,16,Luton,null
+2367694,false,0,2023-12-09T15:00:00Z,false,false,4,false,93477,null,Bournemouth,[],2,157,16,Man Utd,null
+2367695,false,0,2023-12-09T15:00:00Z,false,false,2,false,93478,null,Brentford,[],3,158,16,Sheffield Utd,null
+2367696,false,0,2023-12-09T15:00:00Z,false,false,3,false,93479,null,Newcastle,[],4,159,16,Spurs,null
+2367697,false,0,2023-12-09T15:00:00Z,false,false,2,false,93480,null,Nott'm Forest,[],2,160,16,Wolves,null
+2367699,false,0,2023-12-16T15:00:00Z,false,false,4,false,93481,null,Brighton,[],3,161,17,Arsenal,null
+2367698,false,0,2023-12-16T15:00:00Z,false,false,2,false,93482,null,Luton,[],2,162,17,Bournemouth,null
+2367700,false,0,2023-12-16T15:00:00Z,false,false,3,false,93483,null,Aston Villa,[],3,163,17,Brentford,null
+2367701,false,0,2023-12-16T15:00:00Z,false,false,2,false,93484,null,Everton,[],2,164,17,Burnley,null
+2367702,false,0,2023-12-16T15:00:00Z,false,false,3,false,93485,null,Sheffield Utd,[],2,165,17,Chelsea,null
+2367703,false,0,2023-12-16T15:00:00Z,false,false,4,false,93486,null,Man Utd,[],3,166,17,Liverpool,null
+2367704,false,0,2023-12-16T15:00:00Z,false,false,5,false,93487,null,Crystal Palace,[],2,167,17,Man City,null
+2367705,false,0,2023-12-16T15:00:00Z,false,false,4,false,93488,null,Fulham,[],2,168,17,Newcastle,null
+2367706,false,0,2023-12-16T15:00:00Z,false,false,2,false,93489,null,Spurs,[],3,169,17,Nott'm Forest,null
+2367707,false,0,2023-12-16T15:00:00Z,false,false,3,false,93490,null,Wolves,[],2,170,17,West Ham,null
+2367708,false,0,2023-12-23T15:00:00Z,false,false,3,false,93491,null,Sheffield Utd,[],2,171,18,Aston Villa,null
+2367709,false,0,2023-12-23T15:00:00Z,false,false,2,false,93492,null,Brighton,[],3,172,18,Crystal Palace,null
+2367710,false,0,2023-12-23T15:00:00Z,false,false,2,false,93493,null,Burnley,[],2,173,18,Fulham,null
+2367711,false,0,2023-12-23T15:00:00Z,false,false,4,false,93494,null,Arsenal,[],4,174,18,Liverpool,null
+2367712,false,0,2023-12-23T15:00:00Z,false,false,2,false,93495,null,Newcastle,[],4,175,18,Luton,null
+2367714,false,0,2023-12-23T15:00:00Z,false,false,2,false,93497,null,Bournemouth,[],2,177,18,Nott'm Forest,null
+2367715,false,0,2023-12-23T15:00:00Z,false,false,3,false,93498,null,Everton,[],2,178,18,Spurs,null
+2367716,false,0,2023-12-23T15:00:00Z,false,false,3,false,93499,null,Man Utd,[],3,179,18,West Ham,null
+2367717,false,0,2023-12-23T15:00:00Z,false,false,2,false,93500,null,Chelsea,[],3,180,18,Wolves,null
+2367719,false,0,2023-12-26T15:00:00Z,false,false,4,false,93501,null,West Ham,[],2,181,19,Arsenal,null
+2367718,false,0,2023-12-26T15:00:00Z,false,false,2,false,93502,null,Fulham,[],2,182,19,Bournemouth,null
+2367720,false,0,2023-12-26T15:00:00Z,false,false,3,false,93503,null,Wolves,[],2,183,19,Brentford,null
+2367721,false,0,2023-12-26T15:00:00Z,false,false,3,false,93504,null,Spurs,[],3,184,19,Brighton,null
+2367722,false,0,2023-12-26T15:00:00Z,false,false,2,false,93505,null,Liverpool,[],4,185,19,Burnley,null
+2367723,false,0,2023-12-26T15:00:00Z,false,false,3,false,93506,null,Crystal Palace,[],2,186,19,Chelsea,null
+2367724,false,0,2023-12-26T15:00:00Z,false,false,2,false,93507,null,Man City,[],5,187,19,Everton,null
+2367725,false,0,2023-12-26T15:00:00Z,false,false,4,false,93508,null,Aston Villa,[],3,188,19,Man Utd,null
+2367726,false,0,2023-12-26T15:00:00Z,false,false,4,false,93509,null,Nott'm Forest,[],2,189,19,Newcastle,null
+2367727,false,0,2023-12-26T15:00:00Z,false,false,2,false,93510,null,Luton,[],2,190,19,Sheffield Utd,null
+2367728,false,0,2023-12-30T15:00:00Z,false,false,3,false,93511,null,Burnley,[],2,191,20,Aston Villa,null
+2367729,false,0,2023-12-30T15:00:00Z,false,false,2,false,93512,null,Brentford,[],3,192,20,Crystal Palace,null
+2367730,false,0,2023-12-30T15:00:00Z,false,false,2,false,93513,null,Arsenal,[],4,193,20,Fulham,null
+2367731,false,0,2023-12-30T15:00:00Z,false,false,4,false,93514,null,Newcastle,[],4,194,20,Liverpool,null
+2367732,false,0,2023-12-30T15:00:00Z,false,false,2,false,93515,null,Chelsea,[],3,195,20,Luton,null
+2367733,false,0,2023-12-30T15:00:00Z,false,false,5,false,93516,null,Sheffield Utd,[],2,196,20,Man City,null
+2367734,false,0,2023-12-30T15:00:00Z,false,false,2,false,93517,null,Man Utd,[],3,197,20,Nott'm Forest,null
+2367735,false,0,2023-12-30T15:00:00Z,false,false,3,false,93518,null,Bournemouth,[],2,198,20,Spurs,null
+2367736,false,0,2023-12-30T15:00:00Z,false,false,3,false,93519,null,Brighton,[],3,199,20,West Ham,null
+2367737,false,0,2023-12-30T15:00:00Z,false,false,2,false,93520,null,Everton,[],2,200,20,Wolves,null
+2367739,false,0,2024-01-13T15:00:00Z,false,false,4,false,93521,null,Crystal Palace,[],2,201,21,Arsenal,null
+2367738,false,0,2024-01-13T15:00:00Z,false,false,2,false,93522,null,Liverpool,[],4,202,21,Bournemouth,null
+2367740,false,0,2024-01-13T15:00:00Z,false,false,3,false,93523,null,Nott'm Forest,[],2,203,21,Brentford,null
+2367741,false,0,2024-01-13T15:00:00Z,false,false,3,false,93524,null,Wolves,[],2,204,21,Brighton,null
+2367742,false,0,2024-01-13T15:00:00Z,false,false,2,false,93525,null,Luton,[],2,205,21,Burnley,null
+2367743,false,0,2024-01-13T15:00:00Z,false,false,3,false,93526,null,Fulham,[],2,206,21,Chelsea,null
+2367744,false,0,2024-01-13T15:00:00Z,false,false,2,false,93527,null,Aston Villa,[],3,207,21,Everton,null
+2367745,false,0,2024-01-13T15:00:00Z,false,false,4,false,93528,null,Spurs,[],3,208,21,Man Utd,null
+2367746,false,0,2024-01-13T15:00:00Z,false,false,4,false,93529,null,Man City,[],5,209,21,Newcastle,null
+2367747,false,0,2024-01-13T15:00:00Z,false,false,2,false,93530,null,West Ham,[],2,210,21,Sheffield Utd,null
+2367748,false,0,2024-01-30T19:45:00Z,false,false,3,false,93531,null,Newcastle,[],4,211,22,Aston Villa,null
+2367750,false,0,2024-01-30T19:45:00Z,false,false,2,false,93533,null,Everton,[],2,213,22,Fulham,null
+2367751,false,0,2024-01-30T19:45:00Z,false,false,2,false,93534,null,Brighton,[],3,214,22,Luton,null
+2367752,false,0,2024-01-30T19:45:00Z,false,false,2,false,93535,null,Arsenal,[],4,215,22,Nott'm Forest,null
+2367753,false,0,2024-01-30T19:45:00Z,false,false,3,false,93536,null,Brentford,[],3,216,22,Spurs,null
+2367754,false,0,2024-01-30T19:45:00Z,false,false,3,false,93537,null,Bournemouth,[],2,217,22,West Ham,null
+2367755,false,0,2024-01-30T19:45:00Z,false,false,2,false,93538,null,Man Utd,[],3,218,22,Wolves,null
+2367749,false,0,2024-01-30T20:00:00Z,false,false,2,false,93532,null,Sheffield Utd,[],2,212,22,Crystal Palace,null
+2367756,false,0,2024-01-31T20:00:00Z,false,false,4,false,93539,null,Chelsea,[],3,219,22,Liverpool,null
+2367757,false,0,2024-01-31T20:00:00Z,false,false,5,false,93540,null,Burnley,[],2,220,22,Man City,null
+2367759,false,0,2024-02-03T15:00:00Z,false,false,4,false,93541,null,Liverpool,[],4,221,23,Arsenal,null
+2367758,false,0,2024-02-03T15:00:00Z,false,false,2,false,93542,null,Nott'm Forest,[],2,222,23,Bournemouth,null
+2367760,false,0,2024-02-03T15:00:00Z,false,false,3,false,93543,null,Man City,[],5,223,23,Brentford,null
+2367761,false,0,2024-02-03T15:00:00Z,false,false,3,false,93544,null,Crystal Palace,[],2,224,23,Brighton,null
+2367762,false,0,2024-02-03T15:00:00Z,false,false,2,false,93545,null,Fulham,[],2,225,23,Burnley,null
+2367763,false,0,2024-02-03T15:00:00Z,false,false,3,false,93546,null,Wolves,[],2,226,23,Chelsea,null
+2367764,false,0,2024-02-03T15:00:00Z,false,false,2,false,93547,null,Spurs,[],3,227,23,Everton,null
+2367765,false,0,2024-02-03T15:00:00Z,false,false,4,false,93548,null,West Ham,[],2,228,23,Man Utd,null
+2367766,false,0,2024-02-03T15:00:00Z,false,false,4,false,93549,null,Luton,[],2,229,23,Newcastle,null
+2367767,false,0,2024-02-03T15:00:00Z,false,false,2,false,93550,null,Aston Villa,[],3,230,23,Sheffield Utd,null
+2367768,false,0,2024-02-10T15:00:00Z,false,false,3,false,93551,null,Man Utd,[],3,231,24,Aston Villa,null
+2367769,false,0,2024-02-10T15:00:00Z,false,false,2,false,93552,null,Chelsea,[],3,232,24,Crystal Palace,null
+2367770,false,0,2024-02-10T15:00:00Z,false,false,2,false,93553,null,Bournemouth,[],2,233,24,Fulham,null
+2367771,false,0,2024-02-10T15:00:00Z,false,false,4,false,93554,null,Burnley,[],2,234,24,Liverpool,null
+2367772,false,0,2024-02-10T15:00:00Z,false,false,2,false,93555,null,Sheffield Utd,[],2,235,24,Luton,null
+2367773,false,0,2024-02-10T15:00:00Z,false,false,5,false,93556,null,Everton,[],2,236,24,Man City,null
+2367774,false,0,2024-02-10T15:00:00Z,false,false,2,false,93557,null,Newcastle,[],4,237,24,Nott'm Forest,null
+2367775,false,0,2024-02-10T15:00:00Z,false,false,3,false,93558,null,Brighton,[],3,238,24,Spurs,null
+2367776,false,0,2024-02-10T15:00:00Z,false,false,3,false,93559,null,Arsenal,[],4,239,24,West Ham,null
+2367777,false,0,2024-02-10T15:00:00Z,false,false,2,false,93560,null,Brentford,[],3,240,24,Wolves,null
+2367778,false,0,2024-02-17T15:00:00Z,false,false,3,false,93561,null,Liverpool,[],4,241,25,Brentford,null
+2367779,false,0,2024-02-17T15:00:00Z,false,false,2,false,93562,null,Arsenal,[],4,242,25,Burnley,null
+2367780,false,0,2024-02-17T15:00:00Z,false,false,2,false,93563,null,Crystal Palace,[],2,243,25,Everton,null
+2367781,false,0,2024-02-17T15:00:00Z,false,false,2,false,93564,null,Aston Villa,[],3,244,25,Fulham,null
+2367782,false,0,2024-02-17T15:00:00Z,false,false,2,false,93565,null,Man Utd,[],3,245,25,Luton,null
+2367783,false,0,2024-02-17T15:00:00Z,false,false,5,false,93566,null,Chelsea,[],3,246,25,Man City,null
+2367784,false,0,2024-02-17T15:00:00Z,false,false,4,false,93567,null,Bournemouth,[],2,247,25,Newcastle,null
+2367785,false,0,2024-02-17T15:00:00Z,false,false,2,false,93568,null,West Ham,[],2,248,25,Nott'm Forest,null
+2367786,false,0,2024-02-17T15:00:00Z,false,false,2,false,93569,null,Brighton,[],3,249,25,Sheffield Utd,null
+2367787,false,0,2024-02-17T15:00:00Z,false,false,3,false,93570,null,Wolves,[],2,250,25,Spurs,null
+2367789,false,0,2024-02-24T15:00:00Z,false,false,4,false,93571,null,Newcastle,[],4,251,26,Arsenal,null
+2367790,false,0,2024-02-24T15:00:00Z,false,false,3,false,93572,null,Nott'm Forest,[],2,252,26,Aston Villa,null
+2367788,false,0,2024-02-24T15:00:00Z,false,false,2,false,93573,null,Man City,[],5,253,26,Bournemouth,null
+2367791,false,0,2024-02-24T15:00:00Z,false,false,3,false,93574,null,Everton,[],2,254,26,Brighton,null
+2367792,false,0,2024-02-24T15:00:00Z,false,false,3,false,93575,null,Spurs,[],3,255,26,Chelsea,null
+2367793,false,0,2024-02-24T15:00:00Z,false,false,2,false,93576,null,Burnley,[],2,256,26,Crystal Palace,null
+2367794,false,0,2024-02-24T15:00:00Z,false,false,4,false,93577,null,Luton,[],2,257,26,Liverpool,null
+2367795,false,0,2024-02-24T15:00:00Z,false,false,4,false,93578,null,Fulham,[],2,258,26,Man Utd,null
+2367796,false,0,2024-02-24T15:00:00Z,false,false,3,false,93579,null,Brentford,[],3,259,26,West Ham,null
+2367797,false,0,2024-02-24T15:00:00Z,false,false,2,false,93580,null,Sheffield Utd,[],2,260,26,Wolves,null
+2367798,false,0,2024-03-02T15:00:00Z,false,false,3,false,93581,null,Chelsea,[],3,261,27,Brentford,null
+2367799,false,0,2024-03-02T15:00:00Z,false,false,2,false,93582,null,Bournemouth,[],2,262,27,Burnley,null
+2367800,false,0,2024-03-02T15:00:00Z,false,false,2,false,93583,null,West Ham,[],2,263,27,Everton,null
+2367801,false,0,2024-03-02T15:00:00Z,false,false,2,false,93584,null,Brighton,[],3,264,27,Fulham,null
+2367802,false,0,2024-03-02T15:00:00Z,false,false,2,false,93585,null,Aston Villa,[],3,265,27,Luton,null
+2367803,false,0,2024-03-02T15:00:00Z,false,false,5,false,93586,null,Man Utd,[],3,266,27,Man City,null
+2367804,false,0,2024-03-02T15:00:00Z,false,false,4,false,93587,null,Wolves,[],2,267,27,Newcastle,null
+2367805,false,0,2024-03-02T15:00:00Z,false,false,2,false,93588,null,Liverpool,[],4,268,27,Nott'm Forest,null
+2367806,false,0,2024-03-02T15:00:00Z,false,false,2,false,93589,null,Arsenal,[],4,269,27,Sheffield Utd,null
+2367807,false,0,2024-03-02T15:00:00Z,false,false,3,false,93590,null,Crystal Palace,[],2,270,27,Spurs,null
+2367809,false,0,2024-03-09T15:00:00Z,false,false,4,false,93591,null,Brentford,[],3,271,28,Arsenal,null
+2367810,false,0,2024-03-09T15:00:00Z,false,false,3,false,93592,null,Spurs,[],3,272,28,Aston Villa,null
+2367808,false,0,2024-03-09T15:00:00Z,false,false,2,false,93593,null,Sheffield Utd,[],2,273,28,Bournemouth,null
+2367811,false,0,2024-03-09T15:00:00Z,false,false,3,false,93594,null,Nott'm Forest,[],2,274,28,Brighton,null
+2367812,false,0,2024-03-09T15:00:00Z,false,false,3,false,93595,null,Newcastle,[],4,275,28,Chelsea,null
+2367813,false,0,2024-03-09T15:00:00Z,false,false,2,false,93596,null,Luton,[],2,276,28,Crystal Palace,null
+2367814,false,0,2024-03-09T15:00:00Z,false,false,4,false,93597,null,Man City,[],5,277,28,Liverpool,null
+2367815,false,0,2024-03-09T15:00:00Z,false,false,4,false,93598,null,Everton,[],2,278,28,Man Utd,null
+2367816,false,0,2024-03-09T15:00:00Z,false,false,3,false,93599,null,Burnley,[],2,279,28,West Ham,null
+2367817,false,0,2024-03-09T15:00:00Z,false,false,2,false,93600,null,Fulham,[],2,280,28,Wolves,null
+2367818,false,0,2024-03-16T15:00:00Z,false,false,4,false,93601,null,Chelsea,[],3,281,29,Arsenal,null
+2367819,false,0,2024-03-16T15:00:00Z,false,false,3,false,93602,null,Man City,[],5,282,29,Brighton,null
+2367820,false,0,2024-03-16T15:00:00Z,false,false,2,false,93603,null,Brentford,[],3,283,29,Burnley,null
+2367821,false,0,2024-03-16T15:00:00Z,false,false,2,false,93604,null,Newcastle,[],4,284,29,Crystal Palace,null
+2367822,false,0,2024-03-16T15:00:00Z,false,false,2,false,93605,null,Liverpool,[],4,285,29,Everton,null
+2367823,false,0,2024-03-16T15:00:00Z,false,false,2,false,93606,null,Spurs,[],3,286,29,Fulham,null
+2367824,false,0,2024-03-16T15:00:00Z,false,false,2,false,93607,null,Nott'm Forest,[],2,287,29,Luton,null
+2367825,false,0,2024-03-16T15:00:00Z,false,false,4,false,93608,null,Sheffield Utd,[],2,288,29,Man Utd,null
+2367826,false,0,2024-03-16T15:00:00Z,false,false,3,false,93609,null,Aston Villa,[],3,289,29,West Ham,null
+2367827,false,0,2024-03-16T15:00:00Z,false,false,2,false,93610,null,Bournemouth,[],2,290,29,Wolves,null
+2367829,false,0,2024-03-30T15:00:00Z,false,false,3,false,93611,null,Wolves,[],2,291,30,Aston Villa,null
+2367828,false,0,2024-03-30T15:00:00Z,false,false,2,false,93612,null,Everton,[],2,292,30,Bournemouth,null
+2367830,false,0,2024-03-30T15:00:00Z,false,false,3,false,93613,null,Man Utd,[],3,293,30,Brentford,null
+2367831,false,0,2024-03-30T15:00:00Z,false,false,3,false,93614,null,Burnley,[],2,294,30,Chelsea,null
+2367832,false,0,2024-03-30T15:00:00Z,false,false,4,false,93615,null,Brighton,[],3,295,30,Liverpool,null
+2367833,false,0,2024-03-30T15:00:00Z,false,false,5,false,93616,null,Arsenal,[],4,296,30,Man City,null
+2367834,false,0,2024-03-30T15:00:00Z,false,false,4,false,93617,null,West Ham,[],2,297,30,Newcastle,null
+2367835,false,0,2024-03-30T15:00:00Z,false,false,2,false,93618,null,Crystal Palace,[],2,298,30,Nott'm Forest,null
+2367836,false,0,2024-03-30T15:00:00Z,false,false,2,false,93619,null,Fulham,[],2,299,30,Sheffield Utd,null
+2367837,false,0,2024-03-30T15:00:00Z,false,false,3,false,93620,null,Luton,[],2,300,30,Spurs,null
+2367839,false,0,2024-04-02T18:45:00Z,false,false,4,false,93621,null,Luton,[],2,301,31,Arsenal,null
+2367838,false,0,2024-04-02T18:45:00Z,false,false,2,false,93622,null,Crystal Palace,[],2,302,31,Bournemouth,null
+2367840,false,0,2024-04-02T18:45:00Z,false,false,3,false,93623,null,Brighton,[],3,303,31,Brentford,null
+2367841,false,0,2024-04-02T18:45:00Z,false,false,2,false,93624,null,Wolves,[],2,304,31,Burnley,null
+2367842,false,0,2024-04-02T18:45:00Z,false,false,2,false,93625,null,Fulham,[],2,305,31,Nott'm Forest,null
+2367843,false,0,2024-04-02T18:45:00Z,false,false,3,false,93626,null,Spurs,[],3,306,31,West Ham,null
+2367844,false,0,2024-04-03T18:45:00Z,false,false,3,false,93627,null,Man Utd,[],3,307,31,Chelsea,null
+2367847,false,0,2024-04-03T18:45:00Z,false,false,4,false,93630,null,Everton,[],2,310,31,Newcastle,null
+2367845,false,0,2024-04-03T19:00:00Z,false,false,4,false,93628,null,Sheffield Utd,[],2,308,31,Liverpool,null
+2367846,false,0,2024-04-03T19:00:00Z,false,false,5,false,93629,null,Aston Villa,[],3,309,31,Man City,null
+2367848,false,0,2024-04-06T14:00:00Z,false,false,3,false,93631,null,Brentford,[],3,311,32,Aston Villa,null
+2367849,false,0,2024-04-06T14:00:00Z,false,false,3,false,93632,null,Arsenal,[],4,312,32,Brighton,null
+2367850,false,0,2024-04-06T14:00:00Z,false,false,2,false,93633,null,Man City,[],5,313,32,Crystal Palace,null
+2367851,false,0,2024-04-06T14:00:00Z,false,false,2,false,93634,null,Burnley,[],2,314,32,Everton,null
+2367852,false,0,2024-04-06T14:00:00Z,false,false,2,false,93635,null,Newcastle,[],4,315,32,Fulham,null
+2367853,false,0,2024-04-06T14:00:00Z,false,false,2,false,93636,null,Bournemouth,[],2,316,32,Luton,null
+2367854,false,0,2024-04-06T14:00:00Z,false,false,4,false,93637,null,Liverpool,[],4,317,32,Man Utd,null
+2367855,false,0,2024-04-06T14:00:00Z,false,false,2,false,93638,null,Chelsea,[],3,318,32,Sheffield Utd,null
+2367856,false,0,2024-04-06T14:00:00Z,false,false,3,false,93639,null,Nott'm Forest,[],2,319,32,Spurs,null
+2367857,false,0,2024-04-06T14:00:00Z,false,false,2,false,93640,null,West Ham,[],2,320,32,Wolves,null
+2367859,false,0,2024-04-13T14:00:00Z,false,false,4,false,93641,null,Aston Villa,[],3,321,33,Arsenal,null
+2367858,false,0,2024-04-13T14:00:00Z,false,false,2,false,93642,null,Man Utd,[],3,322,33,Bournemouth,null
+2367860,false,0,2024-04-13T14:00:00Z,false,false,3,false,93643,null,Sheffield Utd,[],2,323,33,Brentford,null
+2367861,false,0,2024-04-13T14:00:00Z,false,false,2,false,93644,null,Brighton,[],3,324,33,Burnley,null
+2367862,false,0,2024-04-13T14:00:00Z,false,false,3,false,93645,null,Everton,[],2,325,33,Chelsea,null
+2367863,false,0,2024-04-13T14:00:00Z,false,false,4,false,93646,null,Crystal Palace,[],2,326,33,Liverpool,null
+2367864,false,0,2024-04-13T14:00:00Z,false,false,5,false,93647,null,Luton,[],2,327,33,Man City,null
+2367865,false,0,2024-04-13T14:00:00Z,false,false,4,false,93648,null,Spurs,[],3,328,33,Newcastle,null
+2367866,false,0,2024-04-13T14:00:00Z,false,false,2,false,93649,null,Wolves,[],2,329,33,Nott'm Forest,null
+2367867,false,0,2024-04-13T14:00:00Z,false,false,3,false,93650,null,Fulham,[],2,330,33,West Ham,null
+2367868,false,0,2024-04-20T14:00:00Z,false,false,3,false,93651,null,Bournemouth,[],2,331,34,Aston Villa,null
+2367869,false,0,2024-04-20T14:00:00Z,false,false,3,false,93652,null,Chelsea,[],3,332,34,Brighton,null
+2367870,false,0,2024-04-20T14:00:00Z,false,false,2,false,93653,null,West Ham,[],2,333,34,Crystal Palace,null
+2367871,false,0,2024-04-20T14:00:00Z,false,false,2,false,93654,null,Nott'm Forest,[],2,334,34,Everton,null
+2367872,false,0,2024-04-20T14:00:00Z,false,false,2,false,93655,null,Liverpool,[],4,335,34,Fulham,null
+2367873,false,0,2024-04-20T14:00:00Z,false,false,2,false,93656,null,Brentford,[],3,336,34,Luton,null
+2367874,false,0,2024-04-20T14:00:00Z,false,false,4,false,93657,null,Newcastle,[],4,337,34,Man Utd,null
+2367875,false,0,2024-04-20T14:00:00Z,false,false,2,false,93658,null,Burnley,[],2,338,34,Sheffield Utd,null
+2367876,false,0,2024-04-20T14:00:00Z,false,false,3,false,93659,null,Man City,[],5,339,34,Spurs,null
+2367877,false,0,2024-04-20T14:00:00Z,false,false,2,false,93660,null,Arsenal,[],4,340,34,Wolves,null
+2367879,false,0,2024-04-27T14:00:00Z,false,false,3,false,93661,null,Chelsea,[],3,341,35,Aston Villa,null
+2367878,false,0,2024-04-27T14:00:00Z,false,false,2,false,93662,null,Brighton,[],3,342,35,Bournemouth,null
+2367880,false,0,2024-04-27T14:00:00Z,false,false,2,false,93663,null,Brentford,[],3,343,35,Everton,null
+2367881,false,0,2024-04-27T14:00:00Z,false,false,2,false,93664,null,Crystal Palace,[],2,344,35,Fulham,null
+2367882,false,0,2024-04-27T14:00:00Z,false,false,4,false,93665,null,Burnley,[],2,345,35,Man Utd,null
+2367883,false,0,2024-04-27T14:00:00Z,false,false,4,false,93666,null,Sheffield Utd,[],2,346,35,Newcastle,null
+2367884,false,0,2024-04-27T14:00:00Z,false,false,2,false,93667,null,Man City,[],5,347,35,Nott'm Forest,null
+2367885,false,0,2024-04-27T14:00:00Z,false,false,3,false,93668,null,Arsenal,[],4,348,35,Spurs,null
+2367886,false,0,2024-04-27T14:00:00Z,false,false,3,false,93669,null,Liverpool,[],4,349,35,West Ham,null
+2367887,false,0,2024-04-27T14:00:00Z,false,false,2,false,93670,null,Luton,[],2,350,35,Wolves,null
+2367888,false,0,2024-05-04T14:00:00Z,false,false,4,false,93671,null,Bournemouth,[],2,351,36,Arsenal,null
+2367889,false,0,2024-05-04T14:00:00Z,false,false,3,false,93672,null,Fulham,[],2,352,36,Brentford,null
+2367890,false,0,2024-05-04T14:00:00Z,false,false,3,false,93673,null,Aston Villa,[],3,353,36,Brighton,null
+2367891,false,0,2024-05-04T14:00:00Z,false,false,2,false,93674,null,Newcastle,[],4,354,36,Burnley,null
+2367892,false,0,2024-05-04T14:00:00Z,false,false,3,false,93675,null,West Ham,[],2,355,36,Chelsea,null
+2367893,false,0,2024-05-04T14:00:00Z,false,false,2,false,93676,null,Man Utd,[],3,356,36,Crystal Palace,null
+2367894,false,0,2024-05-04T14:00:00Z,false,false,4,false,93677,null,Spurs,[],3,357,36,Liverpool,null
+2367895,false,0,2024-05-04T14:00:00Z,false,false,2,false,93678,null,Everton,[],2,358,36,Luton,null
+2367896,false,0,2024-05-04T14:00:00Z,false,false,5,false,93679,null,Wolves,[],2,359,36,Man City,null
+2367897,false,0,2024-05-04T14:00:00Z,false,false,2,false,93680,null,Nott'm Forest,[],2,360,36,Sheffield Utd,null
+2367899,false,0,2024-05-11T14:00:00Z,false,false,3,false,93681,null,Liverpool,[],4,361,37,Aston Villa,null
+2367898,false,0,2024-05-11T14:00:00Z,false,false,2,false,93682,null,Brentford,[],3,362,37,Bournemouth,null
+2367900,false,0,2024-05-11T14:00:00Z,false,false,2,false,93683,null,Sheffield Utd,[],2,363,37,Everton,null
+2367901,false,0,2024-05-11T14:00:00Z,false,false,2,false,93684,null,Man City,[],5,364,37,Fulham,null
+2367902,false,0,2024-05-11T14:00:00Z,false,false,4,false,93685,null,Arsenal,[],4,365,37,Man Utd,null
+2367903,false,0,2024-05-11T14:00:00Z,false,false,4,false,93686,null,Brighton,[],3,366,37,Newcastle,null
+2367904,false,0,2024-05-11T14:00:00Z,false,false,2,false,93687,null,Chelsea,[],3,367,37,Nott'm Forest,null
+2367905,false,0,2024-05-11T14:00:00Z,false,false,3,false,93688,null,Burnley,[],2,368,37,Spurs,null
+2367906,false,0,2024-05-11T14:00:00Z,false,false,3,false,93689,null,Luton,[],2,369,37,West Ham,null
+2367907,false,0,2024-05-11T14:00:00Z,false,false,2,false,93690,null,Crystal Palace,[],2,370,37,Wolves,null
+2367908,false,0,2024-05-19T15:00:00Z,false,false,4,false,93691,null,Everton,[],2,371,38,Arsenal,null
+2367909,false,0,2024-05-19T15:00:00Z,false,false,3,false,93692,null,Newcastle,[],4,372,38,Brentford,null
+2367910,false,0,2024-05-19T15:00:00Z,false,false,3,false,93693,null,Man Utd,[],3,373,38,Brighton,null
+2367911,false,0,2024-05-19T15:00:00Z,false,false,2,false,93694,null,Nott'm Forest,[],2,374,38,Burnley,null
+2367912,false,0,2024-05-19T15:00:00Z,false,false,3,false,93695,null,Bournemouth,[],2,375,38,Chelsea,null
+2367913,false,0,2024-05-19T15:00:00Z,false,false,2,false,93696,null,Aston Villa,[],3,376,38,Crystal Palace,null
+2367914,false,0,2024-05-19T15:00:00Z,false,false,4,false,93697,null,Wolves,[],2,377,38,Liverpool,null
+2367915,false,0,2024-05-19T15:00:00Z,false,false,2,false,93698,null,Fulham,[],2,378,38,Luton,null
+2367916,false,0,2024-05-19T15:00:00Z,false,false,5,false,93699,null,West Ham,[],2,379,38,Man City,null
+2367917,false,0,2024-05-19T15:00:00Z,false,false,2,false,93700,null,Spurs,[],3,380,38,Sheffield Utd,null
