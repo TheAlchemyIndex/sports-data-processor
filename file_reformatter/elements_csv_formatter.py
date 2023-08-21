@@ -2,7 +2,7 @@ from dependencies.spark import start_spark
 
 JOB_NAME = "elements_csv_formatter"
 SEASON = "2022-23"
-OUTPUT_PATH = f"C:/repos/fpl-points-predictor/data/football/fpl-ingest/players/elements/season={SEASON}/"
+OUTPUT_PATH = f"C:/repos/sports-data-processor/data/football/fpl-ingest/players/elements/season={SEASON}/"
 
 
 def main():
@@ -31,7 +31,7 @@ def extract_data(spark):
         .option("inferSchema", "true")
         .option("header", "true")
         .option("sep", ",")
-        .load("C:/repos/fpl-points-predictor/data/players_raw.csv")
+        .load("C:/repos/sports-data-processor/data/players_raw.csv")
         .select("chance_of_playing_next_round", "chance_of_playing_this_round", "code", "cost_change_event",
                 "cost_change_event_fall", "cost_change_start", "cost_change_start_fall", "dreamteam_count",
                 "element_type", "ep_next", "ep_this", "event_points", "first_name", "form", "id", "in_dreamteam",

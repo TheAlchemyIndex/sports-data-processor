@@ -6,7 +6,7 @@ from dependencies.spark import start_spark
 JOB_NAME = "fpl_teams_ingest"
 SEASON = "2023-24"
 TEAMS_ENDPOINT = "https://fantasy.premierleague.com/api/bootstrap-static/"
-OUTPUT_PATH = f"C:/repos/fpl-points-predictor/data/football/fpl-ingest/teams/season={SEASON}"
+OUTPUT_PATH = f"C:/repos/sports-data-processor/data/football/fpl-ingest/teams/season={SEASON}"
 
 TEAMS_SCHEMA = StructType([
     StructField("code", IntegerType(), True),
@@ -19,7 +19,7 @@ TEAMS_SCHEMA = StructType([
     StructField("points", IntegerType(), True),
     StructField("position", IntegerType(), True),
     StructField("short_name", StringType(), True),
-    StructField("strength", StringType(), True),
+    StructField("strength", IntegerType(), True),
     StructField("team_division", StringType(), True),
     StructField("unavailable", BooleanType(), True),
     StructField("win", IntegerType(), True),

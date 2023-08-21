@@ -3,7 +3,7 @@ from dependencies.spark import start_spark
 
 JOB_NAME = "gw_csv_formatter"
 SEASON = "2022-23"
-OUTPUT_PATH = f"C:/repos/fpl-points-predictor/data/football/fpl-ingest/players/gws/season={SEASON}/"
+OUTPUT_PATH = f"C:/repos/sports-data-processor/data/football/fpl-ingest/players/gws/season={SEASON}/"
 
 
 def main():
@@ -33,7 +33,7 @@ def extract_data(spark):
         .option("inferSchema", "true")
         .option("header", "true")
         .option("sep", ",")
-        .load("C:/repos/fpl-points-predictor/data/merged_gw.csv")
+        .load("C:/repos/sports-data-processor/data/merged_gw.csv")
         .drop("name", "position", "team", "xP", "season")
     )
 
@@ -41,7 +41,7 @@ def extract_data(spark):
         spark
         .read
         .format("parquet")
-        .load(f"C:/repos/fpl-points-predictor/data/football/fpl-ingest/teams/season={SEASON}")
+        .load(f"C:/repos/sports-data-processor/data/football/fpl-ingest/teams/season={SEASON}")
         .withColumnRenamed("name", "opponent_team")
         .select("opponent_team", "id")
     )

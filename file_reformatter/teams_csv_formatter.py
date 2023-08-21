@@ -2,7 +2,7 @@ from dependencies.spark import start_spark
 
 JOB_NAME = "teams_csv_formatter"
 SEASON = "2022-23"
-OUTPUT_PATH = f"C:/repos/fpl-points-predictor/data/football/fpl-ingest/teams/season={SEASON}/"
+OUTPUT_PATH = f"C:/repos/sports-data-processor/data/football/fpl-ingest/teams/season={SEASON}/"
 
 
 def main():
@@ -26,19 +26,19 @@ def extract_data(spark):
     """
     Reads data from csv file.
     """
-    gw_csv_df = (
+    teams_csv_df = (
         spark.read.format("csv")
         .option("inferSchema", "true")
         .option("header", "true")
         .option("sep", ",")
-        .load("C:/repos/fpl-points-predictor/data/teams.csv")
+        .load("C:/repos/sports-data-processor/data/teams.csv")
         .select("code", "draw", "form", "id", "loss", "name", "played", "points", "position", "short_name", "strength",
                 "team_division", "unavailable", "win", "strength_overall_home", "strength_overall_away",
                 "strength_attack_home", "strength_attack_away", "strength_defence_home", "strength_defence_away",
                 "pulse_id")
     )
 
-    return gw_csv_df
+    return teams_csv_df
 
 
 def load_data(df):

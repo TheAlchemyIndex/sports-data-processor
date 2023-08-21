@@ -8,7 +8,7 @@ JOB_NAME = "fpl_gw_ingest"
 SEASON = "2023-24"
 HISTORY_ENDPOINT = "https://fantasy.premierleague.com/api/element-summary/"
 EVENTS_ENDPOINT = "https://fantasy.premierleague.com/api/bootstrap-static/"
-OUTPUT_PATH = f"C:/repos/fpl-points-predictor/data/football/fpl-ingest/players/gws/season={SEASON}"
+OUTPUT_PATH = f"C:/repos/sports-data-processor/data/football/fpl-ingest/players/gws/season={SEASON}"
 
 HISTORY_SCHEMA = StructType([
     StructField("element", IntegerType(), True),
@@ -76,7 +76,7 @@ def extract_data(spark):
         spark
         .read
         .format("parquet")
-        .load(f"C:/repos/fpl-points-predictor/data/football/fpl-ingest/players/elements/season={SEASON}")
+        .load(f"C:/repos/sports-data-processor/data/football/fpl-ingest/players/elements/season={SEASON}")
     )
 
     id_list = elements_df.select(fn.collect_list("id")).first()[0]

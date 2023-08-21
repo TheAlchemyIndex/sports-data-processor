@@ -1,12 +1,14 @@
 import json
 import requests
-from pyspark.sql.types import StructType, StructField, IntegerType, StringType, BooleanType, LongType, ArrayType
+from pyspark.sql import functions as fn
+from pyspark.sql.types import StructType, StructField, IntegerType, StringType, BooleanType, LongType, ArrayType, \
+    TimestampType
 from dependencies.spark import start_spark
 
 JOB_NAME = "fpl_fixtures_ingest"
 SEASON = "2023-24"
 FIXTURES_ENDPOINT = "https://fantasy.premierleague.com/api/fixtures/"
-OUTPUT_PATH = f"C:/repos/fpl-points-predictor/data/football/fpl-ingest/fixtures/season={SEASON}"
+OUTPUT_PATH = f"C:/repos/sports-data-processor/data/football/fpl-ingest/fixtures/season={SEASON}"
 
 STATS_SCHEMA = StructType([
     StructField("identifier", StringType(), False),
@@ -77,7 +79,13 @@ def transform_data(fixtures_data, spark):
     """
     Transform json data into a DataFrame.
     """
-    fixtures_df = spark.createDataFrame(fixtures_data, FIXTURES_SCHEMA)
+    fixtures_df = (
+        spark.createDataFrame(fixtures_data, FIXTURES_SCHEMA)
+        .withColumn("kickoff_time",
+                    fn.from_utc_timestamp(fn.col("kickoff_time"), "UTC")
+                    .cast(TimestampType()))
+    )
+
     return fixtures_df
 
 
