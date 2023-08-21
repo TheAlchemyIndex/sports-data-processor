@@ -4,5 +4,8 @@
 *.iml
 *.ipr
 
+# Byte-compiled / optimized / DLL files
+__pycache__/
+
 # Scripts for parsing csv files from other projects
-file_reformatter/*
+file_reformatter/
