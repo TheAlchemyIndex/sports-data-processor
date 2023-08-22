@@ -1,5 +1,3 @@
-from pyspark.sql import functions as fn
-
 from dependencies.spark import start_spark
 from jobs.processed_data.averages.average_calculator import last_n_rows, calculate_partitioned_avg
 
@@ -16,9 +14,9 @@ def main():
 
     try:
         # Execute ETL pipeline
-        fixtures_df, teams_df = extract_data(spark)
-        fixtures_with_team_name_df = transform_data(fixtures_df, teams_df)
-        load_data(fixtures_with_team_name_df)
+        teams_df = extract_data(spark)
+        last_five_rows_avg_df = transform_data(teams_df)
+        load_data(last_five_rows_avg_df)
     except Exception as e:
         log.error(f"Error running {JOB_NAME}: {str(e)}")
     finally:
@@ -28,67 +26,23 @@ def main():
 
 def extract_data(spark):
     """
-    Gets fixtures and teams data.
+    Gets teams data.
     """
-    fixtures_df = (
-        spark
-        .read
-        .format("parquet")
-        .load("C:/repos/sports-data-processor/data/football/fpl-ingest/fixtures/")
-        .select("event", "kickoff_time", "team_h", "team_h_score", "team_a", "team_a_score", "season")
-    )
-
     teams_df = (
         spark
         .read
         .format("parquet")
-        .load("C:/repos/sports-data-processor/data/football/fpl-ingest/teams/")
-        .select("id", "name", "season")
+        .load("C:/repos/sports-data-processor/data/football/raw-ingress/teams")
     )
 
-    return fixtures_df, teams_df
+    return teams_df
 
 
-def transform_data(fixtures_df, teams_df):
+def transform_data(teams_df):
     """
-    Transform and join fixtures and teams data together.
+    Transform teams data.
     """
-    home_fixtures_df = (
-        fixtures_df
-        .drop("team_a")
-        .withColumnRenamed("team_h", "id")
-        .withColumnRenamed("team_h_score", "goals_scored")
-        .withColumnRenamed("team_a_score", "goals_conceded")
-        .withColumn("team_type", fn.lit("h"))
-    )
-
-    away_fixtures_df = (
-        fixtures_df
-        .drop("team_h")
-        .withColumnRenamed("team_a", "id")
-        .withColumnRenamed("team_a_score", "goals_scored")
-        .withColumnRenamed("team_h_score", "goals_conceded")
-        .withColumn("team_type", fn.lit("a"))
-    )
-
-    all_fixtures_df = (
-        home_fixtures_df
-        .unionByName(away_fixtures_df)
-        .withColumn("date", fn.to_date("kickoff_time"))
-        .drop("kickoff_time")
-    )
-
-    fixtures_with_team_name_df = (
-        all_fixtures_df
-        .join(teams_df,
-              on=["id", "season"],
-              how="inner")
-        .drop("id")
-        .withColumnRenamed("name", "team")
-        .filter(fn.col("date") < fn.current_date())
-    )
-
-    last_five_rows_df = last_n_rows(fixtures_with_team_name_df, "team_type", "team", 5)
+    last_five_rows_df = last_n_rows(teams_df, "team_type", "team", 5)
 
     last_five_rows_avg_df = (
         last_five_rows_df
@@ -101,12 +55,12 @@ def transform_data(fixtures_df, teams_df):
     return last_five_rows_avg_df
 
 
-def load_data(fixtures_with_team_name_df):
+def load_data(last_five_rows_avg_df):
     """
     Write DataFrame as Parquet format.
     """
     (
-        fixtures_with_team_name_df
+        last_five_rows_avg_df
         .coalesce(1)
         .write
         .format("parquet")
