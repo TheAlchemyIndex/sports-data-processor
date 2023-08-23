@@ -1,7 +1,7 @@
 import json
 import requests
 from pyspark.sql import functions as fn
-from pyspark.sql.types import StructType, StructField, IntegerType, StringType, BooleanType, LongType, ArrayType, \
+from pyspark.sql.types import StructType, StructField, IntegerType, StringType, BooleanType, ArrayType, \
     TimestampType
 from dependencies.spark import start_spark
 
@@ -27,7 +27,7 @@ STATS_SCHEMA = StructType([
 ])
 
 FIXTURES_SCHEMA = StructType([
-    StructField("code", LongType(), True),
+    StructField("code", IntegerType(), True),
     StructField("event", IntegerType(), True),
     StructField("finished", BooleanType(), True),
     StructField("finished_provisional", BooleanType(), True),
@@ -43,7 +43,7 @@ FIXTURES_SCHEMA = StructType([
     StructField("stats", ArrayType(STATS_SCHEMA), True),
     StructField("team_h_difficulty", IntegerType(), True),
     StructField("team_a_difficulty", IntegerType(), True),
-    StructField("pulse_id", LongType(), True)
+    StructField("pulse_id", IntegerType(), True)
 ])
 
 
