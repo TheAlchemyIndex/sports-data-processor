@@ -90,7 +90,7 @@ def load_data(fixtures_with_team_name_df):
     Write DataFrame as Parquet format.
     """
     (
-        fixtures_with_team_name_df.coalesce(1)
+        fixtures_with_team_name_df
         .write.format("parquet")
         .partitionBy("season", "team")
         .mode("overwrite")
