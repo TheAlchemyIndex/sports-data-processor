@@ -3,8 +3,8 @@ from pyspark.sql import functions as fn
 from dependencies.spark import start_spark
 
 JOB_NAME = "fpl_current_players_names_ingress"
-SEASON = "2022-23"
-OUTPUT_PATH = f"C:/repos/sports-data-processor/data/football/raw-ingress/players/season={SEASON}"
+SEASON = "2023-24"
+OUTPUT_PATH = f"C:/repos/sports-data-processor/data/football/raw-ingress/players/names/season={SEASON}"
 
 
 def main():
