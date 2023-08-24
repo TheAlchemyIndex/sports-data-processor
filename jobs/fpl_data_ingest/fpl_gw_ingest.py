@@ -1,13 +1,12 @@
 import json
 import requests
 import pyspark.sql.functions as fn
-from pyspark.sql.types import StructType, StructField, IntegerType, StringType, LongType, BooleanType
+from pyspark.sql.types import StructType, StructField, IntegerType, StringType, LongType, BooleanType, TimestampType
 from dependencies.spark import start_spark
 
 JOB_NAME = "fpl_gw_ingest"
 SEASON = "2023-24"
 HISTORY_ENDPOINT = "https://fantasy.premierleague.com/api/element-summary/"
-EVENTS_ENDPOINT = "https://fantasy.premierleague.com/api/bootstrap-static/"
 OUTPUT_PATH = f"C:/repos/sports-data-processor/data/football/fpl-ingest/players/gws/season={SEASON}"
 
 HISTORY_SCHEMA = StructType([
@@ -43,10 +42,10 @@ HISTORY_SCHEMA = StructType([
     StructField("expected_goal_involvements", StringType(), True),
     StructField("expected_goals_conceded", StringType(), True),
     StructField("value", IntegerType(), True),
-    StructField("transfers_balance", LongType(), True),
-    StructField("selected", LongType(), True),
-    StructField("transfers_in", LongType(), True),
-    StructField("transfers_out", LongType(), True)
+    StructField("transfers_balance", IntegerType(), True),
+    StructField("selected", IntegerType(), True),
+    StructField("transfers_in", IntegerType(), True),
+    StructField("transfers_out", IntegerType(), True)
 ])
 
 
@@ -95,7 +94,12 @@ def transform_data(gw_data, spark):
     """
     Transform json data into a DataFrame.
     """
-    gw_df = spark.createDataFrame(gw_data, HISTORY_SCHEMA)
+    gw_df = (
+        spark.createDataFrame(gw_data, HISTORY_SCHEMA)
+        .withColumn("kickoff_time",
+                    fn.from_utc_timestamp(fn.col("kickoff_time"), "UTC")
+                    .cast(TimestampType()))
+    )
     return gw_df
 
 
