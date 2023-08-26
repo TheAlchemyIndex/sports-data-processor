@@ -3,7 +3,7 @@ from pyspark.sql import functions as fn
 from dependencies.spark import start_spark
 
 JOB_NAME = "fpl_fixtures_ingress"
-OUTPUT_PATH = "C:/repos/sports-data-processor/data/football/processed-data/fixtures"
+OUTPUT_PATH = "C:/sports-data-processor/football/processed-data/fixtures"
 
 
 def run():
@@ -29,7 +29,7 @@ def extract_data(spark):
     """
     fixtures_df = (
         spark.read.format("parquet")
-        .load("C:/repos/sports-data-processor/data/football/fpl-ingest/fixtures/")
+        .load("C:/sports-data-processor/football/fpl-ingest/fixtures/")
         .select(
             "event",
             "kickoff_time",
@@ -43,7 +43,7 @@ def extract_data(spark):
 
     teams_df = (
         spark.read.format("parquet")
-        .load("C:/repos/sports-data-processor/data/football/fpl-ingest/teams/")
+        .load("C:/sports-data-processor/football/fpl-ingest/teams/")
         .select("id", "name", "season")
     )
 

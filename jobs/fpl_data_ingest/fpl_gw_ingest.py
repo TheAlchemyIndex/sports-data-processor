@@ -14,7 +14,7 @@ from dependencies.spark import start_spark
 JOB_NAME = "fpl_gw_ingest"
 SEASON = "2023-24"
 HISTORY_ENDPOINT = "https://fantasy.premierleague.com/api/element-summary/"
-OUTPUT_PATH = f"C:/repos/sports-data-processor/data/football/fpl-ingest/players/gws/season={SEASON}"
+OUTPUT_PATH = f"C:/sports-data-processor/football/fpl-ingest/players/gws/season={SEASON}"
 
 HISTORY_SCHEMA = StructType(
     [
@@ -82,7 +82,7 @@ def extract_data(spark):
     elements_df = (
         spark.read.format("parquet")
         .load(
-            f"C:/repos/sports-data-processor/data/football/fpl-ingest/players/elements/season={SEASON}"
+            f"C:/sports-data-processor/football/fpl-ingest/players/elements/season={SEASON}"
         )
         .select("id")
     )

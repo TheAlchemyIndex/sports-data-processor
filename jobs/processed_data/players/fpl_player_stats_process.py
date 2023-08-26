@@ -4,7 +4,7 @@ from dependencies.spark import start_spark
 
 JOB_NAME = "fpl_player_stats_process"
 OUTPUT_PATH = (
-    "C:/repos/sports-data-processor/data/football/processed-data/players/stats"
+    "C:/sports-data-processor/football/processed-data/players/stats"
 )
 
 
@@ -31,7 +31,7 @@ def extract_data(spark):
     """
     gws_df = (
         spark.read.format("parquet")
-        .load("C:/repos/sports-data-processor/data/football/fpl-ingest/players/gws/")
+        .load("C:/sports-data-processor/football/fpl-ingest/players/gws/")
         .withColumnRenamed("opponent_team", "opponent_id")
         .select(
             "element",
@@ -55,7 +55,7 @@ def extract_data(spark):
 
     teams_df = (
         spark.read.format("parquet")
-        .load("C:/repos/sports-data-processor/data/football/fpl-ingest/teams")
+        .load("C:/sports-data-processor/football/fpl-ingest/teams")
         .withColumnRenamed("id", "opponent_id")
         .withColumnRenamed("name", "opponent_team")
         .select("opponent_id", "opponent_team", "season")
@@ -64,7 +64,7 @@ def extract_data(spark):
     players_names_df = (
         spark.read.format("parquet")
         .load(
-            "C:/repos/sports-data-processor/data/football/processed-data/players/names"
+            "C:/sports-data-processor/football/processed-data/players/names"
         )
         .withColumnRenamed("id", "element")
     )

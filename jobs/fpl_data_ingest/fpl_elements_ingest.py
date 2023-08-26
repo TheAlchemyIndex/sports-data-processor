@@ -14,7 +14,7 @@ from dependencies.spark import start_spark
 JOB_NAME = "fpl_elements_ingest"
 SEASON = "2023-24"
 ELEMENTS_ENDPOINT = "https://fantasy.premierleague.com/api/bootstrap-static/"
-OUTPUT_PATH = f"C:/repos/sports-data-processor/data/football/fpl-ingest/players/elements/season={SEASON}"
+OUTPUT_PATH = f"C:/sports-data-processor/football/fpl-ingest/players/elements/season={SEASON}"
 
 ELEMENTS_SCHEMA = StructType(
     [

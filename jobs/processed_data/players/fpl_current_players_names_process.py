@@ -3,8 +3,10 @@ from pyspark.sql import functions as fn
 from dependencies.spark import start_spark
 
 JOB_NAME = "fpl_current_players_names_process"
-SEASON = "2023-24"
-OUTPUT_PATH = f"C:/repos/sports-data-processor/data/football/processed-data/players/names/season={SEASON}"
+# TODO Add to config
+SEASON = "2022-23"
+# TODO Add to config
+OUTPUT_PATH = f"C:/sports-data-processor/football/processed-data/players/names/season={SEASON}"
 
 
 def run():
@@ -29,9 +31,9 @@ def extract_data(spark):
     elements_df = (
         spark.read.format("parquet")
         .load(
-            f"C:/repos/sports-data-processor/data/football/fpl-ingest/players/elements/season={SEASON}"
+            f"C:/sports-data-processor/football/fpl-ingest/players/elements/season={SEASON}"
         )
-        .select("id", "first_name", "second_name")
+        .select("id", "first_name", "second_name", "chance_of_playing_next_round")
     )
 
     return elements_df
@@ -43,7 +45,7 @@ def transform_data(elements_df):
     """
     players_names_df = elements_df.withColumn(
         "name", fn.concat_ws(" ", fn.col("first_name"), fn.col("second_name"))
-    ).select("id", "name")
+    ).select("id", "name", "chance_of_playing_next_round")
 
     return players_names_df
 

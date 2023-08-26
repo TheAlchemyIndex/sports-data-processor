@@ -16,7 +16,7 @@ JOB_NAME = "fpl_fixtures_ingest"
 SEASON = "2023-24"
 FIXTURES_ENDPOINT = "https://fantasy.premierleague.com/api/fixtures/"
 OUTPUT_PATH = (
-    f"C:/repos/sports-data-processor/data/football/fpl-ingest/fixtures/season={SEASON}"
+    f"C:/sports-data-processor/football/fpl-ingest/fixtures/season={SEASON}"
 )
 
 STATS_SCHEMA = StructType(

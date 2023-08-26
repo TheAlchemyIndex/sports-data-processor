@@ -13,7 +13,7 @@ JOB_NAME = "fpl_teams_ingest"
 SEASON = "2023-24"
 TEAMS_ENDPOINT = "https://fantasy.premierleague.com/api/bootstrap-static/"
 OUTPUT_PATH = (
-    f"C:/repos/sports-data-processor/data/football/fpl-ingest/teams/season={SEASON}"
+    f"C:/sports-data-processor/football/fpl-ingest/teams/season={SEASON}"
 )
 
 TEAMS_SCHEMA = StructType(

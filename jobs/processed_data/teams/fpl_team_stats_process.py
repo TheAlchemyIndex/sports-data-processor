@@ -3,7 +3,7 @@ from pyspark.sql import functions as fn
 from dependencies.spark import start_spark
 
 JOB_NAME = "fpl_team_stats_process"
-OUTPUT_PATH = "C:/repos/sports-data-processor/data/football/processed-data/teams"
+OUTPUT_PATH = "C:/sports-data-processor/football/processed-data/teams"
 
 
 def run():
@@ -26,7 +26,7 @@ def extract_data(spark):
     Gets processed fixtures data.
     """
     fixtures_df = spark.read.format("parquet").load(
-        "C:/repos/sports-data-processor/data/football/processed-data/fixtures/"
+        "C:/sports-data-processor/football/processed-data/fixtures/"
     )
 
     return fixtures_df

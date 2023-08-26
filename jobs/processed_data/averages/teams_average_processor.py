@@ -3,7 +3,7 @@ from jobs.processed_data.averages.average_calculator import last_n_rows, calcula
 
 JOB_NAME = "teams_average_processor"
 SEASON = "2023-24"
-OUTPUT_PATH = "C:/repos/sports-data-processor/data/football/processed-data/averages/teams"
+OUTPUT_PATH = "C:/sports-data-processor/football/processed-data/averages/teams"
 
 
 def main():
@@ -32,7 +32,7 @@ def extract_data(spark):
         spark
         .read
         .format("parquet")
-        .load("C:/repos/sports-data-processor/data/football/raw-ingress/teams")
+        .load("C:/sports-data-processor/football/raw-ingress/teams")
     )
 
     return teams_df
