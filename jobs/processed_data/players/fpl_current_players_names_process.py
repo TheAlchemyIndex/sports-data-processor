@@ -1,26 +1,34 @@
 from pyspark.sql import functions as fn
 
+from config import ConfigurationParser
 from dependencies.spark import start_spark
 
-JOB_NAME = "fpl_current_players_names_process"
-# TODO Add to config
-SEASON = "2022-23"
-# TODO Add to config
-OUTPUT_PATH = f"C:/sports-data-processor/football/processed-data/players/names/season={SEASON}"
+_season = ConfigurationParser.get_config("external", "season")
+_bucket = ConfigurationParser.get_config("file_paths", "football_bucket")
+_processed_data_output_path = ConfigurationParser.get_config(
+    "file_paths", "processed_data_output"
+)
+_processed_players_names_output_path = ConfigurationParser.get_config(
+    "file_paths", "processed_players_names_output"
+)
+_fpl_ingest_path = ConfigurationParser.get_config("file_paths", "fpl_ingest_output")
+_fpl_elements_path = ConfigurationParser.get_config("file_paths", "fpl_elements_output")
 
 
 def run():
-    spark, log, config = start_spark(app_name=JOB_NAME, files=[])
-    log.warn(f"{JOB_NAME} running.")
+    job_name = "fpl_current_players_names_process"
+
+    spark, log = start_spark(app_name=job_name, files=[])
+    log.warn(f"{job_name} running.")
 
     try:
         elements_ingest_df = extract_data(spark)
         players_names_df = transform_data(elements_ingest_df)
         load_data(players_names_df)
     except Exception as e:
-        log.error(f"Error running {JOB_NAME}: {str(e)}")
+        log.error(f"Error running {job_name}: {str(e)}")
     finally:
-        log.warn(f"{JOB_NAME} is finished.")
+        log.warn(f"{job_name} is finished.")
         spark.stop()
 
 
@@ -30,9 +38,7 @@ def extract_data(spark):
     """
     elements_df = (
         spark.read.format("parquet")
-        .load(
-            f"C:/sports-data-processor/football/fpl-ingest/players/elements/season={SEASON}"
-        )
+        .load(f"{_bucket}/{_fpl_ingest_path}/{_fpl_elements_path}/season={_season}")
         .select("id", "first_name", "second_name", "chance_of_playing_next_round")
     )
 
@@ -58,7 +64,9 @@ def load_data(players_names_df):
         players_names_df.coalesce(1)
         .write.format("parquet")
         .mode("overwrite")
-        .save(f"{OUTPUT_PATH}")
+        .save(
+            f"{_bucket}/{_processed_data_output_path}/{_processed_players_names_output_path}/season={_season}"
+        )
     )
 
 

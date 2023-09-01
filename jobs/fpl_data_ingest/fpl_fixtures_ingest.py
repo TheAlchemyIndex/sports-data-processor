@@ -10,16 +10,21 @@ from pyspark.sql.types import (
     ArrayType,
     TimestampType,
 )
+
+from config import ConfigurationParser
 from dependencies.spark import start_spark
 
-JOB_NAME = "fpl_fixtures_ingest"
-SEASON = "2023-24"
-FIXTURES_ENDPOINT = "https://fantasy.premierleague.com/api/fixtures/"
-OUTPUT_PATH = (
-    f"C:/sports-data-processor/football/fpl-ingest/fixtures/season={SEASON}"
+_season = ConfigurationParser.get_config("external", "season")
+_bucket = ConfigurationParser.get_config("file_paths", "football_bucket")
+_fpl_ingest_output_path = ConfigurationParser.get_config(
+    "file_paths", "fpl_ingest_output"
 )
+_fpl_fixtures_output_path = ConfigurationParser.get_config(
+    "file_paths", "fpl_fixtures_output"
+)
+_fpl_fixtures_endpoint = ConfigurationParser.get_config("external", "fpl_fixtures_uri")
 
-STATS_SCHEMA = StructType(
+_stats_schema = StructType(
     [
         StructField("identifier", StringType(), False),
         StructField(
@@ -47,7 +52,7 @@ STATS_SCHEMA = StructType(
     ]
 )
 
-FIXTURES_SCHEMA = StructType(
+_fixtures_schema = StructType(
     [
         StructField("code", IntegerType(), True),
         StructField("event", IntegerType(), True),
@@ -62,7 +67,7 @@ FIXTURES_SCHEMA = StructType(
         StructField("team_a_score", IntegerType(), True),
         StructField("team_h", IntegerType(), True),
         StructField("team_h_score", IntegerType(), True),
-        StructField("stats", ArrayType(STATS_SCHEMA), True),
+        StructField("stats", ArrayType(_stats_schema), True),
         StructField("team_h_difficulty", IntegerType(), True),
         StructField("team_a_difficulty", IntegerType(), True),
         StructField("pulse_id", IntegerType(), True),
@@ -71,17 +76,19 @@ FIXTURES_SCHEMA = StructType(
 
 
 def run():
-    spark, log, config = start_spark(app_name=JOB_NAME, files=[])
-    log.warn(f"{JOB_NAME} running.")
+    job_name = "fpl_fixtures_ingest"
+
+    spark, log = start_spark(app_name=job_name, files=[])
+    log.warn(f"{job_name} running.")
 
     try:
         fixtures_raw_data = extract_data()
         fixtures_df = transform_data(fixtures_raw_data, spark)
         load_data(fixtures_df)
     except Exception as e:
-        log.error(f"Error running {JOB_NAME}: {str(e)}")
+        log.error(f"Error running {job_name}: {str(e)}")
     finally:
-        log.warn(f"{JOB_NAME} is finished.")
+        log.warn(f"{job_name} is finished.")
         spark.stop()
 
 
@@ -89,7 +96,7 @@ def extract_data():
     """
     Gets fixtures data from FPL API.
     """
-    response = requests.get(FIXTURES_ENDPOINT)
+    response = requests.get(_fpl_fixtures_endpoint)
     response.raise_for_status()
     fixtures_data = json.loads(response.text)
     return fixtures_data
@@ -99,7 +106,7 @@ def transform_data(fixtures_data, spark):
     """
     Transform json data into a DataFrame.
     """
-    fixtures_df = spark.createDataFrame(fixtures_data, FIXTURES_SCHEMA).withColumn(
+    fixtures_df = spark.createDataFrame(fixtures_data, _fixtures_schema).withColumn(
         "kickoff_time",
         fn.from_utc_timestamp(fn.col("kickoff_time"), "UTC").cast(TimestampType()),
     )
@@ -115,7 +122,9 @@ def load_data(fixtures_df):
         fixtures_df.coalesce(1)
         .write.format("parquet")
         .mode("overwrite")
-        .save(OUTPUT_PATH)
+        .save(
+            f"{_bucket}/{_fpl_ingest_output_path}/{_fpl_fixtures_output_path}/season={_season}"
+        )
     )
 
 

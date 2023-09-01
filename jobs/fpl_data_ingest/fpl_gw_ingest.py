@@ -9,14 +9,21 @@ from pyspark.sql.types import (
     BooleanType,
     TimestampType,
 )
+
+from config import ConfigurationParser
 from dependencies.spark import start_spark
 
-JOB_NAME = "fpl_gw_ingest"
-SEASON = "2023-24"
-HISTORY_ENDPOINT = "https://fantasy.premierleague.com/api/element-summary/"
-OUTPUT_PATH = f"C:/sports-data-processor/football/fpl-ingest/players/gws/season={SEASON}"
+_season = ConfigurationParser.get_config("external", "season")
+_bucket = ConfigurationParser.get_config("file_paths", "football_bucket")
+_fpl_ingest_output_path = ConfigurationParser.get_config(
+    "file_paths", "fpl_ingest_output"
+)
+_fpl_gws_output_path = ConfigurationParser.get_config("file_paths", "fpl_gws_output")
+_fpl_player_history_endpoint = ConfigurationParser.get_config(
+    "external", "fpl_player_history_uri"
+)
 
-HISTORY_SCHEMA = StructType(
+_history_schema = StructType(
     [
         StructField("element", IntegerType(), True),
         StructField("fixture", IntegerType(), True),
@@ -59,17 +66,19 @@ HISTORY_SCHEMA = StructType(
 
 
 def run():
-    spark, log, config = start_spark(app_name=JOB_NAME, files=[])
-    log.warn(f"{JOB_NAME} running.")
+    job_name = "fpl_gw_ingest"
+
+    spark, log = start_spark(app_name=job_name, files=[])
+    log.warn(f"{job_name} running.")
 
     try:
         gw_raw_data = extract_data(spark)
         gw_df = transform_data(gw_raw_data, spark)
         load_data(gw_df)
     except Exception as e:
-        log.error(f"Error running {JOB_NAME}: {str(e)}")
+        log.error(f"Error running {job_name}: {str(e)}")
     finally:
-        log.warn(f"{JOB_NAME} is finished.")
+        log.warn(f"{job_name} is finished.")
         spark.stop()
 
 
@@ -77,12 +86,22 @@ def extract_data(spark):
     """
     Gets player gameweek data from FPL API, using player ids from elements data.
     """
+    # TODO Work out a better way to get current gameweek that can be used across other jobs
+    events_response = requests.get(
+        "https://fantasy.premierleague.com/api/bootstrap-static/"
+    )
+    events_response.raise_for_status()
+    events_data = json.loads(events_response.text)["events"]
+    gw_num = 0
+    for event in events_data:
+        if event["is_current"]:
+            gw_num = event["id"]
 
     # Elements data, which contains column of player ids
     elements_df = (
         spark.read.format("parquet")
         .load(
-            f"C:/sports-data-processor/football/fpl-ingest/players/elements/season={SEASON}"
+            f"C:/sports-data-processor/football/fpl-ingest/players/elements/season={_season}"
         )
         .select("id")
     )
@@ -92,10 +111,16 @@ def extract_data(spark):
     # Temp dictionary to hold gameweek data for each player
     gw_data = {"history": []}
 
+    # TODO Work out a better way to get current gameweek that can be used across other jobs
     for element_id in id_list:
-        current_gw_response = requests.get(f"{HISTORY_ENDPOINT}{element_id}")
+        current_gw_response = requests.get(
+            f"{_fpl_player_history_endpoint}{element_id}"
+        )
         current_gw_response.raise_for_status()
-        gw_data["history"].extend(json.loads(current_gw_response.text)["history"])
+        history_data = json.loads(current_gw_response.text)["history"]
+        for gameweek in history_data:
+            if gameweek["round"] == gw_num:
+                gw_data["history"].extend([gameweek])
 
     return gw_data["history"]
 
@@ -104,7 +129,7 @@ def transform_data(gw_data, spark):
     """
     Transform gameweek data into a DataFrame.
     """
-    gw_df = spark.createDataFrame(gw_data, HISTORY_SCHEMA).withColumn(
+    gw_df = spark.createDataFrame(gw_data, _history_schema).withColumn(
         "kickoff_time",
         fn.from_utc_timestamp(fn.col("kickoff_time"), "UTC").cast(TimestampType()),
     )
@@ -119,8 +144,10 @@ def load_data(gw_df):
         gw_df.coalesce(1)
         .write.format("parquet")
         .partitionBy("round")
-        .mode("overwrite")
-        .save(f"{OUTPUT_PATH}")
+        .mode("append")
+        .save(
+            f"{_bucket}/{_fpl_ingest_output_path}/{_fpl_gws_output_path}/season={_season}"
+        )
     )
 
 

@@ -1,23 +1,35 @@
 from pyspark.sql import functions as fn
 
+from config import ConfigurationParser
 from dependencies.spark import start_spark
 
-JOB_NAME = "fpl_team_stats_process"
-OUTPUT_PATH = "C:/sports-data-processor/football/processed-data/teams"
+_season = ConfigurationParser.get_config("external", "season")
+_bucket = ConfigurationParser.get_config("file_paths", "football_bucket")
+_processed_data_output_path = ConfigurationParser.get_config(
+    "file_paths", "processed_data_output"
+)
+_processed_fixtures_path = ConfigurationParser.get_config(
+    "file_paths", "processed_fixtures_output"
+)
+_processed_teams_output_path = ConfigurationParser.get_config(
+    "file_paths", "processed_teams_output"
+)
 
 
 def run():
-    spark, log, config = start_spark(app_name=JOB_NAME, files=[])
-    log.warn(f"{JOB_NAME} running.")
+    job_name = "fpl_team_stats_process"
+
+    spark, log = start_spark(app_name=job_name, files=[])
+    log.warn(f"{job_name} running.")
 
     try:
         fixtures_processed_df = extract_data(spark)
         team_stats_df = transform_data(fixtures_processed_df)
         load_data(team_stats_df)
     except Exception as e:
-        log.error(f"Error running {JOB_NAME}: {str(e)}")
+        log.error(f"Error running {job_name}: {str(e)}")
     finally:
-        log.warn(f"{JOB_NAME} is finished.")
+        log.warn(f"{job_name} is finished.")
         spark.stop()
 
 
@@ -26,7 +38,7 @@ def extract_data(spark):
     Gets processed fixtures data.
     """
     fixtures_df = spark.read.format("parquet").load(
-        "C:/sports-data-processor/football/processed-data/fixtures/"
+        f"{_bucket}/{_processed_data_output_path}/{_processed_fixtures_path}/season={_season}"
     )
 
     return fixtures_df
@@ -68,9 +80,9 @@ def load_data(team_stats_df):
     """
     (
         team_stats_df.write.format("parquet")
-        .partitionBy("season", "team")
+        .partitionBy("team")
         .mode("overwrite")
-        .save(f"{OUTPUT_PATH}")
+        .save(f"{_bucket}/{_processed_data_output_path}/{_processed_teams_output_path}/season={_season}")
     )
 
 

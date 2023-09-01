@@ -7,7 +7,7 @@ OUTPUT_PATH = "C:/sports-data-processor/football/processed-data/averages/teams"
 
 
 def main():
-    spark, log, config = start_spark(
+    spark, log = start_spark(
         app_name=JOB_NAME,
         files=[])
     log.warn(f"{JOB_NAME} running.")

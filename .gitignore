@@ -9,3 +9,6 @@ __pycache__/
 
 # Scripts for parsing csv files from other projects
 file_reformatter/
+
+# Config file
+configuration.cfg

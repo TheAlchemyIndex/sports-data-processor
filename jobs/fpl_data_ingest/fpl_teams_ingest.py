@@ -7,16 +7,21 @@ from pyspark.sql.types import (
     StringType,
     BooleanType,
 )
+
+from config import ConfigurationParser
 from dependencies.spark import start_spark
 
-JOB_NAME = "fpl_teams_ingest"
-SEASON = "2023-24"
-TEAMS_ENDPOINT = "https://fantasy.premierleague.com/api/bootstrap-static/"
-OUTPUT_PATH = (
-    f"C:/sports-data-processor/football/fpl-ingest/teams/season={SEASON}"
+_season = ConfigurationParser.get_config("external", "season")
+_bucket = ConfigurationParser.get_config("file_paths", "football_bucket")
+_fpl_ingest_output_path = ConfigurationParser.get_config(
+    "file_paths", "fpl_ingest_output"
 )
+_fpl_teams_output_path = ConfigurationParser.get_config(
+    "file_paths", "fpl_teams_output"
+)
+_fpl_teams_endpoint = ConfigurationParser.get_config("external", "fpl_main_uri")
 
-TEAMS_SCHEMA = StructType(
+_teams_schema = StructType(
     [
         StructField("code", IntegerType(), True),
         StructField("draw", IntegerType(), True),
@@ -44,17 +49,19 @@ TEAMS_SCHEMA = StructType(
 
 
 def run():
-    spark, log, config = start_spark(app_name=JOB_NAME, files=[])
-    log.warn(f"{JOB_NAME} running.")
+    jobs_name = "fpl_teams_ingest"
+
+    spark, log = start_spark(app_name=jobs_name, files=[])
+    log.warn(f"{jobs_name} running.")
 
     try:
         teams_raw_data = extract_data()
         teams_df = transform_data(teams_raw_data, spark)
         load_data(teams_df)
     except Exception as e:
-        log.error(f"Error running {JOB_NAME}: {str(e)}")
+        log.error(f"Error running {jobs_name}: {str(e)}")
     finally:
-        log.warn(f"{JOB_NAME} is finished.")
+        log.warn(f"{jobs_name} is finished.")
         spark.stop()
 
 
@@ -62,7 +69,7 @@ def extract_data():
     """
     Gets teams data from FPL API.
     """
-    response = requests.get(TEAMS_ENDPOINT)
+    response = requests.get(_fpl_teams_endpoint)
     response.raise_for_status()
     teams_data = json.loads(response.text)["teams"]
     return teams_data
@@ -72,7 +79,7 @@ def transform_data(teams_data, spark):
     """
     Transform json data into a DataFrame.
     """
-    teams_df = spark.createDataFrame(teams_data, TEAMS_SCHEMA)
+    teams_df = spark.createDataFrame(teams_data, _teams_schema)
     return teams_df
 
 
@@ -80,7 +87,14 @@ def load_data(teams_df):
     """
     Write DataFrame as Parquet format.
     """
-    (teams_df.coalesce(1).write.format("parquet").mode("overwrite").save(OUTPUT_PATH))
+    (
+        teams_df.coalesce(1)
+        .write.format("parquet")
+        .mode("overwrite")
+        .save(
+            f"{_bucket}/{_fpl_ingest_output_path}/{_fpl_teams_output_path}/season={_season}"
+        )
+    )
 
 
 if __name__ == "__main__":

@@ -9,14 +9,21 @@ from pyspark.sql.types import (
     DoubleType,
     BooleanType,
 )
+
+from config import ConfigurationParser
 from dependencies.spark import start_spark
 
-JOB_NAME = "fpl_elements_ingest"
-SEASON = "2023-24"
-ELEMENTS_ENDPOINT = "https://fantasy.premierleague.com/api/bootstrap-static/"
-OUTPUT_PATH = f"C:/sports-data-processor/football/fpl-ingest/players/elements/season={SEASON}"
+_season = ConfigurationParser.get_config("external", "season")
+_bucket = ConfigurationParser.get_config("file_paths", "football_bucket")
+_fpl_ingest_output_path = ConfigurationParser.get_config(
+    "file_paths", "fpl_ingest_output"
+)
+_fpl_elements_output_path = ConfigurationParser.get_config(
+    "file_paths", "fpl_elements_output"
+)
+_fpl_elements_endpoint = ConfigurationParser.get_config("external", "fpl_main_uri")
 
-ELEMENTS_SCHEMA = StructType(
+_elements_schema = StructType(
     [
         StructField("chance_of_playing_next_round", IntegerType(), True),
         StructField("chance_of_playing_this_round", IntegerType(), True),
@@ -111,17 +118,19 @@ ELEMENTS_SCHEMA = StructType(
 
 
 def run():
-    spark, log, config = start_spark(app_name=JOB_NAME, files=[])
-    log.warn(f"{JOB_NAME} running.")
+    job_name = "fpl_elements_ingest"
+
+    spark, log = start_spark(app_name=job_name, files=[])
+    log.warn(f"{job_name} running.")
 
     try:
         elements_raw_data = extract_data()
         elements_df = transform_data(elements_raw_data, spark)
         load_data(elements_df)
     except Exception as e:
-        log.error(f"Error running {JOB_NAME}: {str(e)}")
+        log.error(f"Error running {job_name}: {str(e)}")
     finally:
-        log.warn(f"{JOB_NAME} is finished.")
+        log.warn(f"{job_name} is finished.")
         spark.stop()
 
 
@@ -129,7 +138,7 @@ def extract_data():
     """
     Gets elements data from FPL API.
     """
-    response = requests.get(ELEMENTS_ENDPOINT)
+    response = requests.get(_fpl_elements_endpoint)
     response.raise_for_status()
     elements_data = json.loads(response.text)["elements"]
 
@@ -153,7 +162,7 @@ def transform_data(elements_data, spark):
     """
     Transform json data into a DataFrame.
     """
-    elements_df = spark.createDataFrame(elements_data, ELEMENTS_SCHEMA)
+    elements_df = spark.createDataFrame(elements_data, _elements_schema)
     return elements_df
 
 
@@ -165,7 +174,9 @@ def load_data(elements_df):
         elements_df.coalesce(1)
         .write.format("parquet")
         .mode("overwrite")
-        .save(OUTPUT_PATH)
+        .save(
+            f"{_bucket}/{_fpl_ingest_output_path}/{_fpl_elements_output_path}/season={_season}"
+        )
     )
 
 
