@@ -1,6 +1,6 @@
 from config import ConfigurationParser
 from dependencies.spark import start_spark
-from jobs.processed_data.averages.average_calculator import last_n_rows, calculate_partitioned_avg
+from jobs.averages.average_calculator import last_n_rows, calculate_partitioned_avg
 
 _bucket = ConfigurationParser.get_config("file_paths", "football_bucket")
 _processed_data_path = ConfigurationParser.get_config(
