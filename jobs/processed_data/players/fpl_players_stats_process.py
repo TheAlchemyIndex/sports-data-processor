@@ -30,7 +30,7 @@ def run():
     log.warn(f"{job_name} running.")
 
     try:
-        gws_ingest_df, teams_ingest_df, players_names_processed_df = extract_data(spark, gw)
+        gws_ingest_df, teams_ingest_df, players_names_processed_df = extract_data(spark)
         player_stats_df = transform_data(
             gws_ingest_df, teams_ingest_df, players_names_processed_df
         )
