@@ -6,15 +6,15 @@ from jobs.processed_data.teams import fpl_team_stats_process
 
 def main():
     # Raw data ingest
-    # fpl_elements_ingest.run()
-    # fpl_fixtures_ingest.run()
-    # fpl_teams_ingest.run()
-    # fpl_gw_ingest.run()
+    fpl_elements_ingest.run()
+    fpl_fixtures_ingest.run()
+    fpl_teams_ingest.run()
+    fpl_gw_ingest.run()
 
     # Processing data
-    # fpl_fixtures_process.run()
-    # fpl_team_stats_process.run()
-    # fpl_current_players_names_process.run()
+    fpl_fixtures_process.run()
+    fpl_team_stats_process.run()
+    fpl_current_players_names_process.run()
     fpl_players_stats_process.run()
 
 

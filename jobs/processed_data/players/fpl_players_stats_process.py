@@ -6,8 +6,7 @@ from pyspark.sql import functions as fn
 from config import ConfigurationParser
 from dependencies.spark import start_spark
 
-# _season = ConfigurationParser.get_config("external", "season")
-_season = "2022-23"
+_season = ConfigurationParser.get_config("external", "season")
 _bucket = ConfigurationParser.get_config("file_paths", "football_bucket")
 _processed_data_output_path = ConfigurationParser.get_config(
     "file_paths", "processed_data_output"
@@ -31,12 +30,11 @@ def run():
     log.warn(f"{job_name} running.")
 
     try:
-        for gw in range(1, 39):
-            gws_ingest_df, teams_ingest_df, players_names_processed_df = extract_data(spark, gw)
-            player_stats_df = transform_data(
-                gws_ingest_df, teams_ingest_df, players_names_processed_df
-            )
-            load_data(player_stats_df)
+        gws_ingest_df, teams_ingest_df, players_names_processed_df = extract_data(spark, gw)
+        player_stats_df = transform_data(
+            gws_ingest_df, teams_ingest_df, players_names_processed_df
+        )
+        load_data(player_stats_df)
     except Exception as e:
         log.error(f"Error running {job_name}: {str(e)}")
     finally:
@@ -44,20 +42,20 @@ def run():
         spark.stop()
 
 
-def extract_data(spark, gw_num):
+def extract_data(spark):
     """
     Gets players ingest, teams ingest and player names processed data.
     """
     # TODO Work out a better way to get current gameweek that can be used across other jobs
-    # events_response = requests.get(
-    #     _fpl_events_endpoint
-    # )
-    # events_response.raise_for_status()
-    # events_data = json.loads(events_response.text)["events"]
-    # gw_num = 3
-    # for event in events_data:
-    #     if event["is_current"]:
-    #         gw_num = event["id"]
+    events_response = requests.get(
+        _fpl_events_endpoint
+    )
+    events_response.raise_for_status()
+    events_data = json.loads(events_response.text)["events"]
+    gw_num = 0
+    for event in events_data:
+        if event["is_current"]:
+            gw_num = event["id"]
 
     gws_df = (
         spark.read.format("parquet")
