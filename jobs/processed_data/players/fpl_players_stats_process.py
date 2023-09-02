@@ -14,8 +14,8 @@ _processed_data_output_path = ConfigurationParser.get_config(
 _processed_players_stats_output_path = ConfigurationParser.get_config(
     "file_paths", "processed_players_stats_output"
 )
-_processed_players_names_output_path = ConfigurationParser.get_config(
-    "file_paths", "processed_players_names_output"
+_processed_players_attributes_output_path = ConfigurationParser.get_config(
+    "file_paths", "processed_players_attributes_output"
 )
 _fpl_ingest_path = ConfigurationParser.get_config("file_paths", "fpl_ingest_output")
 _fpl_gws_path = ConfigurationParser.get_config("file_paths", "fpl_gws_output")
@@ -30,9 +30,9 @@ def run():
     log.warn(f"{job_name} running.")
 
     try:
-        gws_ingest_df, teams_ingest_df, players_names_processed_df = extract_data(spark)
+        gws_ingest_df, teams_ingest_df, players_attributes_processed_df = extract_data(spark)
         player_stats_df = transform_data(
-            gws_ingest_df, teams_ingest_df, players_names_processed_df
+            gws_ingest_df, teams_ingest_df, players_attributes_processed_df
         )
         load_data(player_stats_df)
     except Exception as e:
@@ -93,35 +93,35 @@ def extract_data(spark):
         .select("opponent_id", "opponent_team", "season")
     )
 
-    players_names_df = (
+    players_attributes_df = (
         spark.read.format("parquet")
         .load(
-            f"{_bucket}/{_processed_data_output_path}/{_processed_players_names_output_path}/"
+            f"{_bucket}/{_processed_data_output_path}/{_processed_players_attributes_output_path}/"
         )
         .filter(fn.col("season") == _season)
     )
 
-    return gws_df, teams_df, players_names_df
+    return gws_df, teams_df, players_attributes_df
 
 
-def transform_data(gws_df, teams_df, players_names_df):
+def transform_data(gws_df, teams_df, players_attributes_df):
     players_with_teams_df = gws_df.join(
         teams_df, on=["opponent_id", "season"], how="inner"
     ).drop("opponent_id")
 
     players_with_names_df = players_with_teams_df.join(
-        players_names_df, on=["id", "season"], how="inner"
+        players_attributes_df, on=["id", "season"], how="inner"
     )
 
     return players_with_names_df
 
 
-def load_data(players_names_df):
+def load_data(players_stats_df):
     """
     Write DataFrame as Parquet format.
     """
     (
-        players_names_df.write.format("parquet")
+        players_stats_df.write.format("parquet")
         .partitionBy("season", "name", "round")
         .mode("append")
         .save(

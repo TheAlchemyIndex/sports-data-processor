@@ -15,7 +15,7 @@ _teams_average_output_path = ConfigurationParser.get_config(
 
 
 def run():
-    job_name = "teams_average_processor"
+    job_name = "teams_averages"
 
     spark, log = start_spark(
         app_name=job_name,
