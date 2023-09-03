@@ -102,7 +102,7 @@ def load_data(fixtures_with_team_names_df):
         fixtures_with_team_names_df.write.format("parquet")
         .mode("overwrite")
         .save(
-            f"{_bucket}/{_processed_data_output_path}/{_processed_fixtures_output_path}/{_season}"
+            f"{_bucket}/{_processed_data_output_path}/{_processed_fixtures_output_path}/season={_season}"
         )
     )
 

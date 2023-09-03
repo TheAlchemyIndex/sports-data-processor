@@ -15,8 +15,8 @@ _processed_data_path = ConfigurationParser.get_config(
 _processed_players_path = ConfigurationParser.get_config(
     "file_paths", "processed_players_stats_output"
 )
-_players_average_output_path = ConfigurationParser.get_config(
-    "file_paths", "players_average_output"
+_players_averages_output_path = ConfigurationParser.get_config(
+    "file_paths", "players_averages_output"
 )
 
 
@@ -113,7 +113,7 @@ def load_data(last_five_rows_avg_df):
         last_five_rows_avg_df.coalesce(1)
         .write.format("parquet")
         .mode("overwrite")
-        .save(f"{_bucket}/{_players_average_output_path}")
+        .save(f"{_bucket}/{_players_averages_output_path}")
     )
 
 

@@ -1,4 +1,5 @@
-from jobs.averages import teams_averages, players_averages
+from jobs.averages import teams_averages, players_averages, season_averages
+from jobs.processed_data.fixtures import fpl_fixtures_process
 from jobs.processed_data.players import fpl_current_players_attributes_process, fpl_players_stats_process
 
 
@@ -17,7 +18,8 @@ def main():
 
     # Averages
     # teams_averages.run()
-    players_averages.run()
+    # players_averages.run()
+    season_averages.run()
 
 
 if __name__ == '__main__':
