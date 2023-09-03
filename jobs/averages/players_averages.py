@@ -2,7 +2,7 @@ from pyspark.sql import functions as fn
 
 from config import ConfigurationParser
 from dependencies.spark import start_spark
-from jobs.averages.average_calculator import (
+from jobs.averages.util.average_calculator import (
     last_n_rows,
     calculate_partitioned_avg,
     last_value_in_col,
