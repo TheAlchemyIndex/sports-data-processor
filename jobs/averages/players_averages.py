@@ -5,7 +5,7 @@ from dependencies.spark import start_spark
 from jobs.averages.util.average_calculator import (
     last_n_rows,
     calculate_partitioned_avg,
-    last_value_in_col,
+    last_value_in_col, calculate_partitioned_avg_single,
 )
 
 _bucket = ConfigurationParser.get_config("file_paths", "football_bucket")
@@ -82,7 +82,7 @@ def transform_data(players_df):
         )
         .withColumn(
             "minutes_avg_last_5",
-            calculate_partitioned_avg("was_home", "name", "minutes"),
+            calculate_partitioned_avg_single("name", "minutes"),
         )
         .withColumn("saves_avg", calculate_partitioned_avg("was_home", "name", "saves"))
         .select(

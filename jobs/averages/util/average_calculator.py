@@ -13,6 +13,12 @@ def last_n_rows(df, partition_col_1, partition_col_2, num_of_rows):
     return filtered_df
 
 
+# TODO Make more efficient and have one method
+def calculate_partitioned_avg_single(partition_col, target_col):
+    window = Window.partitionBy(partition_col)
+    return fn.round(fn.avg(target_col).over(window), _decimal_points)
+
+
 def calculate_partitioned_avg(partition_col_1, partition_col_2, target_col):
     window = Window.partitionBy(partition_col_1, partition_col_2)
     return fn.round(fn.avg(target_col).over(window), _decimal_points)
