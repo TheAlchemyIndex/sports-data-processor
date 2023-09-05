@@ -1,3 +1,6 @@
+import json
+
+import requests
 from pyspark.sql import functions as fn
 
 from config import ConfigurationParser
@@ -185,11 +188,24 @@ def load_data(predicted_points_df):
     """
     Write DataFrame as Parquet format.
     """
+    # TODO Work out a better way to get current gameweek that can be used across other jobs
+    events_response = requests.get(
+        "https://fantasy.premierleague.com/api/bootstrap-static/"
+    )
+    events_response.raise_for_status()
+    events_data = json.loads(events_response.text)["events"]
+    gw_num = 0
+    for event in events_data:
+        if event["is_next"]:
+            gw_num = event["id"]
+
     (
-        predicted_points_df.coalesce(1)
+        predicted_points_df
+        .filter(fn.col("event") == gw_num)
+        .coalesce(1)
         .write.format("parquet")
         .mode("overwrite")
-        .save(f"{_bucket}/{_predictions_output_path}/{_fpl_predicted_points_output_path}")
+        .save(f"{_bucket}/{_predictions_output_path}/{_fpl_predicted_points_output_path}/round={gw_num}")
     )
 
 
