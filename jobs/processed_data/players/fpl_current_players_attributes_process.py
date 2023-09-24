@@ -1,3 +1,6 @@
+import json
+
+import requests
 from pyspark.sql import functions as fn
 
 from config import ConfigurationParser
@@ -14,6 +17,7 @@ _processed_players_attributes_output_path = ConfigurationParser.get_config(
 _fpl_ingest_path = ConfigurationParser.get_config("file_paths", "fpl_ingest_output")
 _fpl_elements_path = ConfigurationParser.get_config("file_paths", "fpl_elements_output")
 _fpl_teams_path = ConfigurationParser.get_config("file_paths", "fpl_teams_output")
+_fpl_events_endpoint = ConfigurationParser.get_config("external", "fpl_main_uri")
 
 
 def run():
@@ -96,12 +100,21 @@ def load_data(players_attributes_df):
     """
     Write DataFrame as Parquet format.
     """
+    # TODO Work out a better way to get current gameweek that can be used across other jobs
+    events_response = requests.get(_fpl_events_endpoint)
+    events_response.raise_for_status()
+    events_data = json.loads(events_response.text)["events"]
+    gw_num = 0
+    for event in events_data:
+        if event["is_current"]:
+            gw_num = event["id"]
+
     (
         players_attributes_df.coalesce(1)
         .write.format("parquet")
-        .mode("overwrite")
+        .mode("append")
         .save(
-            f"{_bucket}/{_processed_data_output_path}/{_processed_players_attributes_output_path}/season={_season}"
+            f"{_bucket}/{_processed_data_output_path}/{_processed_players_attributes_output_path}/season={_season}/round={gw_num}"
         )
     )
 

@@ -30,7 +30,9 @@ def run():
     log.warn(f"{job_name} running.")
 
     try:
-        gws_ingest_df, teams_ingest_df, players_attributes_processed_df = extract_data(spark)
+        gws_ingest_df, teams_ingest_df, players_attributes_processed_df = extract_data(
+            spark
+        )
         player_stats_df = transform_data(
             gws_ingest_df, teams_ingest_df, players_attributes_processed_df
         )
@@ -47,9 +49,7 @@ def extract_data(spark):
     Gets players ingest, teams ingest and player names processed data.
     """
     # TODO Work out a better way to get current gameweek that can be used across other jobs
-    events_response = requests.get(
-        _fpl_events_endpoint
-    )
+    events_response = requests.get(_fpl_events_endpoint)
     events_response.raise_for_status()
     events_data = json.loads(events_response.text)["events"]
     gw_num = 0
@@ -79,7 +79,6 @@ def extract_data(spark):
             "bonus",
             "value",
             "season",
-            "round",
         )
         .withColumnRenamed("element", "id")
     )
@@ -99,6 +98,7 @@ def extract_data(spark):
             f"{_bucket}/{_processed_data_output_path}/{_processed_players_attributes_output_path}/"
         )
         .filter(fn.col("season") == _season)
+        .filter(fn.col("round") == gw_num)
     )
 
     return gws_df, teams_df, players_attributes_df

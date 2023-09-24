@@ -82,7 +82,9 @@ def load_data(team_stats_df):
         team_stats_df.write.format("parquet")
         .partitionBy("team")
         .mode("overwrite")
-        .save(f"{_bucket}/{_processed_data_output_path}/{_processed_teams_output_path}/season={_season}")
+        .save(
+            f"{_bucket}/{_processed_data_output_path}/{_processed_teams_output_path}/season={_season}"
+        )
     )
 
 

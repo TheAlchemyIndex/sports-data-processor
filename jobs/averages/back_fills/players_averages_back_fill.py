@@ -49,7 +49,20 @@ def extract_data(spark):
         .filter(fn.col("minutes") > 0)
     )
 
-    return players_df
+    first_df = (
+        players_df
+        .filter(fn.col("season") == "2021-22")
+    )
+
+    second_df = (
+        players_df
+        .filter(fn.col("season") == "2022-23")
+        .filter(fn.col("round") < 38)
+    )
+
+    union_df = first_df.union(second_df)
+
+    return union_df
 
 
 def transform_data(players_df):

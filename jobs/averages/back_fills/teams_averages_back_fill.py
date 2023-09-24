@@ -1,3 +1,5 @@
+from pyspark.sql import functions as fn
+
 from config import ConfigurationParser
 from dependencies.spark import start_spark
 from jobs.averages.util.average_calculator import last_n_rows, calculate_partitioned_avg
@@ -15,7 +17,7 @@ _teams_averages_output_path = ConfigurationParser.get_config(
 
 
 def run():
-    job_name = "teams_averages"
+    job_name = "teams_averages_back_fill"
 
     spark, log = start_spark(app_name=job_name, files=[])
     log.warn(f"{job_name} running.")
@@ -40,7 +42,20 @@ def extract_data(spark):
         .load(f"{_bucket}/{_processed_data_path}/{_processed_teams_path}")
     )
 
-    return teams_df
+    first_df = (
+        teams_df
+        .filter(fn.col("season") == "2021-22")
+    )
+
+    second_df = (
+        teams_df
+        .filter(fn.col("season") == "2022-23")
+        .filter(fn.col("event") < 38)
+    )
+
+    union_df = first_df.union(second_df)
+
+    return union_df
 
 
 def transform_data(teams_df):
