@@ -7,7 +7,7 @@ from config import ConfigurationParser
 from dependencies.spark import start_spark
 
 # _season = ConfigurationParser.get_config("external", "season")
-_season = "2022-23"
+_season = "2023-24"
 _bucket = ConfigurationParser.get_config("file_paths", "football_bucket")
 _season_averages_path = ConfigurationParser.get_config(
     "file_paths", "season_averages_output"
@@ -60,114 +60,112 @@ def transform_data(season_averages_df):
             fn.when(fn.col("minutes_avg_last_5") >= 60, 2)
             .when(fn.col("minutes_avg_last_5") > 0, 1)
             .otherwise(0),
-            )
+        )
         .withColumn(
             "goal_points",
             fn.when(
                 fn.col("position") == "FWD",
-                fn.round(
-                    fn.col("goals_scored_avg")
-                    * fn.col("opponent_goals_conceded_avg")
-                    * fn.lit(4),
-                    2,
-                    ),
-                )
+                fn.col("goals_scored_avg")
+                * fn.col("opponent_goals_conceded_avg")
+                * fn.lit(4),
+            )
             .when(
                 fn.col("position") == "MID",
-                fn.round(
-                    fn.col("goals_scored_avg")
-                    * fn.col("opponent_goals_conceded_avg")
-                    * fn.lit(5),
-                    2,
-                    ),
-                )
+                fn.col("goals_scored_avg")
+                * fn.col("opponent_goals_conceded_avg")
+                * fn.lit(5),
+            )
             .when(
                 fn.col("position") == "DEF",
-                fn.round(
-                    fn.col("goals_scored_avg")
-                    * fn.col("opponent_goals_conceded_avg")
-                    * fn.lit(6),
-                    2,
-                    ),
-                )
-            .otherwise(0),
+                fn.col("goals_scored_avg")
+                * fn.col("opponent_goals_conceded_avg")
+                * fn.lit(6),
             )
+            .otherwise(0),
+        )
         .withColumn(
             "clean_sheet_points",
             fn.when(
                 (fn.col("position") == "GK") | (fn.col("position") == "DEF"),
                 fn.when(
                     (
-                            fn.col("goals_conceded_avg")
-                            * fn.col("opponent_goals_scored_avg")
-                            < 1
+                        fn.col("goals_conceded_avg")
+                        * fn.col("opponent_goals_scored_avg")
+                        < 1
                     )
                     & (fn.col("minutes_avg_last_5") >= 60),
-                    fn.round(
-                        (
-                                4
-                                - (
-                                        fn.col("goals_conceded_avg")
-                                        * fn.col("opponent_goals_scored_avg")
-                                )
-                        ),
-                        2,
+                    4
+                    - (
+                        fn.col("goals_conceded_avg")
+                        * fn.col("opponent_goals_scored_avg")
                     ),
-                    )
+                )
                 .when(
                     (fn.col("goals_conceded_avg") * fn.col("opponent_goals_scored_avg"))
                     > 1,
-                    fn.round(
-                        (
-                                0
-                                - (
-                                        fn.col("goals_conceded_avg")
-                                        * fn.col("opponent_goals_scored_avg")
-                                )
-                                / 2
-                        ),
-                        2,
-                    ),
+                    0
+                    - (
+                        fn.col("goals_conceded_avg")
+                        * fn.col("opponent_goals_scored_avg")
                     )
+                    / 2,
+                )
                 .otherwise(0),
-                ).otherwise(
+            ).otherwise(
                 fn.when(
                     fn.col("position") == "MID",
                     fn.when(
                         (
-                                fn.col("goals_conceded_avg")
-                                * fn.col("opponent_goals_scored_avg")
-                                < 1
+                            fn.col("goals_conceded_avg")
+                            * fn.col("opponent_goals_scored_avg")
+                            < 1
                         )
                         & (fn.col("minutes_avg_last_5") >= 60),
-                        fn.round(
-                            (
-                                    1
-                                    - (
-                                            fn.col("goals_conceded_avg")
-                                            * fn.col("opponent_goals_scored_avg")
-                                    )
-                            ),
-                            2,
+                        1
+                        - (
+                            fn.col("goals_conceded_avg")
+                            * fn.col("opponent_goals_scored_avg")
                         ),
-                        ).otherwise(0),
-                    ).otherwise(0)
+                    ).otherwise(0),
+                ).otherwise(0)
             ),
         )
-        .withColumn("assist_points", fn.round(fn.col("assists_avg") * 3, 2))
-        .withColumn("save_points", fn.round(fn.col("saves_avg") / 3, 2))
+        .withColumn("assist_points", fn.col("assists_avg") * 3)
+        .withColumn("save_points", fn.col("saves_avg") / 3)
+        # .withColumn(
+        #     "expected_points",
+        #     fn.round(
+        #         (
+        #             fn.col("minute_points")
+        #             + fn.col("goal_points")
+        #             + fn.col("clean_sheet_points")
+        #             + fn.col("assist_points")
+        #             + fn.col("save_points")
+        #             + fn.col("bonus_avg")
+        #             - fn.col("yellow_cards_avg")
+        #         )
+        #         * fn.col("minutes_percentage_played_last_5"),
+        #         2,
+        #     ),
+        # )
+        # from gw 6 predictions onwards
         .withColumn(
             "expected_points",
-            fn.round(
-                fn.col("minute_points")
-                + fn.col("goal_points")
-                + fn.col("clean_sheet_points")
-                + fn.col("assist_points")
-                + fn.col("save_points")
-                + fn.col("bonus_avg")
-                - fn.col("yellow_cards_avg"),
-                2,
+            fn.when(fn.col("chance_of_playing_next_round") == 0, 0).otherwise(
+                fn.round(
+                    (
+                        fn.col("minute_points")
+                        + fn.col("goal_points")
+                        + fn.col("clean_sheet_points")
+                        + fn.col("assist_points")
+                        + fn.col("save_points")
+                        + fn.col("bonus_avg")
+                        - fn.col("yellow_cards_avg")
+                    )
+                    * fn.col("minutes_percentage_played_last_5"),
+                    2,
                 ),
+            ),
         )
         .select(
             "date",
@@ -181,7 +179,7 @@ def transform_data(season_averages_df):
             "position",
             "expected_points",
             "minutes_avg_last_5",
-            "chance_of_playing_next_round"
+            "chance_of_playing_next_round",
         )
     )
 
@@ -192,18 +190,7 @@ def load_data(predicted_points_df):
     """
     Write DataFrame as Parquet format.
     """
-    # TODO Work out a better way to get next gameweek that can be used across other jobs
-    # events_response = requests.get(
-    #     "https://fantasy.premierleague.com/api/bootstrap-static/"
-    # )
-    # events_response.raise_for_status()
-    # events_data = json.loads(events_response.text)["events"]
-    # gw_num = 0
-    # for event in events_data:
-    #     if event["is_next"]:
-    #         gw_num = event["id"]
-
-    gw_num = 38
+    gw_num = 7
 
     (
         predicted_points_df.filter(fn.col("event") == gw_num)
@@ -214,7 +201,3 @@ def load_data(predicted_points_df):
             f"{_bucket}/{_predictions_output_path}/{_fpl_predicted_points_output_path}/season={_season}/round={gw_num}"
         )
     )
-
-
-if __name__ == "__main__":
-    run()

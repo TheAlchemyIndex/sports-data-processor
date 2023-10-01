@@ -37,25 +37,25 @@ def extract_data(spark):
     """
     Gets processed teams data.
     """
-    teams_df = (
-        spark.read.format("parquet")
-        .load(f"{_bucket}/{_processed_data_path}/{_processed_teams_path}")
+    teams_df = spark.read.format("parquet").load(
+        f"{_bucket}/{_processed_data_path}/{_processed_teams_path}"
     )
 
-    first_df = (
-        teams_df
-        .filter(fn.col("season") == "2021-22")
-    )
+    first_df = teams_df.filter(fn.col("season") == "2021-22")
+    second_df = teams_df.filter(fn.col("season") == "2022-23")
 
-    second_df = (
-        teams_df
-        .filter(fn.col("season") == "2022-23")
-        .filter(fn.col("event") < 38)
+    # second_df = teams_df.filter(fn.col("season") == "2022-23").filter(
+    #     fn.col("event") < 38
+    # )
+
+    third_df = teams_df.filter(fn.col("season") == "2023-24").filter(
+        fn.col("event") < 7
     )
 
     union_df = first_df.union(second_df)
+    union_df_2 = union_df.union(third_df)
 
-    return union_df
+    return union_df_2
 
 
 def transform_data(teams_df):
@@ -90,7 +90,3 @@ def load_data(last_five_rows_avg_df):
         .mode("overwrite")
         .save(f"{_bucket}/{_teams_averages_output_path}")
     )
-
-
-if __name__ == "__main__":
-    run()

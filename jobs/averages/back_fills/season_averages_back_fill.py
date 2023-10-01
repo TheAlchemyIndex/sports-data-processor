@@ -4,7 +4,7 @@ from config import ConfigurationParser
 from dependencies.spark import start_spark
 
 # _season = ConfigurationParser.get_config("external", "season")
-_season = "2022-23"
+_season = "2023-24"
 _bucket = ConfigurationParser.get_config("file_paths", "football_bucket")
 _processed_data_path = ConfigurationParser.get_config(
     "file_paths", "processed_data_output"
@@ -122,7 +122,3 @@ def load_data(players_fixtures_teams_df):
         .mode("overwrite")
         .save(f"{_bucket}/{_season_averages_output_path}")
     )
-
-
-if __name__ == "__main__":
-    run()

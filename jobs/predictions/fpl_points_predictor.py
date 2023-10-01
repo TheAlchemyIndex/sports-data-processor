@@ -64,30 +64,21 @@ def transform_data(season_averages_df):
             "goal_points",
             fn.when(
                 fn.col("position") == "FWD",
-                fn.round(
-                    fn.col("goals_scored_avg")
-                    * fn.col("opponent_goals_conceded_avg")
-                    * fn.lit(4),
-                    2,
-                ),
+                fn.col("goals_scored_avg")
+                * fn.col("opponent_goals_conceded_avg")
+                * fn.lit(4),
             )
             .when(
                 fn.col("position") == "MID",
-                fn.round(
-                    fn.col("goals_scored_avg")
-                    * fn.col("opponent_goals_conceded_avg")
-                    * fn.lit(5),
-                    2,
-                ),
+                fn.col("goals_scored_avg")
+                * fn.col("opponent_goals_conceded_avg")
+                * fn.lit(5),
             )
             .when(
                 fn.col("position") == "DEF",
-                fn.round(
-                    fn.col("goals_scored_avg")
-                    * fn.col("opponent_goals_conceded_avg")
-                    * fn.lit(6),
-                    2,
-                ),
+                fn.col("goals_scored_avg")
+                * fn.col("opponent_goals_conceded_avg")
+                * fn.lit(6),
             )
             .otherwise(0),
         )
@@ -102,31 +93,21 @@ def transform_data(season_averages_df):
                         < 1
                     )
                     & (fn.col("minutes_avg_last_5") >= 60),
-                    fn.round(
-                        (
-                            4
-                            - (
-                                fn.col("goals_conceded_avg")
-                                * fn.col("opponent_goals_scored_avg")
-                            )
-                        ),
-                        2,
+                    4
+                    - (
+                        fn.col("goals_conceded_avg")
+                        * fn.col("opponent_goals_scored_avg")
                     ),
                 )
                 .when(
                     (fn.col("goals_conceded_avg") * fn.col("opponent_goals_scored_avg"))
                     > 1,
-                    fn.round(
-                        (
-                            0
-                            - (
-                                fn.col("goals_conceded_avg")
-                                * fn.col("opponent_goals_scored_avg")
-                            )
-                            / 2
-                        ),
-                        2,
-                    ),
+                    0
+                    - (
+                        fn.col("goals_conceded_avg")
+                        * fn.col("opponent_goals_scored_avg")
+                    )
+                    / 2,
                 )
                 .otherwise(0),
             ).otherwise(
@@ -139,33 +120,50 @@ def transform_data(season_averages_df):
                             < 1
                         )
                         & (fn.col("minutes_avg_last_5") >= 60),
-                        fn.round(
-                            (
-                                1
-                                - (
-                                    fn.col("goals_conceded_avg")
-                                    * fn.col("opponent_goals_scored_avg")
-                                )
-                            ),
-                            2,
+                        1
+                        - (
+                            fn.col("goals_conceded_avg")
+                            * fn.col("opponent_goals_scored_avg")
                         ),
                     ).otherwise(0),
                 ).otherwise(0)
             ),
         )
-        .withColumn("assist_points", fn.round(fn.col("assists_avg") * 3, 2))
-        .withColumn("save_points", fn.round(fn.col("saves_avg") / 3, 2))
+        .withColumn("assist_points", fn.col("assists_avg") * 3)
+        .withColumn("save_points", fn.col("saves_avg") / 3)
+        # .withColumn(
+        #     "expected_points",
+        #     fn.round(
+        #         (
+        #             fn.col("minute_points")
+        #             + fn.col("goal_points")
+        #             + fn.col("clean_sheet_points")
+        #             + fn.col("assist_points")
+        #             + fn.col("save_points")
+        #             + fn.col("bonus_avg")
+        #             - fn.col("yellow_cards_avg")
+        #         )
+        #         * fn.col("minutes_percentage_played_last_5"),
+        #         2,
+        #     ),
+        # )
+        # from gw 6 predictions onwards
         .withColumn(
             "expected_points",
-            fn.round(
-                fn.col("minute_points")
-                + fn.col("goal_points")
-                + fn.col("clean_sheet_points")
-                + fn.col("assist_points")
-                + fn.col("save_points")
-                + fn.col("bonus_avg")
-                - fn.col("yellow_cards_avg"),
-                2,
+            fn.when(fn.col("chance_of_playing_next_round") == 0, 0).otherwise(
+                fn.round(
+                    (
+                        fn.col("minute_points")
+                        + fn.col("goal_points")
+                        + fn.col("clean_sheet_points")
+                        + fn.col("assist_points")
+                        + fn.col("save_points")
+                        + fn.col("bonus_avg")
+                        - fn.col("yellow_cards_avg")
+                    )
+                    * fn.col("minutes_percentage_played_last_5"),
+                    2,
+                ),
             ),
         )
         .select(
@@ -180,7 +178,7 @@ def transform_data(season_averages_df):
             "position",
             "expected_points",
             "minutes_avg_last_5",
-            "chance_of_playing_next_round"
+            "chance_of_playing_next_round",
         )
     )
 

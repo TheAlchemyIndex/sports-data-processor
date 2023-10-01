@@ -35,9 +35,8 @@ def extract_data(spark):
     """
     Gets processed teams data.
     """
-    teams_df = (
-        spark.read.format("parquet")
-        .load(f"{_bucket}/{_processed_data_path}/{_processed_teams_path}")
+    teams_df = spark.read.format("parquet").load(
+        f"{_bucket}/{_processed_data_path}/{_processed_teams_path}"
     )
 
     return teams_df

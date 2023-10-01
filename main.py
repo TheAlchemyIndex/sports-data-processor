@@ -1,5 +1,9 @@
 from jobs.averages import teams_averages, players_averages, season_averages
-from jobs.averages.back_fills import teams_averages_back_fill, players_averages_back_fill, season_averages_back_fill
+from jobs.averages.back_fills import (
+    teams_averages_back_fill,
+    players_averages_back_fill,
+    season_averages_back_fill,
+)
 from jobs.fpl_data_ingest import (
     fpl_elements_ingest,
     fpl_fixtures_ingest,
@@ -23,7 +27,7 @@ def main():
     fpl_teams_ingest.run()
     fpl_gw_ingest.run()
 
-    # # Processing data
+    # Processing data
     fpl_fixtures_process.run()
     fpl_team_stats_process.run()
     fpl_current_players_attributes_process.run()

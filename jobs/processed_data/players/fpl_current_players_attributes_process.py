@@ -19,6 +19,55 @@ _fpl_elements_path = ConfigurationParser.get_config("file_paths", "fpl_elements_
 _fpl_teams_path = ConfigurationParser.get_config("file_paths", "fpl_teams_output")
 _fpl_events_endpoint = ConfigurationParser.get_config("external", "fpl_main_uri")
 
+player_name_mapping = {
+    "Adama Traoré Diarra": "Adama Traoré",
+    "Alejandro Garnacho Ferreyra": "Alejandro Garnacho",
+    "Alex Nicolao Telles": "Alex Telles",
+    "André Filipe Tavares Gomes": "André Tavares Gomes",
+    "Arnaut Danjuma": "Arnaut Danjuma Groeneveld",
+    "Bamidele Alli": "Dele Alli",
+    "Ben White": "Benjamin White",
+    "Benjamin Chilwell": "Ben Chilwell",
+    "Bernardo Mota Veiga de Carvalho e Silva": "Bernardo Veiga de Carvalho e Silva",
+    "Bruno Miguel Borges Fernandes": "Bruno Borges Fernandes",
+    "Cédric Soares": "Cédric Alves Soares",
+    "David de Gea": "David De Gea Quintana",
+    "Diogo Jota": "Diogo Teixeira da Silva",
+    "Edward Nketiah": "Eddie Nketiah",
+    "Emerson Aparecido Leite de Souza Junior": "Emerson Leite de Souza Junior",
+    "Emiliano Martínez": "Emiliano Martínez Romero",
+    "Fabio Silva": "Fábio Silva",
+    "Gabriel Magalhães": "Gabriel dos Santos Magalhães",
+    "Gabriel Teodoro Martinelli Silva": "Gabriel Martinelli Silva",
+    "Hee-Chan Hwang": "Hwang Hee-chan",
+    "Heung-Min Son": "Son Heung-min",
+    "Javier Manquillo": "Javier Manquillo Gaitán",
+    "Jeremy Sarmiento": "Jeremy Sarmiento Morante",
+    "Joseph Gomez": "Joe Gomez",
+    "Joseph Willock": "Joe Willock",
+    "José Diogo Dalot Teixeira": "Diogo Dalot Teixeira",
+    "João Pedro Cavaco Cancelo": "João Cancelo",
+    "Lyanco Evangelista Silveira Neves Vojnovic": "Lyanco Silveira Neves Vojnovic",
+    "Marc Cucurella": "Marc Cucurella Saseta",
+    "Mateo Kovacic": "Mateo Kovačić",
+    "Matthew Cash": "Matty Cash",
+    "Michale Olakigbe": "Michael Olakigbe",
+    "Miguel Almirón": "Miguel Almirón Rejala",
+    "Mohamed Naser El Sayed Elneny": "Mohamed Elneny",
+    "Moisés Caicedo": "Moisés Caicedo Corozo",
+    "Pablo Fornals": "Pablo Fornals Malla",
+    "Pelenda Joshua Dasilva": "Josh Dasilva",
+    "Rayan Ait Nouri": "Rayan Aït-Nouri",
+    "Ricardo Domingos Barbosa Pereira": "Ricardo Barbosa Pereira",
+    "Rúben Diogo da Silva Neves": "Rúben da Silva Neves",
+    "Rúben Santos Gato Alves Dias": "Rúben Gato Alves Dias",
+    "Sasa Lukic": "Saša Lukić",
+    "Sergi Canós": "Sergi Canós Tenés",
+    "Solomon March": "Solly March",
+    "Tomas Soucek": "Tomáš Souček",
+    "Vladimir Coufal": "Vladimír Coufal",
+}
+
 
 def run():
     job_name = "fpl_current_players_attributes_process"
@@ -85,6 +134,7 @@ def transform_data(elements_df, teams_df):
         )
         .withColumnRenamed("team", "team_id")
         .select("id", "name", "chance_of_playing_next_round", "position", "team_id")
+        .replace(to_replace=player_name_mapping, subset="name")
     )
 
     player_attributes_with_teams_df = (
