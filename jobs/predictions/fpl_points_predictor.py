@@ -17,6 +17,9 @@ _predictions_output_path = ConfigurationParser.get_config(
 _fpl_predicted_points_output_path = ConfigurationParser.get_config(
     "file_paths", "fpl_predicted_points_output"
 )
+_fpl_season_predictions_output_path = ConfigurationParser.get_config(
+    "file_paths", "fpl_season_predictions_output"
+)
 
 
 def run():
@@ -166,11 +169,13 @@ def transform_data(season_averages_df):
                 ),
             ),
         )
+        .withColumnRenamed("event", "round")
         .select(
             "date",
-            "event",
+            "round",
             "id",
             "name",
+            "price",
             "team",
             "team_type",
             "opponent",
@@ -201,12 +206,23 @@ def load_data(predicted_points_df):
             gw_num = event["id"]
 
     (
-        predicted_points_df.filter(fn.col("event") == gw_num)
+        predicted_points_df.filter(fn.col("round") == gw_num)
         .coalesce(1)
         .write.format("parquet")
         .mode("overwrite")
         .save(
             f"{_bucket}/{_predictions_output_path}/{_fpl_predicted_points_output_path}/season={_season}/round={gw_num}"
+        )
+    )
+
+    (
+        predicted_points_df.filter(fn.col("round") > gw_num)
+        .coalesce(1)
+        .write.format("parquet")
+        .partitionBy("round")
+        .mode("overwrite")
+        .save(
+            f"{_bucket}/{_predictions_output_path}/{_fpl_season_predictions_output_path}/season={_season}/round={gw_num}"
         )
     )
 

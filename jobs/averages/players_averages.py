@@ -99,8 +99,25 @@ def transform_data(players_df, players_attributes_df):
 
     players_df_recent_id = last_value_in_col(players_df_recent_team, "name", "id", "id")
 
+    players_df_min_percentage_player = players_df_recent_id.withColumn(
+        "minutes_percentage_played_last_5",
+        calculate_partitioned_avg_single("name", "minutes"),
+    ).orderBy(fn.col("date").asc())
+
+    players_df_min_percentage_player = players_df_min_percentage_player.withColumn(
+        "minutes_percentage_played_last_5",
+        fn.col("minutes_percentage_played_last_5") / 90,
+        )
+
+    players_df_min_percentage_player = last_value_in_col(
+        players_df_min_percentage_player,
+        "name",
+        "minutes_percentage_played_last_5",
+        "minutes_percentage_played_last_5",
+    )
+
     players_df_recent_playing_chance = last_value_in_col(
-        players_df_recent_id,
+        players_df_min_percentage_player,
         "name",
         "chance_of_playing_next_round",
         "chance_of_playing_next_round",
@@ -154,6 +171,7 @@ def transform_data(players_df, players_attributes_df):
             "minutes_avg_last_5",
             "saves_avg",
             "chance_of_playing_next_round",
+            "minutes_percentage_played_last_5",
         )
         .dropDuplicates()
     )
