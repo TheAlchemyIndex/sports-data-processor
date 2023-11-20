@@ -1,25 +1,15 @@
 from pyspark.sql import functions as fn
 
 from config import ConfigurationParser
-from dependencies.spark import start_spark
+from dependencies.spark import create_spark_session
 
 _season = ConfigurationParser.get_config("external", "season")
-_bucket = ConfigurationParser.get_config("file_paths", "football_bucket")
-_processed_data_output_path = ConfigurationParser.get_config(
-    "file_paths", "processed_data_output"
-)
-_processed_fixtures_path = ConfigurationParser.get_config(
-    "file_paths", "processed_fixtures_output"
-)
-_processed_teams_output_path = ConfigurationParser.get_config(
-    "file_paths", "processed_teams_output"
-)
+_bucket = ConfigurationParser.get_config("file_paths", "sports-data-pipeline")
 
 
 def run():
     job_name = "fpl_team_stats_process"
-
-    spark, log = start_spark(app_name=job_name, files=[])
+    spark, log = create_spark_session(app_name=job_name)
     log.warn(f"{job_name} running.")
 
     try:
@@ -37,8 +27,10 @@ def extract_data(spark):
     """
     Gets processed fixtures data.
     """
-    fixtures_df = spark.read.format("parquet").load(
-        f"{_bucket}/{_processed_data_output_path}/{_processed_fixtures_path}/season={_season}"
+    fixtures_df = (
+        spark.read.format("parquet")
+        .load(f"{_bucket}/processed-ingress/fixtures/")
+        .filter(fn.col("season") == _season)
     )
 
     return fixtures_df
@@ -66,8 +58,9 @@ def transform_data(fixtures_df):
 
     team_stats_df = (
         home_fixtures_df.unionByName(away_fixtures_df)
-        .withColumn("date", fn.to_date("kickoff_time"))
-        .drop("kickoff_time")
+        .withColumnRenamed("kickoff_time", "date")
+        .withColumn("date", fn.to_date("date"))
+        # To only return fixtures that have taken place
         .filter(fn.col("date") < fn.current_date())
     )
 
@@ -82,11 +75,5 @@ def load_data(team_stats_df):
         team_stats_df.write.format("parquet")
         .partitionBy("team")
         .mode("overwrite")
-        .save(
-            f"{_bucket}/{_processed_data_output_path}/{_processed_teams_output_path}/season={_season}"
-        )
+        .save(f"{_bucket}/processed-ingress/teams/season={_season}/")
     )
-
-
-if __name__ == "__main__":
-    run()

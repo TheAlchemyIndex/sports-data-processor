@@ -1,5 +1,5 @@
 from config import ConfigurationParser
-from dependencies.spark import start_spark
+from dependencies.spark import create_spark_session
 from jobs.averages.util.average_calculator import last_n_rows, calculate_partitioned_avg
 
 _bucket = ConfigurationParser.get_config("file_paths", "football_bucket")
@@ -17,7 +17,7 @@ _teams_averages_output_path = ConfigurationParser.get_config(
 def run():
     job_name = "teams_averages"
 
-    spark, log = start_spark(app_name=job_name, files=[])
+    spark, log = create_spark_session(app_name=job_name, files=[])
     log.warn(f"{job_name} running.")
 
     try:

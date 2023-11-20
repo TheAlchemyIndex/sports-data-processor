@@ -12,7 +12,7 @@ from pyspark.sql.types import (
 )
 
 from config import ConfigurationParser
-from dependencies.spark import start_spark
+from dependencies.spark import create_spark_session
 
 _season = ConfigurationParser.get_config("external", "season")
 _bucket = ConfigurationParser.get_config("file_paths", "football_bucket")
@@ -78,7 +78,7 @@ _fixtures_schema = StructType(
 def run():
     job_name = "fpl_fixtures_ingest"
 
-    spark, log = start_spark(app_name=job_name, files=[])
+    spark, log = create_spark_session(app_name=job_name, files=[])
     log.warn(f"{job_name} running.")
 
     try:

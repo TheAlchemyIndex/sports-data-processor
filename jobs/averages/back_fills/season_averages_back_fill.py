@@ -1,7 +1,7 @@
 from pyspark.sql import functions as fn
 
 from config import ConfigurationParser
-from dependencies.spark import start_spark
+from dependencies.spark import create_spark_session
 
 # _season = ConfigurationParser.get_config("external", "season")
 _season = "2023-24"
@@ -26,7 +26,7 @@ _season_averages_output_path = ConfigurationParser.get_config(
 def run():
     job_name = "season_averages"
 
-    spark, log = start_spark(app_name=job_name, files=[])
+    spark, log = create_spark_session(app_name=job_name, files=[])
     log.warn(f"{job_name} running.")
 
     try:

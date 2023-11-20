@@ -4,19 +4,10 @@ import requests
 from pyspark.sql import functions as fn
 
 from config import ConfigurationParser
-from dependencies.spark import start_spark
+from dependencies.spark import create_spark_session
 
 _season = ConfigurationParser.get_config("external", "season")
 _bucket = ConfigurationParser.get_config("file_paths", "football_bucket")
-_processed_data_output_path = ConfigurationParser.get_config(
-    "file_paths", "processed_data_output"
-)
-_processed_players_attributes_output_path = ConfigurationParser.get_config(
-    "file_paths", "processed_players_attributes_output"
-)
-_fpl_ingest_path = ConfigurationParser.get_config("file_paths", "fpl_ingest_output")
-_fpl_elements_path = ConfigurationParser.get_config("file_paths", "fpl_elements_output")
-_fpl_teams_path = ConfigurationParser.get_config("file_paths", "fpl_teams_output")
 _fpl_events_endpoint = ConfigurationParser.get_config("external", "fpl_main_uri")
 
 player_name_mapping = {
@@ -72,7 +63,7 @@ player_name_mapping = {
 def run():
     job_name = "fpl_current_players_attributes_process"
 
-    spark, log = start_spark(app_name=job_name, files=[])
+    spark, log = create_spark_session(app_name=job_name)
     log.warn(f"{job_name} running.")
 
     try:
@@ -92,7 +83,8 @@ def extract_data(spark):
     """
     elements_df = (
         spark.read.format("parquet")
-        .load(f"{_bucket}/{_fpl_ingest_path}/{_fpl_elements_path}/season={_season}")
+        .load(f"{_bucket}/raw-ingress/fpl/players/elements/")
+        .filter(fn.col("season") == _season)
         .select(
             "id",
             "first_name",
@@ -105,7 +97,8 @@ def extract_data(spark):
 
     teams_df = (
         spark.read.format("parquet")
-        .load(f"{_bucket}/{_fpl_ingest_path}/{_fpl_teams_path}/season={_season}")
+        .load(f"{_bucket}/raw-ingress/fpl/teams/")
+        .filter(fn.col("season") == _season)
         .select(
             "id",
             "name",
@@ -164,7 +157,7 @@ def load_data(players_attributes_df):
         .write.format("parquet")
         .mode("append")
         .save(
-            f"{_bucket}/{_processed_data_output_path}/{_processed_players_attributes_output_path}/season={_season}/round={gw_num}"
+            f"{_bucket}/processed-ingress/players/attributes/season={_season}/round={gw_num}"
         )
     )
 

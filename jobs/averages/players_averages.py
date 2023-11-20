@@ -4,7 +4,7 @@ import requests
 from pyspark.sql import functions as fn
 
 from config import ConfigurationParser
-from dependencies.spark import start_spark
+from dependencies.spark import create_spark_session
 from jobs.averages.util.average_calculator import (
     last_n_rows,
     calculate_partitioned_avg,
@@ -32,7 +32,7 @@ _fpl_events_endpoint = ConfigurationParser.get_config("external", "fpl_main_uri"
 def run():
     job_name = "players_averages"
 
-    spark, log = start_spark(app_name=job_name, files=[])
+    spark, log = create_spark_session(app_name=job_name, files=[])
     log.warn(f"{job_name} running.")
 
     try:
@@ -107,7 +107,7 @@ def transform_data(players_df, players_attributes_df):
     players_df_min_percentage_player = players_df_min_percentage_player.withColumn(
         "minutes_percentage_played_last_5",
         fn.col("minutes_percentage_played_last_5") / 90,
-        )
+    )
 
     players_df_min_percentage_player = last_value_in_col(
         players_df_min_percentage_player,

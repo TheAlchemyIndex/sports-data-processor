@@ -1,32 +1,20 @@
 from pyspark.sql import functions as fn
 
 from config import ConfigurationParser
-from dependencies.spark import start_spark
+from dependencies.spark import create_spark_session
 
 _season = ConfigurationParser.get_config("external", "season")
-_bucket = ConfigurationParser.get_config("file_paths", "football_bucket")
-_fpl_ingest_path = ConfigurationParser.get_config("file_paths", "fpl_ingest_output")
-_fpl_fixtures_path = ConfigurationParser.get_config("file_paths", "fpl_fixtures_output")
-_fpl_teams_path = ConfigurationParser.get_config("file_paths", "fpl_teams_output")
-_processed_data_output_path = ConfigurationParser.get_config(
-    "file_paths", "processed_data_output"
-)
-_processed_fixtures_output_path = ConfigurationParser.get_config(
-    "file_paths", "processed_fixtures_output"
-)
+_bucket = ConfigurationParser.get_config("file_paths", "sports-data-pipeline")
 
 
 def run():
-    job_name = "fpl_fixtures_ingress"
-
-    spark, log = start_spark(app_name=job_name, files=[])
+    job_name = "fpl_fixtures_process"
+    spark, log = create_spark_session(app_name=job_name)
     log.warn(f"{job_name} running.")
 
     try:
-        fixtures_ingest_df, teams_ingest_df = extract_data(spark)
-        fixtures_with_team_names_df = transform_data(
-            fixtures_ingest_df, teams_ingest_df
-        )
+        fixtures_df, teams_df = extract_data(spark)
+        fixtures_with_team_names_df = transform_data(fixtures_df, teams_df)
         load_data(fixtures_with_team_names_df)
     except Exception as e:
         log.error(f"Error running {job_name}: {str(e)}")
@@ -37,11 +25,12 @@ def run():
 
 def extract_data(spark):
     """
-    Gets fixtures and teams data.
+    Loads fixtures and teams data.
     """
     fixtures_df = (
-        spark.read.format("parquet")
-        .load(f"{_bucket}/{_fpl_ingest_path}/{_fpl_fixtures_path}/")
+        spark.read.format("json")
+        .load(f"{_bucket}/raw-ingress/fpl/fixtures/")
+        .filter(fn.col("season") == _season)
         .select(
             "event",
             "kickoff_time",
@@ -51,14 +40,13 @@ def extract_data(spark):
             "team_a_score",
             "season",
         )
-        .filter(fn.col("season") == _season)
     )
 
     teams_df = (
-        spark.read.format("parquet")
-        .load(f"{_bucket}/{_fpl_ingest_path}/{_fpl_teams_path}/")
-        .select("id", "name", "season")
+        spark.read.format("json")
+        .load(f"{_bucket}/raw-ingress/fpl/teams")
         .filter(fn.col("season") == _season)
+        .select("id", "name", "season")
     )
 
     return fixtures_df, teams_df
@@ -76,8 +64,7 @@ def transform_data(fixtures_df, teams_df):
             how="inner",
         )
         .withColumn("team_h", fn.col("name"))
-        .drop("id", "name")
-        .drop(fixtures_df["season"])
+        .drop("id", "name", fixtures_df["season"])
     )
 
     fixtures_with_away_team_names_df = (
@@ -91,6 +78,7 @@ def transform_data(fixtures_df, teams_df):
         .drop("id", "name", "season")
     )
 
+    fixtures_with_away_team_names_df.show()
     return fixtures_with_away_team_names_df
 
 
@@ -101,11 +89,5 @@ def load_data(fixtures_with_team_names_df):
     (
         fixtures_with_team_names_df.write.format("parquet")
         .mode("overwrite")
-        .save(
-            f"{_bucket}/{_processed_data_output_path}/{_processed_fixtures_output_path}/season={_season}"
-        )
+        .save(f"{_bucket}/processed-ingress/fixtures/season={_season}/")
     )
-
-
-if __name__ == "__main__":
-    run()
