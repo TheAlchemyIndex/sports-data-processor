@@ -3,8 +3,12 @@ from config import ConfigurationParser
 from pyspark.sql import SparkSession
 from dependencies import logging
 
-os.environ["AWS_ACCESS_KEY_ID"] = ConfigurationParser.get_config("aws_keys", "aws_access_key_id")
-os.environ["AWS_SECRET_ACCESS_KEY"] = ConfigurationParser.get_config("aws_keys", "aws_secret_access_key")
+os.environ["AWS_ACCESS_KEY_ID"] = ConfigurationParser.get_config(
+    "aws_keys", "aws_access_key_id"
+)
+os.environ["AWS_SECRET_ACCESS_KEY"] = ConfigurationParser.get_config(
+    "aws_keys", "aws_secret_access_key"
+)
 
 
 def create_spark_session(app_name="sports_data_processor", master="local[*]"):

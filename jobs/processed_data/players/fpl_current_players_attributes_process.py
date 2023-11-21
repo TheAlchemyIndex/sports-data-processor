@@ -1,14 +1,11 @@
-import json
-
-import requests
 from pyspark.sql import functions as fn
 
 from config import ConfigurationParser
 from dependencies.spark import create_spark_session
+from dependencies.current_gw import get_current_gw
 
 _season = ConfigurationParser.get_config("external", "season")
-_bucket = ConfigurationParser.get_config("file_paths", "football_bucket")
-_fpl_events_endpoint = ConfigurationParser.get_config("external", "fpl_main_uri")
+_bucket = ConfigurationParser.get_config("file_paths", "sports-data-pipeline")
 
 player_name_mapping = {
     "Adama Traoré Diarra": "Adama Traoré",
@@ -82,9 +79,10 @@ def extract_data(spark):
     Gets elements and teams ingest data.
     """
     elements_df = (
-        spark.read.format("parquet")
+        spark.read.format("json")
         .load(f"{_bucket}/raw-ingress/fpl/players/elements/")
         .filter(fn.col("season") == _season)
+        .filter(fn.col("round") == get_current_gw())
         .select(
             "id",
             "first_name",
@@ -96,7 +94,7 @@ def extract_data(spark):
     )
 
     teams_df = (
-        spark.read.format("parquet")
+        spark.read.format("json")
         .load(f"{_bucket}/raw-ingress/fpl/teams/")
         .filter(fn.col("season") == _season)
         .select(
@@ -143,21 +141,12 @@ def load_data(players_attributes_df):
     """
     Write DataFrame as Parquet format.
     """
-    # TODO Work out a better way to get current gameweek that can be used across other jobs
-    events_response = requests.get(_fpl_events_endpoint)
-    events_response.raise_for_status()
-    events_data = json.loads(events_response.text)["events"]
-    gw_num = 0
-    for event in events_data:
-        if event["is_current"]:
-            gw_num = event["id"]
-
     (
         players_attributes_df.coalesce(1)
         .write.format("parquet")
         .mode("append")
         .save(
-            f"{_bucket}/processed-ingress/players/attributes/season={_season}/round={gw_num}"
+            f"{_bucket}/processed-ingress/players/attributes/season={_season}/round={get_current_gw()}"
         )
     )
 
