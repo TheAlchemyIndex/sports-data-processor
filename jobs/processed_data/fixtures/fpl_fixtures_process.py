@@ -78,7 +78,6 @@ def transform_data(fixtures_df, teams_df):
         .drop("id", "name", "season")
     )
 
-    fixtures_with_away_team_names_df.show()
     return fixtures_with_away_team_names_df
 
 

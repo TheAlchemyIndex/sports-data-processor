@@ -1,32 +1,16 @@
-import json
-
-import requests
 from pyspark.sql import functions as fn
 
 from config import ConfigurationParser
 from dependencies.spark import create_spark_session
+from dependencies.current_gw import get_current_gw
 
 _season = ConfigurationParser.get_config("external", "season")
-_bucket = ConfigurationParser.get_config("file_paths", "football_bucket")
-_processed_data_output_path = ConfigurationParser.get_config(
-    "file_paths", "processed_data_output"
-)
-_processed_players_stats_output_path = ConfigurationParser.get_config(
-    "file_paths", "processed_players_stats_output"
-)
-_processed_players_attributes_output_path = ConfigurationParser.get_config(
-    "file_paths", "processed_players_attributes_output"
-)
-_fpl_ingest_path = ConfigurationParser.get_config("file_paths", "fpl_ingest_output")
-_fpl_gws_path = ConfigurationParser.get_config("file_paths", "fpl_gws_output")
-_fpl_teams_path = ConfigurationParser.get_config("file_paths", "fpl_teams_output")
-_fpl_events_endpoint = ConfigurationParser.get_config("external", "fpl_main_uri")
+_bucket = ConfigurationParser.get_config("file_paths", "sports-data-pipeline")
 
 
 def run():
     job_name = "fpl_players_stats_process"
-
-    spark, log = create_spark_session(app_name=job_name, files=[])
+    spark, log = create_spark_session(app_name=job_name)
     log.warn(f"{job_name} running.")
 
     try:
@@ -48,20 +32,12 @@ def extract_data(spark):
     """
     Gets players ingest, teams ingest and player names processed data.
     """
-    # TODO Work out a better way to get current gameweek that can be used across other jobs
-    events_response = requests.get(_fpl_events_endpoint)
-    events_response.raise_for_status()
-    events_data = json.loads(events_response.text)["events"]
-    gw_num = 0
-    for event in events_data:
-        if event["is_current"]:
-            gw_num = event["id"]
-
     gws_df = (
-        spark.read.format("parquet")
-        .load(f"{_bucket}/{_fpl_ingest_path}/{_fpl_gws_path}/")
+        spark.read.format("json")
+        .load(f"{_bucket}/raw-ingress/fpl/players/rounds/")
         .filter(fn.col("season") == _season)
-        .filter(fn.col("round") == gw_num)
+        # .filter(fn.col("round") == get_current_gw())
+        .filter(fn.col("round") == 1)
         .withColumnRenamed("opponent_team", "opponent_id")
         .select(
             "element",
@@ -84,8 +60,8 @@ def extract_data(spark):
     )
 
     teams_df = (
-        spark.read.format("parquet")
-        .load(f"{_bucket}/{_fpl_ingest_path}/{_fpl_teams_path}/")
+        spark.read.format("json")
+        .load(f"{_bucket}/raw-ingress/fpl/teams/")
         .filter(fn.col("season") == _season)
         .withColumnRenamed("id", "opponent_id")
         .withColumnRenamed("name", "opponent_team")
@@ -94,11 +70,10 @@ def extract_data(spark):
 
     players_attributes_df = (
         spark.read.format("parquet")
-        .load(
-            f"{_bucket}/{_processed_data_output_path}/{_processed_players_attributes_output_path}/"
-        )
+        .load(f"{_bucket}/processed-ingress/players/attributes/")
         .filter(fn.col("season") == _season)
-        .filter(fn.col("round") == gw_num)
+        # .filter(fn.col("round") == get_current_gw())
+        .filter(fn.col("round") == 1)
     )
 
     return gws_df, teams_df, players_attributes_df
@@ -124,9 +99,7 @@ def load_data(players_stats_df):
         players_stats_df.write.format("parquet")
         .partitionBy("season", "name", "round")
         .mode("append")
-        .save(
-            f"{_bucket}/{_processed_data_output_path}/{_processed_players_stats_output_path}"
-        )
+        .save(f"{_bucket}/processed-ingress/players/stats/")
     )
 
 

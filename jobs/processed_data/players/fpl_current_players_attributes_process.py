@@ -59,7 +59,6 @@ player_name_mapping = {
 
 def run():
     job_name = "fpl_current_players_attributes_process"
-
     spark, log = create_spark_session(app_name=job_name)
     log.warn(f"{job_name} running.")
 
@@ -90,6 +89,7 @@ def extract_data(spark):
             "chance_of_playing_next_round",
             "element_type",
             "team",
+            "news",
         )
     )
 
@@ -113,7 +113,13 @@ def transform_data(elements_df, teams_df):
     Transform elements ingest data.
     """
     players_attributes_df = (
-        elements_df.withColumn(
+        elements_df.filter(~(elements_df.news.contains("loan")))
+        .filter(~(elements_df.news.contains("Loan")))
+        .filter(~(elements_df.news.contains("transfer")))
+        .filter(~(elements_df.news.contains("Transfer")))
+        .filter(~(elements_df.news.contains("left")))
+        .filter(~(elements_df.news.contains("Left")))
+        .withColumn(
             "name", fn.concat_ws(" ", fn.col("first_name"), fn.col("second_name"))
         )
         .withColumn(
