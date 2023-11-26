@@ -119,6 +119,8 @@ def transform_data(elements_df, teams_df):
         .filter(~(elements_df.news.contains("Transfer")))
         .filter(~(elements_df.news.contains("left")))
         .filter(~(elements_df.news.contains("Left")))
+        .filter(~(elements_df.news.contains("move")))
+        .filter(~(elements_df.news.contains("Move")))
         .withColumn(
             "name", fn.concat_ws(" ", fn.col("first_name"), fn.col("second_name"))
         )
@@ -130,7 +132,7 @@ def transform_data(elements_df, teams_df):
             .when(fn.col("element_type") == 4, "FWD"),
         )
         .withColumnRenamed("team", "team_id")
-        .select("id", "name", "chance_of_playing_next_round", "position", "team_id")
+        .drop("element_type")
         .replace(to_replace=player_name_mapping, subset="name")
     )
 
@@ -155,7 +157,3 @@ def load_data(players_attributes_df):
             f"{_bucket}/processed-ingress/players/attributes/season={_season}/round={get_current_gw()}"
         )
     )
-
-
-if __name__ == "__main__":
-    run()

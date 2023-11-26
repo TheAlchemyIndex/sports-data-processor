@@ -12,6 +12,7 @@ from jobs.processed_data.players import (
     fpl_players_stats_process,
 )
 from jobs.processed_data.teams import fpl_team_stats_process
+from jobs.validation import player_name_validator
 
 
 def main():
@@ -19,6 +20,7 @@ def main():
     # fpl_fixtures_process.run()
     # fpl_team_stats_process.run()
     fpl_current_players_attributes_process.run()
+    # player_name_validator.run()
     # fpl_players_stats_process.run()
 
     # Averages
