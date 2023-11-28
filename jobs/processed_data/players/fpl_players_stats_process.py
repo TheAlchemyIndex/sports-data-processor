@@ -36,8 +36,7 @@ def extract_data(spark):
         spark.read.format("json")
         .load(f"{_bucket}/raw-ingress/fpl/players/rounds/")
         .filter(fn.col("season") == _season)
-        # .filter(fn.col("round") == get_current_gw())
-        .filter(fn.col("round") == 1)
+        .filter(fn.col("round") == get_current_gw())
         .withColumnRenamed("opponent_team", "opponent_id")
         .select(
             "element",
@@ -54,7 +53,6 @@ def extract_data(spark):
             "saves",
             "bonus",
             "value",
-            "season",
         )
         .withColumnRenamed("element", "id")
     )
@@ -65,15 +63,15 @@ def extract_data(spark):
         .filter(fn.col("season") == _season)
         .withColumnRenamed("id", "opponent_id")
         .withColumnRenamed("name", "opponent_team")
-        .select("opponent_id", "opponent_team", "season")
+        .select("opponent_id", "opponent_team")
     )
 
     players_attributes_df = (
         spark.read.format("parquet")
         .load(f"{_bucket}/processed-ingress/players/attributes/")
         .filter(fn.col("season") == _season)
-        # .filter(fn.col("round") == get_current_gw())
-        .filter(fn.col("round") == 1)
+        .filter(fn.col("round") == get_current_gw())
+        .drop("season")
     )
 
     return gws_df, teams_df, players_attributes_df
@@ -81,11 +79,11 @@ def extract_data(spark):
 
 def transform_data(gws_df, teams_df, players_attributes_df):
     players_with_teams_df = gws_df.join(
-        teams_df, on=["opponent_id", "season"], how="inner"
+        teams_df, on="opponent_id", how="inner"
     ).drop("opponent_id")
 
     players_with_names_df = players_with_teams_df.join(
-        players_attributes_df, on=["id", "season"], how="inner"
+        players_attributes_df, on="id", how="inner"
     )
 
     return players_with_names_df
@@ -97,11 +95,7 @@ def load_data(players_stats_df):
     """
     (
         players_stats_df.write.format("parquet")
-        .partitionBy("season", "name", "round")
+        .partitionBy("name", "round")
         .mode("append")
-        .save(f"{_bucket}/processed-ingress/players/stats/")
+        .save(f"{_bucket}/processed-ingress/players/stats/season={_season}")
     )
-
-
-if __name__ == "__main__":
-    run()
