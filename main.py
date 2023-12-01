@@ -6,13 +6,7 @@
 # )
 # from jobs.predictions import fpl_points_predictor
 # from jobs.predictions.back_fills import fpl_points_predictor_back_fill
-from jobs.processed_data.fixtures import fpl_fixtures_process
-from jobs.processed_data.players import (
-    fpl_current_players_attributes_process,
-    fpl_players_stats_process,
-)
-from jobs.processed_data.teams import fpl_team_stats_process
-from jobs.validation import player_name_validator
+from jobs.processing.fpl.players import fpl_players_stats_process
 
 
 def main():
@@ -20,8 +14,8 @@ def main():
     # fpl_fixtures_process.run()
     # fpl_team_stats_process.run()
     # fpl_current_players_attributes_process.run()
-    # player_name_validator.run()
     fpl_players_stats_process.run()
+    # player_name_validator.run()
 
     # Averages
     # teams_averages.run()

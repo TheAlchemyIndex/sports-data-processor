@@ -78,13 +78,13 @@ def extract_data(spark):
 
 
 def transform_data(gws_df, teams_df, players_attributes_df):
-    players_with_teams_df = gws_df.join(
-        teams_df, on="opponent_id", how="inner"
-    ).drop("opponent_id")
+    players_with_teams_df = gws_df.join(teams_df, on="opponent_id", how="inner").drop(
+        "opponent_id"
+    )
 
     players_with_names_df = players_with_teams_df.join(
         players_attributes_df, on="id", how="inner"
-    )
+    ).withColumn("source", fn.lit("fpl"))
 
     return players_with_names_df
 
@@ -95,7 +95,7 @@ def load_data(players_stats_df):
     """
     (
         players_stats_df.write.format("parquet")
-        .partitionBy("name", "round")
+        .partitionBy("source", "name", "round")
         .mode("append")
         .save(f"{_bucket}/processed-ingress/players/stats/season={_season}")
     )

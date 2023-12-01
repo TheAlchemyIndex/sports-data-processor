@@ -21,9 +21,11 @@ def run():
     log.warn(f"{job_name} running.")
 
     try:
-        elements_ingest_df, teams_ingest_df = extract_data(spark)
-        players_attributes_df = transform_data(elements_ingest_df, teams_ingest_df)
-        load_data(players_attributes_df)
+        players_attributes_df, previous_players_stats_df = extract_data(spark)
+        missing_players_df = transform_data(
+            players_attributes_df, previous_players_stats_df
+        )
+        load_data(missing_players_df)
     except Exception as e:
         log.error(f"Error running {job_name}: {str(e)}")
     finally:
@@ -33,7 +35,7 @@ def run():
 
 def extract_data(spark):
     """
-    Gets processed player attributes and previous season elements data.
+    Gets processed player attributes and previous season processed stats data.
     """
     current_season_players_attributes_df = (
         spark.read.format("parquet")
@@ -43,31 +45,32 @@ def extract_data(spark):
         .filter(fn.col("round") == 12)
     )
 
-    previous_season_players_attributes_df = (
+    previous_season_players_stats_df = (
         spark.read.format("parquet")
-        .load(f"{_bucket}/processed-ingress/players/attributes/")
+        .load(f"{_bucket}/processed-ingress/players/stats/")
         .filter(fn.col("season") == get_previous_season())
         .filter(fn.col("round") == 38)
     )
 
-    return current_season_players_attributes_df, previous_season_players_attributes_df
+    return current_season_players_attributes_df, previous_season_players_stats_df
 
 
 def transform_data(
-    current_season_players_attributes_df, previous_season_players_attributes_df
+    current_season_players_attributes_df, previous_season_players_stats_df
 ):
     """
-    Join current season attributes and previous season attributes together to get missing players.
+    Join current season attributes and previous season stats together to get missing players.
     """
-    joined_attributes_df = current_season_players_attributes_df.join(
-        previous_season_players_attributes_df, on=["name"], how="leftanti"
+    missing_players_df = current_season_players_attributes_df.join(
+        previous_season_players_stats_df, on=["name"], how="leftanti"
     )
 
-    return joined_attributes_df
+    return missing_players_df
 
 
-def load_data(joined_attributes_df):
+def load_data(missing_players_df):
     """
-    Display results of joining attributes data together.
+    Display results of joining attributes and stats data together.
     """
-    joined_attributes_df.show()
+    print(missing_players_df.count())
+    missing_players_df.show()
