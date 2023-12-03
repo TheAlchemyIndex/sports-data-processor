@@ -7,6 +7,8 @@
 # from jobs.predictions import fpl_points_predictor
 # from jobs.predictions.back_fills import fpl_points_predictor_back_fill
 from jobs.processing.fpl.players import fpl_players_stats_process
+from jobs.processing.understat import understat_players_stats_process
+from jobs.validation import missing_players
 
 
 def main():
@@ -14,8 +16,9 @@ def main():
     # fpl_fixtures_process.run()
     # fpl_team_stats_process.run()
     # fpl_current_players_attributes_process.run()
-    fpl_players_stats_process.run()
+    # fpl_players_stats_process.run()
     # player_name_validator.run()
+    understat_players_stats_process.run()
 
     # Averages
     # teams_averages.run()

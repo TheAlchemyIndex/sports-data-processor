@@ -4,12 +4,12 @@ from config import ConfigurationParser
 from dependencies.spark import create_spark_session
 from dependencies.current_gw import get_current_gw
 
-_current_season = ConfigurationParser.get_config("external", "season")
+_season = ConfigurationParser.get_config("external", "season")
 _bucket = ConfigurationParser.get_config("file_paths", "sports-data-pipeline")
 
 
 def get_previous_season():
-    split_season = _current_season.split("-")
+    split_season = _season.split("-")
     previous_season_start = int(split_season[0]) - 1
     previous_season_end = int(split_season[1]) - 1
     return str(f"{previous_season_start}-{previous_season_end}")
@@ -40,9 +40,8 @@ def extract_data(spark):
     current_season_players_attributes_df = (
         spark.read.format("parquet")
         .load(f"{_bucket}/processed-ingress/players/attributes/")
-        .filter(fn.col("season") == _current_season)
-        # .filter(fn.col("round") == get_current_gw())
-        .filter(fn.col("round") == 12)
+        .filter(fn.col("season") == _season)
+        .filter(fn.col("round") == get_current_gw())
     )
 
     previous_season_players_stats_df = (
@@ -63,14 +62,18 @@ def transform_data(
     """
     missing_players_df = current_season_players_attributes_df.join(
         previous_season_players_stats_df, on=["name"], how="leftanti"
-    )
+    ).select("name", "position", "team")
 
     return missing_players_df
 
 
 def load_data(missing_players_df):
     """
-    Display results of joining attributes and stats data together.
+    Write DataFrame as Parquet format.
     """
-    print(missing_players_df.count())
-    missing_players_df.show()
+    (
+        missing_players_df.coalesce(1)
+        .write.format("parquet")
+        .mode("overwrite")
+        .save(f"{_bucket}/processed-ingress/missing-players/season={_season}")
+    )
