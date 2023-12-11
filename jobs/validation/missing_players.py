@@ -42,6 +42,7 @@ def extract_data(spark):
         .load(f"{_bucket}/processed-ingress/players/attributes/")
         .filter(fn.col("season") == _season)
         .filter(fn.col("round") == get_current_gw())
+        .select("id", "name", "position", "team")
     )
 
     previous_season_players_stats_df = (
@@ -49,6 +50,7 @@ def extract_data(spark):
         .load(f"{_bucket}/processed-ingress/players/stats/")
         .filter(fn.col("season") == get_previous_season())
         .filter(fn.col("round") == 38)
+        .select("name")
     )
 
     return current_season_players_attributes_df, previous_season_players_stats_df
@@ -62,7 +64,7 @@ def transform_data(
     """
     missing_players_df = current_season_players_attributes_df.join(
         previous_season_players_stats_df, on=["name"], how="leftanti"
-    ).select("name", "position", "team")
+    )
 
     return missing_players_df
 
@@ -75,5 +77,9 @@ def load_data(missing_players_df):
         missing_players_df.coalesce(1)
         .write.format("parquet")
         .mode("overwrite")
-        .save(f"{_bucket}/processed-ingress/missing-players/season={_season}")
+        .save(f"{_bucket}/processed-ingress/players/missing-players/season={_season}")
     )
+
+
+if __name__ == "__main__":
+    run()

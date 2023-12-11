@@ -1,12 +1,9 @@
-# from jobs.averages import teams_averages, players_averages, season_averages
-# from jobs.averages.back_fills import (
-#     teams_averages_back_fill,
-#     players_averages_back_fill,
-#     season_averages_back_fill,
-# )
-# from jobs.predictions import fpl_points_predictor
-# from jobs.predictions.back_fills import fpl_points_predictor_back_fill
-from jobs.processing.fpl.players import fpl_players_stats_process
+from jobs.processing.fpl.fixtures import fpl_fixtures_process
+from jobs.processing.fpl.players import (
+    fpl_players_stats_process,
+    fpl_current_players_attributes_process,
+)
+from jobs.processing.fpl.teams import fpl_team_stats_process
 from jobs.processing.understat import understat_players_stats_process
 from jobs.validation import missing_players
 

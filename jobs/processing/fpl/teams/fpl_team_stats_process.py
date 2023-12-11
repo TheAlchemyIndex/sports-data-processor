@@ -27,10 +27,8 @@ def extract_data(spark):
     """
     Gets processed fixtures data.
     """
-    fixtures_df = (
-        spark.read.format("parquet")
-        .load(f"{_bucket}/processed-ingress/fixtures/")
-        .filter(fn.col("season") == _season)
+    fixtures_df = spark.read.format("parquet").load(
+        f"{_bucket}/processed-ingress/fixtures/season={_season}/fpl/"
     )
 
     return fixtures_df

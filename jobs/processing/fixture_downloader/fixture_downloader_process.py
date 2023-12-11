@@ -6,6 +6,58 @@ from dependencies.spark import create_spark_session
 _season = ConfigurationParser.get_config("external", "season")
 _bucket = ConfigurationParser.get_config("file_paths", "sports-data-pipeline")
 
+team_name_mapping = {
+    "1. FC Köln": "FC Köln",
+    "1. FC Union Berlin": "Union Berlin",
+    "1. FSV Mainz 05": "Mainz 05",
+    "AC Ajaccio": "Ajaccio",
+    "AJ Auxerre": "Auxerre",
+    "Angers SCO": "Angers",
+    "AS Monaco": "Monaco",
+    "Atlético de Madrid": "Atlético Madrid",
+    "Bayer 04 Leverkusen": "Bayer Leverkusen",
+    "CA Osasuna": "Osasuna",
+    "Clermont Foot 63": "Clermont Foot",
+    "Cádiz CF": "Cádiz",
+    "Elche CF": "Elche",
+    "ESTAC Troyes": "Troyes",
+    "FC Augsburg": "Augsburg",
+    "FC Barcelona": "Barcelona",
+    "FC Bayern München": "Bayern Munich",
+    "FC Lorient": "Lorient",
+    "FC Nantes": "Nantes",
+    "FC Schalke 04": "Schalke 04",
+    "Getafe CF": "Getafe",
+    "Girona FC": "Girona",
+    "Hellas Verona": "Verona",
+    "Hertha BSC": "Hertha Berlin",
+    "LOSC Lille": "Lille",
+    "Milan": "AC Milan",
+    "Montpellier Hérault SC": "Montpellier",
+    "OGC Nice": "Nice",
+    "Olympique de Marseille": "Marseille",
+    "Olympique Lyonnais": "Lyon",
+    "RC Celta": "Celta Vigo",
+    "RC Lens": "Lens",
+    "RC Strasbourg Alsace": "Strasbourg",
+    "Real Valladolid CF": "Real Valladolid",
+    "RCD Espanyol de Barcelona": "Espanyol",
+    "RCD Mallorca": "Mallorca",
+    "Sevilla FC": "Sevilla",
+    "Sport-Club Freiburg": "Freiburg",
+    "Stade Brestois 29": "Brest",
+    "Stade de Reims": "Reims",
+    "Stade Rennais FC": "Rennes",
+    "SV Werder Bremen": "Werder Bremen",
+    "Toulouse FC": "Toulouse",
+    "TSG Hoffenheim": "Hoffenheim",
+    "UD Almería": "Almería",
+    "Valencia CF": "Valencia",
+    "VfL Bochum 1848": "Bochum",
+    "VfL Wolfsburg": "Wolfsburg",
+    "Villarreal CF": "Villarreal",
+}
+
 
 def get_previous_season():
     split_season = _season.split("-")
@@ -48,16 +100,17 @@ def transform_data(fixtures_df):
     Transforms fixtures data.
     """
     processed_fixtures_df = (
-        fixtures_df
-        .select(
+        fixtures_df.select(
             fn.col("RoundNumber").alias("event"),
             fn.col("DateUtc").alias("kickoff_time"),
             fn.col("HomeTeam").alias("team_h"),
             fn.col("HomeTeamScore").alias("team_h_score"),
-            fn.col("AwayTeamScore").alias("team_a"),
+            fn.col("AwayTeam").alias("team_a"),
             fn.col("AwayTeamScore").alias("team_a_score"),
-            "league"
+            "league",
         )
+        .replace(to_replace=team_name_mapping, subset="team_h")
+        .replace(to_replace=team_name_mapping, subset="team_a")
     )
 
     return processed_fixtures_df
@@ -71,7 +124,9 @@ def load_data(processed_fixtures_df):
         processed_fixtures_df.write.format("parquet")
         .partitionBy("league")
         .mode("overwrite")
-        .save(f"{_bucket}/processed-ingress/fixtures/season={get_previous_season()}/fixture-downloader/")
+        .save(
+            f"{_bucket}/processed-ingress/fixtures/season={get_previous_season()}/fixture-downloader/"
+        )
     )
 
 
