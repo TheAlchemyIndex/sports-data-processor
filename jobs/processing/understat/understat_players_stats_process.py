@@ -26,7 +26,15 @@ team_name_mapping = {
 
 player_name_mapping = {
     "Aaron Ramsey": "Aaron James Ramsey",
+    "André Gomes": "André Tavares Gomes",
+    "Anssumane Fati": "Anssumane Fati Vieira",
+    "Chimuanya Ugochukwu": "Lesley Ugochukwu",
+    "Fode Toure": "Fodé Ballo-Touré",
+    "Igor Julio": "Igor Julio dos Santos de Paulo",
+    "Josko Gvardiol": "Joško Gvardiol",
     "Iyenoma Destiny Udogie": "Destiny Udogie",
+    "Nuno Tavares": "Nuno Varela Tavares",
+    "Ola Aina": "Olu Aina",
 }
 
 

@@ -35,6 +35,7 @@ player_name_mapping = {
     "Joseph Willock": "Joe Willock",
     "José Diogo Dalot Teixeira": "Diogo Dalot Teixeira",
     "João Pedro Cavaco Cancelo": "João Cancelo",
+    "Luis Sinisterra Lucumí": "Luis Sinisterra",
     "Lyanco Evangelista Silveira Neves Vojnovic": "Lyanco Silveira Neves Vojnovic",
     "Marc Cucurella": "Marc Cucurella Saseta",
     "Mateo Kovacic": "Mateo Kovačić",
@@ -54,6 +55,7 @@ player_name_mapping = {
     "Solomon March": "Solly March",
     "Tomas Soucek": "Tomáš Souček",
     "Vladimir Coufal": "Vladimír Coufal",
+    "Yegor Yarmolyuk": "Yegor Yarmoliuk",
 }
 
 
