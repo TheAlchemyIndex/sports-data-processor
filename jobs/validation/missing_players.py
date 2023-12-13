@@ -49,7 +49,7 @@ def extract_data(spark):
         spark.read.format("parquet")
         .load(f"{_bucket}/processed-ingress/players/stats/")
         .filter(fn.col("season") == get_previous_season())
-        .filter(fn.col("round") == 38)
+        .filter(fn.col("round") >= 10)
         .select("name")
     )
 

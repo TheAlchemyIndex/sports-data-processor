@@ -24,7 +24,10 @@ team_name_mapping = {
     "Wolverhampton Wanderers": "Wolves",
 }
 
-player_name_mapping = {"Aaron Ramsey": "Aaron James Ramsey"}
+player_name_mapping = {
+    "Aaron Ramsey": "Aaron James Ramsey",
+    "Iyenoma Destiny Udogie": "Destiny Udogie",
+}
 
 
 def get_previous_season():
@@ -121,7 +124,6 @@ def transform_data(understat_players_df, missing_players_df, fixture_downloader_
             # For working out if match was home or away
             .withColumn("team_count", fn.count("h_team").over(window))
             .withColumn("total_points", fn.lit(None).cast("long"))
-            # .withColumn("total_points", fn.lit(0))
             .withColumn(
                 "was_home", fn.when(fn.col("team_count") != 1, True).otherwise(False)
             )
@@ -141,10 +143,6 @@ def transform_data(understat_players_df, missing_players_df, fixture_downloader_
             .withColumn("saves", fn.lit(None).cast("long"))
             .withColumn("bonus", fn.lit(None).cast("long"))
             .withColumn("value", fn.lit(None).cast("double"))
-            # .withColumn("yellow_cards", fn.lit(0))
-            # .withColumn("saves", fn.lit(0))
-            # .withColumn("bonus", fn.lit(0))
-            # .withColumn("value", fn.lit(0))
             .withColumn(
                 "opponent_team",
                 fn.when(fn.col("was_home"), fn.col("a_team")).otherwise(
@@ -159,9 +157,7 @@ def transform_data(understat_players_df, missing_players_df, fixture_downloader_
                 ),
             )
             .withColumn("chance_of_playing_next_round", fn.lit(None).cast("long"))
-            # .withColumn("chance_of_playing_next_round", fn.lit(0))
             .withColumn("news", fn.lit(None).cast("string"))
-            # .withColumn("news", fn.lit(""))
             .withColumn(
                 "team",
                 fn.when(fn.col("team_count") != 1, fn.col("h_team")).otherwise(
@@ -219,5 +215,7 @@ def load_data(processed_understat_players_df):
         processed_understat_players_df.write.format("parquet")
         .partitionBy("name", "round")
         .mode("overwrite")
-        .save(f"{_bucket}/processed-ingress/players/stats/season={get_previous_season()}/source=understat/")
+        .save(
+            f"{_bucket}/processed-ingress/players/stats/season={get_previous_season()}/source=understat/"
+        )
     )
