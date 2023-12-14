@@ -12,10 +12,10 @@ def main():
     # Processing data
     # fpl_fixtures_process.run()
     # fpl_team_stats_process.run()
-    # fpl_current_players_attributes_process.run()
-    # fpl_players_stats_process.run()
+    fpl_current_players_attributes_process.run()
+    fpl_players_stats_process.run()
     # player_name_validator.run()
-    understat_players_stats_process.run()
+    # understat_players_stats_process.run()
 
     # Averages
     # teams_averages.run()
