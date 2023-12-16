@@ -25,6 +25,7 @@ team_name_mapping = {
     "FC Barcelona": "Barcelona",
     "FC Bayern München": "Bayern Munich",
     "FC Lorient": "Lorient",
+    "FC Metz": "Metz",
     "FC Nantes": "Nantes",
     "FC Schalke 04": "Schalke 04",
     "Getafe CF": "Getafe",
