@@ -2,6 +2,7 @@ from pyspark.sql import functions as fn
 
 from config import ConfigurationParser
 from dependencies.spark import create_spark_session
+
 from dependencies.current_gw import get_current_gw
 
 _season = ConfigurationParser.get_config("external", "season")
@@ -16,7 +17,7 @@ def get_previous_season():
 
 
 def run():
-    job_name = "fpl_player_name_validator"
+    job_name = "fpl_missing_players"
     spark, log = create_spark_session(app_name=job_name)
     log.warn(f"{job_name} running.")
 

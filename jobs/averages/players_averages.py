@@ -1,10 +1,9 @@
-import json
-
-import requests
 from pyspark.sql import functions as fn
 
 from config import ConfigurationParser
 from dependencies.spark import create_spark_session
+
+from dependencies.current_gw import get_current_gw
 from jobs.averages.util.average_calculator import (
     last_n_rows,
     calculate_partitioned_avg,
@@ -13,26 +12,13 @@ from jobs.averages.util.average_calculator import (
 )
 
 _season = ConfigurationParser.get_config("external", "season")
-_bucket = ConfigurationParser.get_config("file_paths", "football_bucket")
-_processed_data_path = ConfigurationParser.get_config(
-    "file_paths", "processed_data_output"
-)
-_processed_players_path = ConfigurationParser.get_config(
-    "file_paths", "processed_players_stats_output"
-)
-_players_averages_output_path = ConfigurationParser.get_config(
-    "file_paths", "players_averages_output"
-)
-_processed_players_attributes_path = ConfigurationParser.get_config(
-    "file_paths", "processed_players_attributes_output"
-)
-_fpl_events_endpoint = ConfigurationParser.get_config("external", "fpl_main_uri")
+_bucket = ConfigurationParser.get_config("file_paths", "sports-data-pipeline")
 
 
 def run():
     job_name = "players_averages"
 
-    spark, log = create_spark_session(app_name=job_name, files=[])
+    spark, log = create_spark_session(app_name=job_name)
     log.warn(f"{job_name} running.")
 
     try:
@@ -50,27 +36,18 @@ def extract_data(spark):
     """
     Gets processed players data.
     """
-    # TODO Work out a better way to get current gameweek that can be used across other jobs
-    events_response = requests.get(_fpl_events_endpoint)
-    events_response.raise_for_status()
-    events_data = json.loads(events_response.text)["events"]
-    gw_num = 0
-    for event in events_data:
-        if event["is_current"]:
-            gw_num = event["id"]
-
     players_df = (
         spark.read.format("parquet")
-        .load(f"{_bucket}/{_processed_data_path}/{_processed_players_path}")
+        .load(f"{_bucket}/processed-ingress/players/stats/")
         .withColumnRenamed("kickoff_time", "date")
         .drop("id")
     )
 
     players_attributes_df = (
         spark.read.format("parquet")
-        .load(f"{_bucket}/{_processed_data_path}/{_processed_players_attributes_path}/")
+        .load(f"{_bucket}/processed-ingress/players/attributes/")
         .filter(fn.col("season") == _season)
-        .filter(fn.col("round") == gw_num)
+        .filter(fn.col("round") == get_current_gw())
         .select("name", "id")
     )
 
@@ -99,25 +76,27 @@ def transform_data(players_df, players_attributes_df):
 
     players_df_recent_id = last_value_in_col(players_df_recent_team, "name", "id", "id")
 
-    players_df_min_percentage_player = players_df_recent_id.withColumn(
+    players_df_min_percentage_played_df = players_df_recent_id.withColumn(
         "minutes_percentage_played_last_5",
         calculate_partitioned_avg_single("name", "minutes"),
     ).orderBy(fn.col("date").asc())
 
-    players_df_min_percentage_player = players_df_min_percentage_player.withColumn(
-        "minutes_percentage_played_last_5",
-        fn.col("minutes_percentage_played_last_5") / 90,
+    players_df_min_percentage_played_df = (
+        players_df_min_percentage_played_df.withColumn(
+            "minutes_percentage_played_last_5",
+            fn.col("minutes_percentage_played_last_5") / 90,
+        )
     )
 
-    players_df_min_percentage_player = last_value_in_col(
-        players_df_min_percentage_player,
+    players_df_min_percentage_played_df = last_value_in_col(
+        players_df_min_percentage_played_df,
         "name",
         "minutes_percentage_played_last_5",
         "minutes_percentage_played_last_5",
     )
 
     players_df_recent_playing_chance = last_value_in_col(
-        players_df_min_percentage_player,
+        players_df_min_percentage_played_df,
         "name",
         "chance_of_playing_next_round",
         "chance_of_playing_next_round",
@@ -187,9 +166,5 @@ def load_data(players_avg_df):
         players_avg_df.coalesce(1)
         .write.format("parquet")
         .mode("overwrite")
-        .save(f"{_bucket}/{_players_averages_output_path}")
+        .save(f"{_bucket}/averages/players/")
     )
-
-
-if __name__ == "__main__":
-    run()

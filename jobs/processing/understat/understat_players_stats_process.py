@@ -153,7 +153,7 @@ def transform_data(understat_players_df, missing_players_df, fixture_downloader_
             .withColumn("yellow_cards", fn.lit(None).cast("long"))
             .withColumn("saves", fn.lit(None).cast("long"))
             .withColumn("bonus", fn.lit(None).cast("long"))
-            .withColumn("value", fn.lit(None).cast("double"))
+            .withColumn("value", fn.lit(None).cast("long"))
             .withColumn(
                 "opponent_team",
                 fn.when(fn.col("was_home"), fn.col("a_team")).otherwise(
@@ -194,11 +194,11 @@ def transform_data(understat_players_df, missing_players_df, fixture_downloader_
             "total_points",
             "was_home",
             "kickoff_time",
-            fn.col("time").alias("minutes"),
-            fn.col("goals").alias("goals_scored"),
-            "assists",
-            "clean_sheets",
-            "goals_conceded",
+            fn.col("time").cast("long").alias("minutes"),
+            fn.col("goals").cast("long").alias("goals_scored"),
+            fn.col("assists").cast("long").alias("assists"),
+            fn.col("clean_sheets").cast("long").alias("clean_sheets"),
+            fn.col("goals_conceded").cast("long").alias("goals_conceded"),
             "yellow_cards",
             "saves",
             "bonus",
@@ -230,3 +230,7 @@ def load_data(processed_understat_players_df):
             f"{_bucket}/processed-ingress/players/stats/season={get_previous_season()}/source=understat/"
         )
     )
+
+
+if __name__ == "__main__":
+    run()
