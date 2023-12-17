@@ -4,28 +4,13 @@ from config import ConfigurationParser
 from dependencies.spark import create_spark_session
 
 _season = ConfigurationParser.get_config("external", "season")
-_bucket = ConfigurationParser.get_config("file_paths", "football_bucket")
-_processed_data_path = ConfigurationParser.get_config(
-    "file_paths", "processed_data_output"
-)
-_processed_fixtures_path = ConfigurationParser.get_config(
-    "file_paths", "processed_fixtures_output"
-)
-_players_averages_path = ConfigurationParser.get_config(
-    "file_paths", "players_averages_output"
-)
-_teams_averages_path = ConfigurationParser.get_config(
-    "file_paths", "teams_averages_output"
-)
-_season_averages_output_path = ConfigurationParser.get_config(
-    "file_paths", "season_averages_output"
-)
+_bucket = ConfigurationParser.get_config("file_paths", "sports-data-pipeline")
 
 
 def run():
     job_name = "season_averages"
 
-    spark, log = create_spark_session(app_name=job_name, files=[])
+    spark, log = create_spark_session(app_name=job_name)
     log.warn(f"{job_name} running.")
 
     try:
@@ -50,9 +35,9 @@ def extract_data(spark):
     processed_fixtures_df = (
         spark.read.format("parquet")
         .load(
-            f"{_bucket}/{_processed_data_path}/{_processed_fixtures_path}/season={_season}"
+            f"{_bucket}/processed-ingress/fixtures/season={_season}/fpl/"
         )
-        .filter("kickoff_time is Not NULL")
+        .filter(fn.col("kickoff_time").isNotNull())
         .withColumn("date", fn.to_date(fn.col("kickoff_time"), "yyyy-MM-dd"))
         .withColumnRenamed("team_h", "team")
         .withColumnRenamed("team_a", "opponent")
@@ -60,11 +45,11 @@ def extract_data(spark):
     )
 
     players_averages_df = spark.read.format("parquet").load(
-        f"{_bucket}/{_players_averages_path}"
+        f"{_bucket}/averages/players/"
     )
 
     teams_averages_df = spark.read.format("parquet").load(
-        f"{_bucket}/{_teams_averages_path}"
+        f"{_bucket}/averages/teams/"
     )
 
     return processed_fixtures_df, players_averages_df, teams_averages_df
@@ -119,9 +104,5 @@ def load_data(players_fixtures_teams_df):
         players_fixtures_teams_df.coalesce(1)
         .write.format("parquet")
         .mode("overwrite")
-        .save(f"{_bucket}/{_season_averages_output_path}")
+        .save(f"{_bucket}/averages/season/")
     )
-
-
-if __name__ == "__main__":
-    run()

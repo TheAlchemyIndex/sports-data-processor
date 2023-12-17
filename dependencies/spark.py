@@ -22,6 +22,7 @@ def create_spark_session(app_name="sports_data_processor", master="local[*]"):
         )
         .getOrCreate()
     )
+    spark.sql("set spark.sql.legacy.timeParserPolicy=LEGACY")
 
     spark_logger = logging.Log4j(spark)
 

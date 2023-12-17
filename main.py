@@ -1,4 +1,4 @@
-from jobs.averages import players_averages, teams_averages
+from jobs.averages import players_averages, teams_averages, season_averages
 from jobs.processing.fpl.fixtures import fpl_fixtures_process
 from jobs.processing.fpl.players import (
     fpl_players_stats_process,
@@ -17,9 +17,9 @@ def main():
     # fpl_players_stats_process.run()
 
     # Averages
-    teams_averages.run()
+    # teams_averages.run()
     # players_averages.run()
-    # season_averages.run()
+    season_averages.run()
 
     # Predictions
     # fpl_points_predictor.run()
