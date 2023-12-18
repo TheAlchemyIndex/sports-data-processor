@@ -1,32 +1,19 @@
-import json
-
-import requests
 from pyspark.sql import functions as fn
 
 from config import ConfigurationParser
 from dependencies.spark import create_spark_session
+from dependencies.gw_getter import get_next_gw
 
-# _season = ConfigurationParser.get_config("external", "season")
-_season = "2023-24"
-_bucket = ConfigurationParser.get_config("file_paths", "football_bucket")
-_season_averages_path = ConfigurationParser.get_config(
-    "file_paths", "season_averages_output"
-)
-_predictions_output_path = ConfigurationParser.get_config(
-    "file_paths", "predictions_data_output"
-)
-_fpl_predicted_points_output_path = ConfigurationParser.get_config(
-    "file_paths", "fpl_predicted_points_output"
-)
-_fpl_season_predictions_output_path = ConfigurationParser.get_config(
-    "file_paths", "fpl_season_predictions_output"
-)
+_season = ConfigurationParser.get_config("external", "season")
+_bucket = ConfigurationParser.get_config("file_paths", "sports-data-pipeline")
+
+next_gw = get_next_gw()
 
 
 def run():
     job_name = "fpl_points_predictor"
 
-    spark, log = create_spark_session(app_name=job_name, files=[])
+    spark, log = create_spark_session(app_name=job_name)
     log.warn(f"{job_name} running.")
 
     try:
@@ -45,7 +32,7 @@ def extract_data(spark):
     Gets averages for players for the full season.
     """
     season_averages_df = spark.read.format("parquet").load(
-        f"{_bucket}/{_season_averages_path}"
+        f"{_bucket}/averages/season/"
     )
 
     return season_averages_df
@@ -135,23 +122,6 @@ def transform_data(season_averages_df):
         )
         .withColumn("assist_points", fn.col("assists_avg") * 3)
         .withColumn("save_points", fn.col("saves_avg") / 3)
-        # .withColumn(
-        #     "expected_points",
-        #     fn.round(
-        #         (
-        #             fn.col("minute_points")
-        #             + fn.col("goal_points")
-        #             + fn.col("clean_sheet_points")
-        #             + fn.col("assist_points")
-        #             + fn.col("save_points")
-        #             + fn.col("bonus_avg")
-        #             - fn.col("yellow_cards_avg")
-        #         )
-        #         * fn.col("minutes_percentage_played_last_5"),
-        #         2,
-        #     ),
-        # )
-        # from gw 6 predictions onwards
         .withColumn(
             "expected_points",
             fn.when(fn.col("chance_of_playing_next_round") == 0, 0).otherwise(
@@ -195,25 +165,23 @@ def load_data(predicted_points_df):
     """
     Write DataFrame as Parquet format.
     """
-    gw_num = 7
-
-    # (
-    #     predicted_points_df.filter(fn.col("round") == gw_num)
-    #     .coalesce(1)
-    #     .write.format("parquet")
-    #     .mode("overwrite")
-    #     .save(
-    #         f"{_bucket}/{_predictions_output_path}/{_fpl_predicted_points_output_path}/season={_season}/round={gw_num}"
-    #     )
-    # )
+    (
+        predicted_points_df.filter(fn.col("round") == next_gw)
+        .coalesce(1)
+        .write.format("parquet")
+        .mode("overwrite")
+        .save(
+            f"{_bucket}/predictions/fpl/predicted-points/season={_season}/round={next_gw}"
+        )
+    )
 
     (
-        predicted_points_df.filter(fn.col("round") > gw_num)
+        predicted_points_df.filter(fn.col("round") > next_gw)
         .coalesce(1)
         .write.format("parquet")
         .partitionBy("round")
         .mode("overwrite")
         .save(
-            f"{_bucket}/{_predictions_output_path}/{_fpl_season_predictions_output_path}/season={_season}/round={gw_num}"
+            f"{_bucket}/predictions/fpl/season-predictions/season={_season}/round={next_gw}"
         )
     )

@@ -1,4 +1,5 @@
 from jobs.averages import players_averages, teams_averages, season_averages
+from jobs.averages.back_fills import teams_averages_back_fill
 from jobs.predictions import fpl_points_predictor
 from jobs.processing.fpl.fixtures import fpl_fixtures_process
 from jobs.processing.fpl.players import (
@@ -23,10 +24,10 @@ def main():
     # season_averages.run()
 
     # Predictions
-    fpl_points_predictor.run()
+    # fpl_points_predictor.run()
 
     # Back fills
-    # teams_averages_back_fill.run()
+    teams_averages_back_fill.run("2023-24", 10, 10)
     # players_averages_back_fill.run()
     # season_averages_back_fill.run()
     # fpl_points_predictor_back_fill.run()

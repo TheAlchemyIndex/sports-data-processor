@@ -34,9 +34,7 @@ def extract_data(spark):
     """
     processed_fixtures_df = (
         spark.read.format("parquet")
-        .load(
-            f"{_bucket}/processed-ingress/fixtures/season={_season}/fpl/"
-        )
+        .load(f"{_bucket}/processed-ingress/fixtures/season={_season}/fpl/")
         .filter(fn.col("kickoff_time").isNotNull())
         .withColumn("date", fn.to_date(fn.col("kickoff_time"), "yyyy-MM-dd"))
         .withColumnRenamed("team_h", "team")
@@ -48,9 +46,7 @@ def extract_data(spark):
         f"{_bucket}/averages/players/"
     )
 
-    teams_averages_df = spark.read.format("parquet").load(
-        f"{_bucket}/averages/teams/"
-    )
+    teams_averages_df = spark.read.format("parquet").load(f"{_bucket}/averages/teams/")
 
     return processed_fixtures_df, players_averages_df, teams_averages_df
 

@@ -1,68 +1,68 @@
 from pyspark.sql import functions as fn
-
 from config import ConfigurationParser
 from dependencies.spark import create_spark_session
 from jobs.averages.util.average_calculator import last_n_rows, calculate_partitioned_avg
 
-_bucket = ConfigurationParser.get_config("file_paths", "football_bucket")
-_processed_data_path = ConfigurationParser.get_config(
-    "file_paths", "processed_data_output"
-)
-_processed_teams_path = ConfigurationParser.get_config(
-    "file_paths", "processed_teams_output"
-)
-_teams_averages_output_path = ConfigurationParser.get_config(
-    "file_paths", "teams_averages_output"
-)
+_bucket = ConfigurationParser.get_config("file_paths", "sports-data-pipeline")
 
 
-def run():
+def get_previous_season(season):
+    split_season = season.split("-")
+    previous_season_start = int(split_season[0]) - 1
+    previous_season_end = int(split_season[1]) - 1
+    return str(f"{previous_season_start}-{previous_season_end}")
+
+
+def run(season, starting_gw, ending_gw):
     job_name = "teams_averages_back_fill"
 
-    spark, log = create_spark_session(app_name=job_name, files=[])
+    spark, log = create_spark_session(app_name=job_name)
     log.warn(f"{job_name} running.")
 
-    try:
-        teams_df = extract_data(spark)
-        last_five_rows_avg_df = transform_data(teams_df)
-        load_data(last_five_rows_avg_df)
-    except Exception as e:
-        log.error(f"Error running {job_name}: {str(e)}")
-    finally:
-        log.warn(f"{job_name} is finished.")
-        spark.stop()
+    for gw in range(starting_gw, ending_gw + 1):
+        try:
+            teams_df, current_season_teams_df = extract_data(spark, season, gw)
+            last_five_rows_avg_df = transform_data(teams_df, current_season_teams_df)
+            load_data(last_five_rows_avg_df)
+        except Exception as e:
+            log.error(f"Error running {job_name}: {str(e)}")
+        finally:
+            log.warn(f"{job_name} is finished.")
+            spark.stop()
 
 
-def extract_data(spark):
+def extract_data(spark, season, gw):
     """
     Gets processed teams data.
     """
-    teams_df = spark.read.format("parquet").load(
-        f"{_bucket}/{_processed_data_path}/{_processed_teams_path}"
+    teams_df = spark.read.format("parquet").load(f"{_bucket}/processed-ingress/teams/")
+
+    previous_season_teams_df = teams_df.filter(
+        fn.col("season") == get_previous_season(season)
     )
 
-    first_df = teams_df.filter(fn.col("season") == "2021-22")
-    second_df = teams_df.filter(fn.col("season") == "2022-23")
-
-    # second_df = teams_df.filter(fn.col("season") == "2022-23").filter(
-    #     fn.col("event") < 38
-    # )
-
-    third_df = teams_df.filter(fn.col("season") == "2023-24").filter(
-        fn.col("event") < 7
+    current_season_teams_df = teams_df.filter(fn.col("season") == season).filter(
+        fn.col("event") <= gw
     )
 
-    union_df = first_df.union(second_df)
-    union_df_2 = union_df.union(third_df)
+    union_season_teams_df = previous_season_teams_df.union(current_season_teams_df)
 
-    return union_df_2
+    current_team_names_df = (
+        teams_df.filter(fn.col("season") == season).select("team").dropDuplicates()
+    )
+
+    return union_season_teams_df, current_team_names_df
 
 
-def transform_data(teams_df):
+def transform_data(union_season_teams_df, current_team_names_df):
     """
     Transform processed teams data.
     """
-    last_five_rows_df = last_n_rows(teams_df, "team_type", "team", 5)
+    filter_current_teams_df = union_season_teams_df.join(
+        current_team_names_df, on="team", how="inner"
+    )
+
+    last_five_rows_df = last_n_rows(filter_current_teams_df, "team_type", "team", 5)
 
     last_five_rows_avg_df = (
         last_five_rows_df.withColumn(
@@ -88,5 +88,5 @@ def load_data(last_five_rows_avg_df):
         last_five_rows_avg_df.coalesce(1)
         .write.format("parquet")
         .mode("overwrite")
-        .save(f"{_bucket}/{_teams_averages_output_path}")
+        .save(f"{_bucket}/averages/teams/")
     )
