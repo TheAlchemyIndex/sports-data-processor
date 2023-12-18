@@ -3,7 +3,7 @@ from pyspark.sql import functions as fn
 from config import ConfigurationParser
 from dependencies.spark import create_spark_session
 
-from dependencies.current_gw import get_current_gw
+from dependencies.gw_getter import get_current_gw
 
 _season = ConfigurationParser.get_config("external", "season")
 _bucket = ConfigurationParser.get_config("file_paths", "sports-data-pipeline")

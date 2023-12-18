@@ -15,3 +15,15 @@ def get_current_gw():
             gw_num = event["id"]
 
     return gw_num
+
+
+def get_next_gw():
+    events_response = requests.get(_fpl_events_endpoint)
+    events_response.raise_for_status()
+    events_data = json.loads(events_response.text)["events"]
+    gw_num = 0
+    for event in events_data:
+        if event["is_next"]:
+            gw_num = event["id"]
+
+    return gw_num
