@@ -2,24 +2,21 @@ from pyspark.sql import functions as fn
 
 from config import ConfigurationParser
 from dependencies.spark import create_spark_session
-from dependencies.gw_getter import get_next_gw
 
-_season = ConfigurationParser.get_config("external", "season")
 _bucket = ConfigurationParser.get_config("file_paths", "sports-data-pipeline")
 
-next_gw = get_next_gw()
 
-
-def run():
-    job_name = "fpl_points_predictor"
+def run(season, gw):
+    job_name = "fpl_points_predictor_back_fill"
 
     spark, log = create_spark_session(app_name=job_name)
     log.warn(f"{job_name} running.")
 
     try:
+        next_gw = gw + 1
         season_averages_df = extract_data(spark)
         predicted_points_df = transform_data(season_averages_df)
-        load_data(predicted_points_df)
+        load_data(predicted_points_df, season, next_gw)
     except Exception as e:
         log.error(f"Error running {job_name}: {str(e)}")
     finally:
@@ -161,7 +158,7 @@ def transform_data(season_averages_df):
     return expected_points_df
 
 
-def load_data(predicted_points_df):
+def load_data(predicted_points_df, season, next_gw):
     """
     Write DataFrame as Parquet format.
     """
@@ -171,7 +168,7 @@ def load_data(predicted_points_df):
         .write.format("parquet")
         .mode("overwrite")
         .save(
-            f"{_bucket}/predictions/fpl/predicted-points/season={_season}/round={next_gw}"
+            f"{_bucket}/predictions/fpl/predicted-points/season={season}/round={next_gw}"
         )
     )
 
@@ -182,6 +179,6 @@ def load_data(predicted_points_df):
         .partitionBy("round")
         .mode("overwrite")
         .save(
-            f"{_bucket}/predictions/fpl/season-predictions/season={_season}/round={next_gw}"
+            f"{_bucket}/predictions/fpl/season-predictions/season={season}/round={next_gw}"
         )
     )
