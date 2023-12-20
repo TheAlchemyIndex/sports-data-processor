@@ -13,22 +13,21 @@ from jobs.averages.util.average_calculator import (
 _bucket = ConfigurationParser.get_config("file_paths", "sports-data-pipeline")
 
 
-def run(season, starting_gw, ending_gw):
-    job_name = "players_averages"
+def run(season, gw):
+    job_name = "players_averages_back_fill"
 
     spark, log = create_spark_session(app_name=job_name)
     log.warn(f"{job_name} running.")
 
-    for gw in range(starting_gw, ending_gw + 1):
-        try:
-            players_df, players_attributes_df = extract_data(spark, season, gw)
-            last_five_rows_avg_df = transform_data(players_df, players_attributes_df)
-            load_data(last_five_rows_avg_df)
-        except Exception as e:
-            log.error(f"Error running {job_name}: {str(e)}")
-        finally:
-            log.warn(f"{job_name} is finished.")
-            spark.stop()
+    try:
+        players_df, players_attributes_df = extract_data(spark, season, gw)
+        last_five_rows_avg_df = transform_data(players_df, players_attributes_df)
+        load_data(last_five_rows_avg_df)
+    except Exception as e:
+        log.error(f"Error running {job_name}: {str(e)}")
+    finally:
+        log.warn(f"{job_name} is finished.")
+        spark.stop()
 
 
 def extract_data(spark, season, gw):

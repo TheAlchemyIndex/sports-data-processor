@@ -13,22 +13,21 @@ def get_previous_season(season):
     return str(f"{previous_season_start}-{previous_season_end}")
 
 
-def run(season, starting_gw, ending_gw):
+def run(season, gw):
     job_name = "teams_averages_back_fill"
 
     spark, log = create_spark_session(app_name=job_name)
     log.warn(f"{job_name} running.")
 
-    for gw in range(starting_gw, ending_gw + 1):
-        try:
-            teams_df, current_season_teams_df = extract_data(spark, season, gw)
-            last_five_rows_avg_df = transform_data(teams_df, current_season_teams_df)
-            load_data(last_five_rows_avg_df)
-        except Exception as e:
-            log.error(f"Error running {job_name}: {str(e)}")
-        finally:
-            log.warn(f"{job_name} is finished.")
-            spark.stop()
+    try:
+        teams_df, current_season_teams_df = extract_data(spark, season, gw)
+        last_five_rows_avg_df = transform_data(teams_df, current_season_teams_df)
+        load_data(last_five_rows_avg_df)
+    except Exception as e:
+        log.error(f"Error running {job_name}: {str(e)}")
+    finally:
+        log.warn(f"{job_name} is finished.")
+        spark.stop()
 
 
 def extract_data(spark, season, gw):
