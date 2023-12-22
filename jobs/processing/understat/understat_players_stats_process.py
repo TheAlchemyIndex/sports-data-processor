@@ -26,6 +26,7 @@ team_name_mapping = {
 
 player_name_mapping = {
     "Aaron Ramsey": "Aaron James Ramsey",
+    "Álex Moreno": "Alexandre Moreno Lopera",
     "André Gomes": "André Tavares Gomes",
     "Anssumane Fati": "Anssumane Fati Vieira",
     "Chimuanya Ugochukwu": "Lesley Ugochukwu",
