@@ -135,7 +135,7 @@ def transform_data(understat_players_df, missing_players_df, fixture_downloader_
             .replace(to_replace=team_name_mapping, subset="a_team")
             # For working out if match was home or away
             .withColumn("team_count", fn.count("h_team").over(window))
-            .withColumn("total_points", fn.lit(None).cast("long"))
+            .withColumn("total_points", fn.lit(0).cast("long"))
             .withColumn(
                 "was_home", fn.when(fn.col("team_count") != 1, True).otherwise(False)
             )
@@ -151,10 +151,10 @@ def transform_data(understat_players_df, missing_players_df, fixture_downloader_
                     (fn.col("time") >= 60) & (fn.col("goals_conceded") == 0), 1
                 ).otherwise(0),
             )
-            .withColumn("yellow_cards", fn.lit(None).cast("long"))
-            .withColumn("saves", fn.lit(None).cast("long"))
-            .withColumn("bonus", fn.lit(None).cast("long"))
-            .withColumn("value", fn.lit(None).cast("long"))
+            .withColumn("yellow_cards", fn.lit(0).cast("long"))
+            .withColumn("saves", fn.lit(0).cast("long"))
+            .withColumn("bonus", fn.lit(0).cast("long"))
+            .withColumn("value", fn.lit(0).cast("long"))
             .withColumn(
                 "opponent_team",
                 fn.when(fn.col("was_home"), fn.col("a_team")).otherwise(
@@ -168,8 +168,6 @@ def transform_data(understat_players_df, missing_players_df, fixture_downloader_
                     "concat_ws(' ', slice(split(name, ' '), 2, size(split(name, ' '))))"
                 ),
             )
-            .withColumn("chance_of_playing_next_round", fn.lit(None).cast("long"))
-            .withColumn("news", fn.lit(None).cast("string"))
             .withColumn(
                 "team",
                 fn.when(fn.col("team_count") != 1, fn.col("h_team")).otherwise(
@@ -207,8 +205,6 @@ def transform_data(understat_players_df, missing_players_df, fixture_downloader_
             "opponent_team",
             "first_name",
             "second_name",
-            "chance_of_playing_next_round",
-            "news",
             "position",
             "team",
             "name",

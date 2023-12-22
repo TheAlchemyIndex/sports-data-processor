@@ -69,7 +69,7 @@ def extract_data(spark, season, gw):
         .load(f"{_bucket}/processed-ingress/players/attributes/")
         .filter(fn.col("season") == season)
         .filter(fn.col("round") == gw)
-        .select("name", "id")
+        .select("name", "id", "chance_of_playing_next_round")
     )
 
     return target_players_data_df, players_attributes_df

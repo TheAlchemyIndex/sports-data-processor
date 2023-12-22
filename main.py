@@ -1,4 +1,5 @@
 from jobs import master_back_fill
+from jobs.processing.fpl.players.back_fills import fpl_players_stats_process_back_fill
 
 
 def main():
@@ -17,7 +18,7 @@ def main():
     # fpl_points_predictor.run()
 
     # Back fills
-    master_back_fill.run("2023-24", 12, 12)
+    master_back_fill.run("2022-23", 1, 1)
     # fpl_points_predictor_back_fill.run()
 
 

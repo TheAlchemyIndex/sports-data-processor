@@ -2,25 +2,23 @@ from pyspark.sql import functions as fn
 
 from config import ConfigurationParser
 from dependencies.spark import create_spark_session
-from dependencies.gw_getter import get_current_gw
 
-_season = ConfigurationParser.get_config("external", "season")
 _bucket = ConfigurationParser.get_config("file_paths", "sports-data-pipeline")
 
 
-def run():
+def run(season, gw):
     job_name = "fpl_players_stats_process"
     spark, log = create_spark_session(app_name=job_name)
     log.warn(f"{job_name} running.")
 
     try:
         gws_ingest_df, teams_ingest_df, players_attributes_processed_df = extract_data(
-            spark
+            spark, season, gw
         )
         player_stats_df = transform_data(
             gws_ingest_df, teams_ingest_df, players_attributes_processed_df
         )
-        load_data(player_stats_df)
+        load_data(player_stats_df, season)
     except Exception as e:
         log.error(f"Error running {job_name}: {str(e)}")
     finally:
@@ -28,15 +26,15 @@ def run():
         spark.stop()
 
 
-def extract_data(spark):
+def extract_data(spark, season, gw):
     """
     Gets players ingest, teams ingest and player names processed data.
     """
     gws_df = (
         spark.read.format("json")
         .load(f"{_bucket}/raw-ingress/fpl/players/rounds/")
-        .filter(fn.col("season") == _season)
-        .filter(fn.col("round") == get_current_gw())
+        .filter(fn.col("season") == season)
+        .filter(fn.col("round") == gw)
         .withColumnRenamed("opponent_team", "opponent_id")
         .select(
             "element",
@@ -60,7 +58,7 @@ def extract_data(spark):
     teams_df = (
         spark.read.format("json")
         .load(f"{_bucket}/raw-ingress/fpl/teams/")
-        .filter(fn.col("season") == _season)
+        .filter(fn.col("season") == season)
         .withColumnRenamed("id", "opponent_id")
         .withColumnRenamed("name", "opponent_team")
         .select("opponent_id", "opponent_team")
@@ -69,8 +67,8 @@ def extract_data(spark):
     players_attributes_df = (
         spark.read.format("parquet")
         .load(f"{_bucket}/processed-ingress/players/attributes/")
-        .filter(fn.col("season") == _season)
-        .filter(fn.col("round") == get_current_gw())
+        .filter(fn.col("season") == season)
+        .filter(fn.col("round") == gw)
         .drop("season", "chance_of_playing_next_round", "news")
     )
 
@@ -89,7 +87,7 @@ def transform_data(gws_df, teams_df, players_attributes_df):
     return players_with_names_df
 
 
-def load_data(players_stats_df):
+def load_data(players_stats_df, season):
     """
     Write DataFrame as Parquet format.
     """
@@ -97,5 +95,5 @@ def load_data(players_stats_df):
         players_stats_df.write.format("parquet")
         .partitionBy("name", "round")
         .mode("append")
-        .save(f"{_bucket}/processed-ingress/players/stats/season={_season}/source=fpl/")
+        .save(f"{_bucket}/processed-ingress/players/stats/season={season}/source=fpl/")
     )
