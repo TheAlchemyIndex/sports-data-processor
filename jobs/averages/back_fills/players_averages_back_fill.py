@@ -46,29 +46,30 @@ def extract_data(spark, season, gw):
     )
 
     previous_seasons_players_data_df = (
-        players_df
-        .withColumn("season_start", fn.split(fn.col("season"), "-").getItem(0))
+        players_df.withColumn(
+            "season_start", fn.split(fn.col("season"), "-").getItem(0)
+        )
         .withColumn("season_end", fn.split(fn.col("season"), "-").getItem(1))
-        .withColumn("numeric_season", fn.concat_ws("", fn.col("season_start"), fn.col("season_end")).cast("long"))
+        .withColumn(
+            "numeric_season",
+            fn.concat_ws("", fn.col("season_start"), fn.col("season_end")).cast("long"),
+        )
         .filter(fn.col("numeric_season") < numeric_season)
         .drop("season_start", "season_end", "numeric_season")
     )
 
-    current_season_players_data_df = (
-        players_df
-        .filter(fn.col("season") == season)
-        .filter(fn.col("round") <= gw)
+    current_season_players_data_df = players_df.filter(
+        (fn.col("season") == season) & (fn.col("round") <= gw)
     )
 
-    target_players_data_df = (
-        previous_seasons_players_data_df.union(current_season_players_data_df)
+    target_players_data_df = previous_seasons_players_data_df.union(
+        current_season_players_data_df
     )
 
     players_attributes_df = (
         spark.read.format("parquet")
         .load(f"{_bucket}/processed-ingress/players/attributes/")
-        .filter(fn.col("season") == season)
-        .filter(fn.col("round") == gw)
+        .filter((fn.col("season") == season) & (fn.col("round") == gw))
         .select("name", "id", "chance_of_playing_next_round")
     )
 

@@ -18,7 +18,7 @@ def main():
     # fpl_points_predictor.run()
 
     # Back fills
-    master_back_fill.run("2022-23", 1, 1)
+    master_back_fill.run("2022-23", 37, 37)
     # fpl_points_predictor_back_fill.run()
 
 

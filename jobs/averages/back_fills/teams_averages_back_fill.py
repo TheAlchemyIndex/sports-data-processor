@@ -40,8 +40,8 @@ def extract_data(spark, season, gw):
         fn.col("season") == get_previous_season(season)
     )
 
-    current_season_teams_df = teams_df.filter(fn.col("season") == season).filter(
-        fn.col("event") <= gw
+    current_season_teams_df = teams_df.filter(
+        (fn.col("season") == season) & (fn.col("event") <= gw)
     )
 
     union_season_teams_df = previous_season_teams_df.union(current_season_teams_df)
