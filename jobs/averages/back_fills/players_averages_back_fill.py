@@ -58,13 +58,16 @@ def extract_data(spark, season, gw):
         .drop("season_start", "season_end", "numeric_season")
     )
 
-    current_season_players_data_df = players_df.filter(
-        (fn.col("season") == season) & (fn.col("round") <= gw)
-    )
+    if gw == 0:
+        target_players_data_df = previous_seasons_players_data_df
+    else:
+        current_season_players_data_df = players_df.filter(
+            (fn.col("season") == season) & (fn.col("round") <= gw)
+        )
 
-    target_players_data_df = previous_seasons_players_data_df.union(
-        current_season_players_data_df
-    )
+        target_players_data_df = previous_seasons_players_data_df.union(
+            current_season_players_data_df
+        )
 
     players_attributes_df = (
         spark.read.format("parquet")
