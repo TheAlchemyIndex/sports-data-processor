@@ -40,7 +40,7 @@ def extract_data(spark):
         spark.read.format("parquet")
         .load(f"{_bucket}/processed-ingress/players/stats/")
         .withColumnRenamed("kickoff_time", "date")
-        .drop("id")
+        .drop("id", "position", "team", "value")
     )
 
     players_attributes_df = (
@@ -48,7 +48,7 @@ def extract_data(spark):
         .load(f"{_bucket}/processed-ingress/players/attributes/")
         .filter(fn.col("season") == _season)
         .filter(fn.col("round") == get_current_gw())
-        .select("name", "id", "chance_of_playing_next_round")
+        .select("id", "name", "chance_of_playing_next_round", "price", "position", "team")
     )
 
     return players_df, players_attributes_df
@@ -62,21 +62,7 @@ def transform_data(players_df, players_attributes_df):
         players_df, on=["name"], how="inner"
     ).orderBy(fn.col("date").asc())
 
-    players_df_recent_price = last_value_in_col(
-        current_players_df, "name", "value", "price"
-    )
-
-    players_df_recent_position = last_value_in_col(
-        players_df_recent_price, "name", "position", "position"
-    )
-
-    players_df_recent_team = last_value_in_col(
-        players_df_recent_position, "name", "team", "team"
-    )
-
-    players_df_recent_id = last_value_in_col(players_df_recent_team, "name", "id", "id")
-
-    players_df_min_percentage_played_df = players_df_recent_id.withColumn(
+    players_df_min_percentage_played_df = current_players_df.withColumn(
         "minutes_percentage_played_last_5",
         calculate_partitioned_avg_single("name", "minutes"),
     ).orderBy(fn.col("date").asc())
