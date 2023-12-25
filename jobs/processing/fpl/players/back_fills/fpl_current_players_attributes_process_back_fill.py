@@ -2,9 +2,7 @@ from pyspark.sql import functions as fn
 
 from config import ConfigurationParser
 from dependencies.spark import create_spark_session
-from dependencies.gw_getter import get_current_gw
 
-_season = ConfigurationParser.get_config("external", "season")
 _bucket = ConfigurationParser.get_config("file_paths", "sports-data-pipeline")
 
 player_name_mapping = {
@@ -59,15 +57,15 @@ player_name_mapping = {
 }
 
 
-def run():
+def run(season, gw):
     job_name = "fpl_current_players_attributes_process"
     spark, log = create_spark_session(app_name=job_name)
     log.warn(f"{job_name} running.")
 
     try:
-        elements_ingest_df, teams_ingest_df = extract_data(spark)
+        elements_ingest_df, teams_ingest_df = extract_data(spark, season, gw)
         players_attributes_df = transform_data(elements_ingest_df, teams_ingest_df)
-        load_data(players_attributes_df)
+        load_data(players_attributes_df, season, gw)
     except Exception as e:
         log.error(f"Error running {job_name}: {str(e)}")
     finally:
@@ -75,15 +73,15 @@ def run():
         spark.stop()
 
 
-def extract_data(spark):
+def extract_data(spark, season, gw):
     """
     Gets elements and teams ingest data.
     """
     elements_df = (
         spark.read.format("json")
         .load(f"{_bucket}/raw-ingress/fpl/players/elements/")
-        .filter(fn.col("season") == _season)
-        .filter(fn.col("round") == get_current_gw())
+        .filter(fn.col("season") == season)
+        .filter(fn.col("round") == gw)
         .select(
             "id",
             "first_name",
@@ -99,7 +97,7 @@ def extract_data(spark):
     teams_df = (
         spark.read.format("json")
         .load(f"{_bucket}/raw-ingress/fpl/teams/")
-        .filter(fn.col("season") == _season)
+        .filter(fn.col("season") == season)
         .select(
             "id",
             "name",
@@ -133,7 +131,7 @@ def transform_data(elements_df, teams_df):
             .when(fn.col("element_type") == 2, "DEF")
             .when(fn.col("element_type") == 3, "MID")
             .when(fn.col("element_type") == 4, "FWD"),
-        )
+            )
         .withColumnRenamed("team", "team_id")
         .withColumnRenamed("now_cost", "price")
         .drop("element_type")
@@ -149,7 +147,7 @@ def transform_data(elements_df, teams_df):
     return player_attributes_with_teams_df
 
 
-def load_data(players_attributes_df):
+def load_data(players_attributes_df, season, gw):
     """
     Write DataFrame as Parquet format.
     """
@@ -158,6 +156,6 @@ def load_data(players_attributes_df):
         .write.format("parquet")
         .mode("append")
         .save(
-            f"{_bucket}/processed-ingress/players/attributes/season={_season}/round={get_current_gw()}"
+            f"{_bucket}/processed-ingress/players/attributes/season={season}/round={gw}"
         )
     )
