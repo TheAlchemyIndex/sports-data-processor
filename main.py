@@ -1,5 +1,9 @@
 from jobs import master_back_fill
+from jobs.averages import teams_averages
+from jobs.processing.fpl.fixtures import fpl_fixtures_process
+from jobs.processing.fpl.players import fpl_current_players_attributes_process, fpl_players_stats_process
 from jobs.processing.fpl.players.back_fills import fpl_players_stats_process_back_fill
+from jobs.processing.fpl.teams import fpl_team_stats_process
 
 
 def main():

@@ -34,7 +34,7 @@ def extract_data(spark):
         teams_df.filter(fn.col("season") == _season).select("team").dropDuplicates()
     )
 
-    return teams_df.drop("event", "season"), current_season_teams_df
+    return teams_df.drop("event", "season", "source"), current_season_teams_df
 
 
 def transform_data(teams_df, current_season_teams_df):
