@@ -68,7 +68,7 @@ def get_previous_season():
 
 
 def run():
-    job_name = "fixture_downloader_process"
+    job_name = "fixture_downloader_fixture_process"
     spark, log = create_spark_session(app_name=job_name)
     log.warn(f"{job_name} running.")
 
@@ -91,6 +91,7 @@ def extract_data(spark):
         spark.read.format("json")
         .load(f"{_bucket}/raw-ingress/fixture-downloader/")
         .filter(fn.col("season") == get_previous_season())
+        .filter(fn.col("league") != "Championship")
     )
 
     return fixtures_df
