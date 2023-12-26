@@ -73,5 +73,5 @@ def load_data(team_stats_df):
         team_stats_df.write.format("parquet")
         .partitionBy("team")
         .mode("overwrite")
-        .save(f"{_bucket}/processed-ingress/teams/season={_season}/")
+        .save(f"{_bucket}/processed-ingress/teams/season={_season}/source=fpl/")
     )
