@@ -177,9 +177,10 @@ def load_data(predicted_points_df):
 
     (
         predicted_points_df.filter(fn.col("round") > next_gw)
+        .withColumnRenamed("round", "upcoming_round")
         .coalesce(1)
         .write.format("parquet")
-        .partitionBy("round")
+        .partitionBy("upcoming_round")
         .mode("overwrite")
         .save(
             f"{_bucket}/predictions/fpl/season-predictions/season={_season}/round={next_gw}"
