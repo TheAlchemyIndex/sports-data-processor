@@ -12,8 +12,10 @@ team_name_mapping = {
     "Sheffield United": "Sheffield Utd",
 }
 
-promoted_teams = {"2021-22": ["Bournemouth", "Fulham", "Nottingham Forest"],
-                  "2022-23": ["Burnley", "Luton Town", "Sheffield United"]}
+promoted_teams = {
+    "2021-22": ["Bournemouth", "Fulham", "Nottingham Forest"],
+    "2022-23": ["Burnley", "Luton Town", "Sheffield United"],
+}
 
 
 def get_previous_season():
@@ -60,13 +62,34 @@ def transform_data(fixtures_df):
     teams_filter = promoted_teams.get(get_previous_season())
 
     processed_promoted_teams_df = (
-        fixtures_df
-        .withColumn("date", fn.to_date(fn.split(fn.col("DateUtc"), " ").getItem(0)))
-        .withColumn("goals_scored", fn.when(fn.col("HomeTeam").isin(teams_filter), fn.col("HomeTeamScore")).otherwise(fn.col("AwayTeamScore")))
-        .withColumn("goals_conceded", fn.when(fn.col("HomeTeam").isin(teams_filter), fn.col("AwayTeamScore")).otherwise(fn.col("HomeTeamScore")))
-        .withColumn("team_type", fn.when(fn.col("HomeTeam").isin(teams_filter), fn.lit("h")).otherwise(fn.lit("a")))
+        fixtures_df.withColumn(
+            "date", fn.to_date(fn.split(fn.col("DateUtc"), " ").getItem(0))
+        )
+        .withColumn(
+            "goals_scored",
+            fn.when(
+                fn.col("HomeTeam").isin(teams_filter), fn.col("HomeTeamScore")
+            ).otherwise(fn.col("AwayTeamScore")),
+        )
+        .withColumn(
+            "goals_conceded",
+            fn.when(
+                fn.col("HomeTeam").isin(teams_filter), fn.col("AwayTeamScore")
+            ).otherwise(fn.col("HomeTeamScore")),
+        )
+        .withColumn(
+            "team_type",
+            fn.when(fn.col("HomeTeam").isin(teams_filter), fn.lit("h")).otherwise(
+                fn.lit("a")
+            ),
+        )
         .withColumnRenamed("RoundNumber", "event")
-        .withColumn("team", fn.when(fn.col("HomeTeam").isin(teams_filter), fn.col("HomeTeam")).otherwise(fn.col("AwayTeam")))
+        .withColumn(
+            "team",
+            fn.when(
+                fn.col("HomeTeam").isin(teams_filter), fn.col("HomeTeam")
+            ).otherwise(fn.col("AwayTeam")),
+        )
         .filter(fn.col("team").isin(teams_filter))
         .replace(to_replace=team_name_mapping, subset="team")
         .dropDuplicates()
@@ -84,7 +107,9 @@ def load_data(processed_fixtures_df):
         processed_fixtures_df.write.format("parquet")
         .partitionBy("team")
         .mode("append")
-        .save(f"{_bucket}/processed-ingress/teams/season={get_previous_season()}/source=fixture_downloader/")
+        .save(
+            f"{_bucket}/processed-ingress/teams/season={get_previous_season()}/source=fixture_downloader/"
+        )
     )
 
 

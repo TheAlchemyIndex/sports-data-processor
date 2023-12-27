@@ -131,7 +131,7 @@ def transform_data(elements_df, teams_df):
             .when(fn.col("element_type") == 2, "DEF")
             .when(fn.col("element_type") == 3, "MID")
             .when(fn.col("element_type") == 4, "FWD"),
-            )
+        )
         .withColumnRenamed("team", "team_id")
         .withColumnRenamed("now_cost", "price")
         .drop("element_type")

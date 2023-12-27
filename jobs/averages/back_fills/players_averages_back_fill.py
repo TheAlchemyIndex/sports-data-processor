@@ -73,7 +73,9 @@ def extract_data(spark, season, gw):
         spark.read.format("parquet")
         .load(f"{_bucket}/processed-ingress/players/attributes/")
         .filter((fn.col("season") == season) & (fn.col("round") == gw))
-        .select("id", "name", "chance_of_playing_next_round", "price", "position", "team")
+        .select(
+            "id", "name", "chance_of_playing_next_round", "price", "position", "team"
+        )
     )
 
     return target_players_data_df, players_attributes_df
