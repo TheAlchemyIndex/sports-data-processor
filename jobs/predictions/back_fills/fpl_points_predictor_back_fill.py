@@ -180,6 +180,6 @@ def load_data(predicted_points_df, season, next_gw):
         .partitionBy("upcoming_round")
         .mode("overwrite")
         .save(
-            f"{_bucket}/predictions/fpl/season-predictions/season={_season}/round={next_gw}"
+            f"{_bucket}/predictions/fpl/season-predictions/season={season}/round={next_gw}"
         )
     )
